@@ -4,6 +4,7 @@ import {useDispatch} from "react-redux";
 import {addToCart} from "../store/cartSlice";
 import {priceCalculator} from "../utility";
 import toast from "react-hot-toast";
+import CorouselComponent from "./CarouselComponent";
 
 const QuickView = ({onClose, selectedProduct}) => {
     const [quantity, setQuantity] = useState(1);
@@ -55,6 +56,20 @@ const QuickView = ({onClose, selectedProduct}) => {
         }
 
     });
+    const slides = [
+        {
+            title: 'Slide 1',
+            image: 'https://picsum.photos/200/300',
+        },
+        {
+            title: 'Slide 2',
+            image: 'https://picsum.photos/200/300',
+        },
+        {
+            title: 'Slide 3',
+            image: 'https://picsum.photos/200/300',
+        },
+    ];
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
@@ -65,9 +80,10 @@ const QuickView = ({onClose, selectedProduct}) => {
                     <FaTimes className="float-right text-2xl cursor-pointer" onClick={onClose}/>
                 </div>
                 <div className="w-full flex flex-col md:flex-row justify-between items-center">
-                    <img
-                        src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}
-                        alt="product" className="w-44 h-44 mx-auto "/>
+                    {/*<img*/}
+                    {/*    src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}*/}
+                    {/*    alt="product" className="w-44 h-44 mx-auto "/>*/}
+                    <CorouselComponent slides={slides}/>
                     <div
                         className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
