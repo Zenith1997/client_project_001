@@ -1,0 +1,17 @@
+/* GENERAL SETTINGS */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.home {
+    background-image: url("https://janajaya.lk/api/assets/background1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
