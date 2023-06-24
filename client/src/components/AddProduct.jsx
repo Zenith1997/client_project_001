@@ -2,21 +2,24 @@ import React, {useEffect, useRef, useState} from 'react';
 import {FaTimes} from 'react-icons/fa';
 import Input from './Input';
 import axios from 'axios';
-
+const MAX_COUNT = 5;
 const initialProductsData = {
     name: '',
     retailPrice: '',
     wholesalePrice: '',
     desc: '',
+    link:'',
     quantity: '',
     unit: '',
     maxLimit: '',
 };
 
 const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
+    const [uploadedFiles, setUploadedFiles] = useState([])
+    const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
-    const {name, desc, retailPrice, wholesalePrice, quantity, unit, maxLimit} = productsData;
-    const [file, setFile] = useState(null);
+    const {name, desc, link,retailPrice, wholesalePrice, quantity, unit, maxLimit} = productsData;
+    const [file, setFiles] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
@@ -67,9 +70,34 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             [name]: value,
         });
     }
+    const handleUploadFiles = files => {
+        const uploaded = [...uploadedFiles];
+        let limitExceeded = false;
+        files.some((file) => {
+            if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+                uploaded.push(file.name);
 
+                if (uploaded.length === MAX_COUNT) setFileLimit(true);
+                if (uploaded.length > MAX_COUNT) {
+                    alert(`You can only add a maximum of ${MAX_COUNT} files`);
+                    setFileLimit(false);
+                    limitExceeded = true;
+                    return true;
+                }
+            }
+        })
+        if (!limitExceeded) setUploadedFiles(uploaded)
+        console.log(uploadedFiles)
+
+    }
     function handleImageUpload(e) {
-        setFile(e.target.files[0]);
+
+        const chosenFiles = Array.prototype.slice.call(e.target.files)
+        console.log(chosenFiles)
+        handleUploadFiles(chosenFiles);
+        // const uploadedFiles = Array.from(e.target.files);
+        // console.log(uploadedFiles);
+        // setFiles(uploadedFiles);
     }
 
     async function handleSubmit(e) {
@@ -82,7 +110,12 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('retailPrice', retailPrice);
             data.append('wholesalePrice', wholesalePrice);
             data.append('desc', desc);
-            data.append('image', file);
+            //have to stringify a array object before appending to a string
+            // data.append('imageFilesArray', JSON.stringify(uploadedFiles));
+            uploadedFiles.forEach((file) => {
+                data.append('files', file);
+            });
+            data.append('link', link);
             data.append('quantity', quantity);
             data.append('unit', unit);
             data.append('maxLimit', maxLimit);
@@ -91,11 +124,11 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
                 .then(response => {
                     setSuccess(response.data);
-
+                    console.log(response.data);
                     setTimeout(() => {
                         // Clear form fields
                         setProductsData(initialProductsData);
-                        setFile(null);
+                        setFiles(null);
                         // Close the AddProduct component
                         setAddProduct(false);
                     }, 1000);
@@ -115,7 +148,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                     setTimeout(() => {
                         // Clear form fields
                         setProductsData(initialProductsData);
-                        setFile(null);
+                        setFiles(null);
                         // Close the AddProduct component
                         setAddProduct(false);
                     }, 1000);
@@ -128,7 +161,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
 
         }
     }
-
+    console.log(file)
     return (
         <div className="fixed max-h-screen inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
             <div
@@ -208,14 +241,26 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                     {actionType === 'add' && (
                         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-x-4">
                             <input
-                                name="image"
+                                name="file"
                                 type="file"
                                 className={`w-full bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 rounded mb-4`}
                                 placeholder="Enter your image"
                                 onChange={handleImageUpload}
+                                multiple
+
                             />
                         </div>)}
-
+                    <div>
+                        <Input
+                            label="Video upload"
+                            name="link"
+                            type="text"
+                            placeholder="Enter video url"
+                            required={false}
+                            value={link}
+                            onChange={handleChange}
+                        />
+                    </div>
                     <div>
                         <Input
                             label="Description"
