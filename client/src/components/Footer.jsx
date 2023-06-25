@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import { SiWhatsapp } from "react-icons/si"
 
 const Footer = () => {
     return (
@@ -11,6 +12,7 @@ const Footer = () => {
                     <p
                         className="text-white flex justify-center items-center gap-5"
                     >
+                        <Link to="/terms" className="text-white hover:text-gray-400"><SiWhatsapp /></Link>
                         <Link to="/terms" className="text-white hover:text-gray-400">Terms & Conditions</Link>
                         <Link to={"/privacy"} className="text-white ml-5 hover:text-gray-400">Privacy Policy</Link>
                     </p>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BsCartFill } from "react-icons/bs";
+import { SiWhatsapp } from "react-icons/si"
 import { IoMdExit } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { setFilteredProducts } from '../store/filteredProductSlice';
 import { useDispatch, useSelector } from "react-redux";
 import logo from '../assets/janajaya.png';
@@ -52,6 +53,9 @@ const Header = ({ setViewCart }) => {
     return (
         <div className="w-full bg-gray-900 shadow-lg sticky top-0 z-10">
             <div className="px-4 container mx-auto flex justify-between items-center py-2 z-10">
+                {!isAdmin ? (
+                    <><Link to="/terms" className="text-white hover:text-gray-400"><SiWhatsapp /></Link></>
+                ): <></>}
                 <a href="/" className="text-xl font-bold text-white">
                     <img src={logoWhite} alt="Janajaya"
                         className="w-32"
@@ -122,6 +126,7 @@ const Header = ({ setViewCart }) => {
 
                 ) : (
                     <>
+                        
                         <form className="flex items-center" onSubmit={handleSearch}>
                             <input
                                 type="text"
@@ -133,7 +138,7 @@ const Header = ({ setViewCart }) => {
                             />
                         </form>
                         <div
-                            className="flex items-center w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                            className="flex items-center w-1 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
                         >
                             <button className="relative">
@@ -148,6 +153,7 @@ const Header = ({ setViewCart }) => {
                                 />
                             </button>
                         </div>
+                        
                     </>
                 )}
 
