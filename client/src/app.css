@@ -15,3 +15,43 @@
     background-position: center center;
     background-attachment: fixed;
 }
+
+
+/* CSS */
+.button-73 {
+    font-size: 4px;
+    display: inline-block;
+    position: relative;
+    width: 150px; /* Set the desired width */
+    height: 50px; /* Set the desired height */
+    padding: 10px;
+    background-color: orangered;
+    background-image: radial-gradient(circle at center, #f1af44, #f55617);  border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Smaller button shape */
+.button-73::before {
+    content: '';
+
+    display: inline-block;
+    width: 110px; /* Set the desired width */
+    height: 20px; /* Set the desired height */
+    background-color: none;
+    border-radius: 40px;
+    position: absolute;
+    top: 25%;
+
+    left: 50%;
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    transform: translate(-50%, -50%);
+}
+
+@media (min-width: 768px) {
+    .button-73 {
+        font-size: 1.5rem;
+        padding: .75rem 2rem;
+    }
+}

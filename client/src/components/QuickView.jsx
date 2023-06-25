@@ -5,6 +5,7 @@ import {addToCart} from "../store/cartSlice";
 import {priceCalculator} from "../utility";
 import toast from "react-hot-toast";
 
+
 const QuickView = ({onClose, selectedProduct}) => {
     const [quantity, setQuantity] = useState(1);
     const product = selectedProduct;
@@ -66,9 +67,10 @@ const QuickView = ({onClose, selectedProduct}) => {
                     <FaTimes className="float-right text-2xl cursor-pointer" onClick={onClose}/>
                 </div>
                 <div className="w-full flex flex-col md:flex-row justify-between items-center">
-                    <img
-                        src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}
-                        alt="product" className="w-44 h-44 mx-auto "/>
+                    {/*<img*/}
+                    {/*    src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}*/}
+                    {/*    alt="product" className="w-44 h-44 mx-auto "/>*/}
+
                     <div
                         className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
@@ -118,7 +120,7 @@ const QuickView = ({onClose, selectedProduct}) => {
                             </div>
                         )}
 
-                        <button className="text-white font-semibold px-4 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-3 hover:from-orange-600 hover:to-orange-700"
+                        <button className="bg-gray-500 hover:bg-gray-600 text-white py-2 mb-2 px-4 mt-4 rounded"
                                 onClick={handleAddToCart}
                         >
                             Add to Cart

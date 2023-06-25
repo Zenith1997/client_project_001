@@ -51,7 +51,7 @@ const addProduct = async (req, res) => {
 
   try {
     const q =
-      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const values = [
       name,
       desc,
