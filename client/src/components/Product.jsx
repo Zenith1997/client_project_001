@@ -85,7 +85,7 @@ const Product = ({ product, setSelectedProduct }) => {
       </div>
       <div className="flex justify-center items-center">
         <button
-          className="text-gray-300 font-semibold px-4 py-1.5 bg-gray-700 rounded mt-2 hover:bg-gray-900"
+          className="text-white font-semibold px-4 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-3 hover:from-orange-600 hover:to-orange-700"
           onClick={handleAddToCart}
         >
           Add to Cart

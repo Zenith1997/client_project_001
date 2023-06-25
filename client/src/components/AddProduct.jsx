@@ -12,14 +12,17 @@ const initialProductsData = {
     quantity: '',
     unit: '',
     maxLimit: '',
+    priority: ''
 };
 
 const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
     const [uploadedFiles, setUploadedFiles] = useState([])
     const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
-    const {name, desc, link,retailPrice, wholesalePrice, quantity, unit, maxLimit} = productsData;
-    const [file, setFiles] = useState([]);
+
+    const {name, desc, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
+    const [file, setFile] = useState(null);
+
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
@@ -51,6 +54,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                 quantity: selectedProduct.WholesaleQty,
                 unit: selectedProduct.Unit,
                 maxLimit: selectedProduct.MaxLimit,
+                priority: selectedProduct.priority
             });
         }
     }, [actionType, selectedProduct])
@@ -119,6 +123,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('quantity', quantity);
             data.append('unit', unit);
             data.append('maxLimit', maxLimit);
+            data.append('priority', priority);
 
 
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
@@ -234,6 +239,17 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                             placeholder="Max limit of product user can buy"
                             required={false}
                             value={maxLimit}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            label="Priority Number (Optional)"
+                            name="priority"
+                            type="number"
+                            placeholder="Priority of this product"
+                            required={false}
+                            value={priority}
                             onChange={handleChange}
                         />
                     </div>

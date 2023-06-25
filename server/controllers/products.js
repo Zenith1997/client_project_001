@@ -15,7 +15,7 @@ const getProductsWithPagination = async (req, res) => {
   const offset = (page - 1) * limit;
 
   try {
-    const q = "SELECT * FROM products LIMIT ? OFFSET ?";
+    const q = "SELECT * FROM products ORDER BY (CASE WHEN priority IS NOT NULL THEN 0 ELSE 1 END), priority LIMIT ? OFFSET ?";
     const values = [Number(limit), Number(offset)];
     const result = await executeQuery(q, values);
     return res.status(200).json(result);
@@ -46,12 +46,12 @@ const getProductById = async (req, res) => {
 // function is updated, need to update server
 // wholesaleQty = quantity
 const addProduct = async (req, res) => {
-  const { name, retailPrice, wholesalePrice, desc, quantity, unit, maxLimit } =
+  const { name, retailPrice, wholesalePrice, desc, quantity, unit, maxLimit, priority } =
     req.body;
 
   try {
     const q =
-      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const values = [
       name,
       desc,
@@ -61,6 +61,7 @@ const addProduct = async (req, res) => {
       quantity,
       unit,
       maxLimit || 0,
+      priority
     ];
     await executeQuery(q, values);
     return res.status(201).send("Product added!");
@@ -91,11 +92,10 @@ const deleteProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { name, retailPrice, wholesalePrice, desc, quantity, unit } = req.body;
-
+  const { name, retailPrice, wholesalePrice, desc, quantity, unit, priority } = req.body;
   try {
     const q =
-      "UPDATE products SET name = ?, description = ?, retailPrice = ?, wholesalePrice = ?, WholesaleQty = ?, Unit = ? WHERE ProductID = ?";
+      "UPDATE products SET name = ?, description = ?, retailPrice = ?, wholesalePrice = ?, WholesaleQty = ?, Unit = ?, priority = ? WHERE ProductID = ?";
     const values = [
       name,
       desc,
@@ -103,8 +103,10 @@ const updateProduct = async (req, res) => {
       wholesalePrice,
       quantity,
       unit,
+      priority,
       id,
     ];
+
     await executeQuery(q, values);
     return res.status(200).send("Product updated!");
   } catch (error) {

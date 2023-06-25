@@ -118,7 +118,7 @@ const QuickView = ({onClose, selectedProduct}) => {
                             </div>
                         )}
 
-                        <button className="bg-gray-500 hover:bg-gray-600 text-white py-2 mb-2 px-4 mt-4 rounded"
+                        <button className="text-white font-semibold px-4 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-3 hover:from-orange-600 hover:to-orange-700"
                                 onClick={handleAddToCart}
                         >
                             Add to Cart
