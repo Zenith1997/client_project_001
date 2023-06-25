@@ -6,11 +6,13 @@ import { setErrors, setProducts } from "../store/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Rings } from "react-loader-spinner";
+import { setFilteredProducts } from "../store/filteredProductSlice";
 
 const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const dispatch = useDispatch();
   const { products, error, loading } = useSelector((state) => state.products);
+  const { filteredProducts } = useSelector((state) => state.filteredProducts);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ const Products = () => {
         )
         .then((res) => {
           dispatch(setProducts([...products, ...res.data]));
+          dispatch(setFilteredProducts([...filteredProducts, ...res.data]));
         })
         .catch((err) => {
           dispatch(setErrors(err));
@@ -41,6 +44,7 @@ const Products = () => {
         `${process.env.REACT_APP_BASE_URL}/products/view?page=${nextPage}&limit=6`
       )
       .then((res) => {
+        dispatch(setFilteredProducts([...filteredProducts, ...res.data]));
         dispatch(setProducts([...products, ...res.data]));
         setCurrentPage(nextPage); // Update the currentPage state
       })
@@ -64,7 +68,7 @@ const Products = () => {
         next={fetchMoreData}
         hasMore={products.length % 6 === 0}
         loader={
-          <div className="w-full flex justify-center items-center my-2">
+          <div className="w-full h-full justify-center items-center my-2">
             <Rings color={"#f2f2f2"} height={60} width={60} />
           </div>
         }
@@ -75,7 +79,7 @@ const Products = () => {
         }
       >
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-5">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Product
               product={product}
               setSelectedProduct={setSelectedProduct}
@@ -94,5 +98,6 @@ const Products = () => {
     </div>
   );
 };
+
 
 export default Products;

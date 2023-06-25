@@ -7,10 +7,12 @@ import Loader from '../components/Loader';
 import {Pagination} from '@mui/material';
 import AddProduct from '../components/AddProduct';
 import toast from 'react-hot-toast';
+import { setFilteredProducts } from '../store/filteredProductSlice';
 
 const Products = () => {
     const dispatch = useDispatch();
     const {products, error, loading} = useSelector((state) => state.products);
+    const { filteredProducts } = useSelector((state) => state.filteredProducts)
     const [addProduct, setAddProduct] = useState(false);
     const [actionType, setActionType] = useState('');
     const [selectedProduct, setSelectedProduct] = useState();
@@ -37,6 +39,7 @@ const Products = () => {
                 .get(`${process.env.REACT_APP_BASE_URL}/products`)
                 .then((res) => {
                     dispatch(setProducts(res.data));
+                    dispatch(setFilteredProducts(res.data));
                 })
                 .catch((err) => {
                     // dispatch(setErrors(err));
@@ -58,7 +61,7 @@ const Products = () => {
 
     const indexOfLastProduct = currentPage * productPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productPerPage;
-    const currentProducts = products?.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = filteredProducts?.slice(indexOfFirstProduct, indexOfLastProduct);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

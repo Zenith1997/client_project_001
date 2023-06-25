@@ -1,0 +1,27 @@
+.outer-button {
+    display: inline-block;
+    position: relative;
+    width: 113px; /* Set the desired width */
+    height: 38px; /* Set the desired height */
+    padding: 5px 10px 10px 10px;
+    background-color: orangered;
+    background-image: radial-gradient(circle at center, #f1af44, #f55617);  border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  /* Smaller button shape */
+  .outer-button::after {
+    content: '';
+    display: inline-block;
+    width: 83px; /* Set the desired width */
+    height: 23px; /* Set the desired height */
+    background-color: none;
+    border-radius: 40px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    transform: translate(-50%, -50%);
+  }

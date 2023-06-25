@@ -4,8 +4,10 @@ import {CartSlice} from "./cartSlice";
 import {ProductReducer} from "./productSlice";
 import {OrderSlice} from "./orderSlice";
 import SliderSlice from "./sliderSlice";
+import { FilteredProductReducer } from "./filteredProductSlice";
 
 const RootReducer = combineReducers({
+    filteredProducts: FilteredProductReducer,
     products: ProductReducer,
     cart: CartSlice,
     orders: OrderSlice,

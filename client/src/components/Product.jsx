@@ -4,6 +4,7 @@ import { addToCart } from "../store/cartSlice";
 import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { priceCalculator } from "../utility";
+import "./ProductStyle.css";
 
 const Product = ({ product, setSelectedProduct }) => {
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const Product = ({ product, setSelectedProduct }) => {
       </div>
       <div className="flex justify-center items-center">
         <button
-          className="text-white font-semibold px-4 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full mt-3 hover:from-orange-600 hover:to-orange-700"
+          className="outer-button"
           onClick={handleAddToCart}
         >
           Add to Cart
