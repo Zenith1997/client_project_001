@@ -29,9 +29,9 @@ const Product = ({ product, setSelectedProduct }) => {
   }
 
   return (
-      //className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl">
+    //className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl">
 
-          <div className="bg-white py-2 px-2 md:py-4 md:px-4 shadow-gray-800  flex flex-col justify-center shadow-lg backdrop-blur-lg rounded-lg  items-center border rounded-lg border-gray-600 bg-opacity-10 ">
+    <div className="bg-white py-2 px-2 md:py-4 md:px-4 shadow-gray-800  flex flex-col justify-center shadow-lg backdrop-blur-lg rounded-lg  items-center border rounded-lg border-gray-600 bg-opacity-10 ">
       <div
         className="flex justify-center items-center w-32 min-h-[128px] md:w-32 md:h-32"
         onClick={() => setSelectedProduct(product)}
@@ -68,7 +68,7 @@ const Product = ({ product, setSelectedProduct }) => {
       </div>
       <div className="flex items-center gap-3 ml-2 text-white">
         <span
-          className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
+          className="p-2 text-[10px] bg-black rounded-full cursor-pointer"
           onClick={handleDecrementQuantity}
         >
           <FaMinus />
@@ -77,18 +77,15 @@ const Product = ({ product, setSelectedProduct }) => {
           {quantity} {product.Unit}
         </span>
         <span
-          className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
+          className="p-2 text-[10px] bg-black rounded-full cursor-pointer"
           onClick={handleIncrementQuantity}
         >
           <FaPlus />
         </span>
       </div>
       <div className="flex justify-center items-center">
-        <button
-       className="button-73 text-xs"
-          onClick={handleAddToCart}
-        ><p className="text-[15px] ">
-          Add to Cart</p>
+        <button className="button-73 text-xs mt-4 " onClick={handleAddToCart}>
+          <p className="text-[15px] ">Add to Cart</p>
         </button>
       </div>
     </div>
