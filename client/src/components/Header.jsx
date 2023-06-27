@@ -53,9 +53,6 @@ const Header = ({ setViewCart }) => {
     return (
         <div className="w-full bg-gray-900 shadow-lg sticky top-0 z-10">
             <div className="px-4 container mx-auto flex justify-between items-center py-2 z-10">
-                {!isAdmin ? (
-                    <><Link to="/terms" className="text-white hover:text-gray-400"><SiWhatsapp /></Link></>
-                ): <></>}
                 <a href="/" className="text-xl font-bold text-white">
                     <img src={logoWhite} alt="Janajaya"
                         className="w-32"
@@ -153,10 +150,10 @@ const Header = ({ setViewCart }) => {
                                 />
                             </button>
                         </div>
+                        <div><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
                         
                     </>
                 )}
-
             </div>
         </div>
     )

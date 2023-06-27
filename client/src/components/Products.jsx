@@ -22,8 +22,8 @@ const Products = () => {
           `${process.env.REACT_APP_BASE_URL}/products/view?page=${currentPage}&limit=6`
         )
         .then((res) => {
-          dispatch(setProducts([...products, ...res.data]));
-          dispatch(setFilteredProducts([...filteredProducts, ...res.data]));
+          dispatch(setProducts([...res.data]));
+          dispatch(setFilteredProducts([...res.data]));
         })
         .catch((err) => {
           dispatch(setErrors(err));

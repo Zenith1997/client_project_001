@@ -12,9 +12,9 @@ const Footer = () => {
                     <p
                         className="text-white flex justify-center items-center gap-5"
                     >
-                        <Link to="/terms" className="text-white hover:text-gray-400"><SiWhatsapp /></Link>
-                        <Link to="/terms" className="text-white hover:text-gray-400">Terms & Conditions</Link>
-                        <Link to={"/privacy"} className="text-white ml-5 hover:text-gray-400">Privacy Policy</Link>
+                        <Link to= {"/terms"} className="text-white hover:text-gray-400">Terms & Conditions</Link>
+                        <Link to= {"/privacy"} className="text-white ml-5 hover:text-gray-400">Privacy Policy</Link>
+                        <Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link>
                     </p>
                 </div>
             </div>
