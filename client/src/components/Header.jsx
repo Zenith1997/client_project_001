@@ -34,7 +34,7 @@ const Header = ({ setViewCart }) => {
 
     const handleSearch = () => {
 
-        if(searchTerm === null || searchTerm.length <= 2){
+        if (searchTerm === null || searchTerm.length <= 2) {
             dispatch(setFilteredProducts([...products]));
         }
 
@@ -71,7 +71,7 @@ const Header = ({ setViewCart }) => {
                                     className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
                                 />
                             </form>
-                        ): <></>}
+                        ) : <></>}
                         <div className="relative">
                             <div
                                 onClick={() => setViewMenu(!viewMenu)}
@@ -123,7 +123,7 @@ const Header = ({ setViewCart }) => {
 
                 ) : (
                     <>
-                        
+
                         <form className="flex items-center" onSubmit={handleSearch}>
                             <input
                                 type="text"
@@ -135,7 +135,7 @@ const Header = ({ setViewCart }) => {
                             />
                         </form>
                         <div
-                            className="flex items-center w-1 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                            className="flex items-center w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
                         >
                             <button className="relative">
@@ -149,10 +149,8 @@ const Header = ({ setViewCart }) => {
 
                                 />
                             </button>
-                            <div className='absolute top-[33px] right-[100px] flex items-center justify-center'><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
                         </div>
-                        
-                        
+                        <div className='absolute top-[33px] right-[100px] flex items-center justify-center'><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
                     </>
                 )}
             </div>
