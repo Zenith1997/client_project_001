@@ -48,10 +48,44 @@ const getProductById = async (req, res) => {
 const addProduct = async (req, res) => {
   const { name, retailPrice, wholesalePrice, desc, quantity, unit, maxLimit, priority } =
     req.body;
+  const images = req.files;
+if(images.length>1){
+  const filenames = [];
+  console.log(images.length)
+  console.log(images)
+  images.forEach((i)=>{
+    filenames.push(i.filename)
+    console.log(i.filename)
+  })
+  console.log(filenames);
 
   try {
     const q =
-      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const values = [
+      name,
+      desc,
+      retailPrice,
+      wholesalePrice,
+      JSON.stringify(filenames),
+      quantity,
+      unit,
+      maxLimit || 0,
+      priority
+    ];
+    await executeQuery(q, values);
+    return res.status(201).send("Product added!");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error");
+  }
+
+
+}else{
+
+  try {
+    const q =
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const values = [
       name,
       desc,
@@ -69,6 +103,8 @@ const addProduct = async (req, res) => {
     console.error(error);
     return res.status(500).send("Internal Server Error");
   }
+}
+
 };
 
 const deleteProduct = async (req, res) => {

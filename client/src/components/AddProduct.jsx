@@ -16,6 +16,7 @@ const initialProductsData = {
 
 const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
     const [uploadedFiles, setUploadedFiles] = useState([])
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
 
@@ -90,7 +91,10 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('desc', desc);
             //have to stringify a array object before appending to a string
             // data.append('imageFilesArray', JSON.stringify(uploadedFiles));
-            data.append('image', file);
+            selectedFiles.forEach((file) => {
+                data.append('image', file);
+            });
+
 
 
             data.append('quantity', quantity);
@@ -140,6 +144,11 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
         }
     }
 
+    const handleFileSelect = (event) => {
+        const files = Array.from(event.target.files);
+        const updatedSelectedFiles = [...selectedFiles, ...files];
+        setSelectedFiles(updatedSelectedFiles);
+    };
     return (
         <div className="fixed max-h-screen inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
             <div
@@ -234,7 +243,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                                 type="file"
                                 className={`w-full bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 rounded mb-4`}
                                 placeholder="Enter your image"
-                                onChange={handleImageUpload}
+                                onChange={handleFileSelect}
                                 multiple
 
                             />
