@@ -33,19 +33,6 @@ const Header = ({ setViewCart }) => {
           <img src={logoWhite} alt="Janajaya" className="w-32" />
         </a>
 
-        <a
-          href="https://wa.me/0711076474"
-          target="_blank"
-          className="text-xl font-bold text-white flex justify-end"
-        >
-          <img
-            src="https://tochat.be/whatsapp-icon-white.png"
-            alt="Contact us"
-            onClick={handleWhatsapp}
-            className="w-8"
-          />
-        </a>
-
         {isAdmin ? (
           <div className="relative">
             <div
@@ -107,11 +94,20 @@ const Header = ({ setViewCart }) => {
             )}
           </div>
         ) : (
-          <div
-            className="flex items-center w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
-            onClick={() => setViewCart(true)}
-          >
-            <button className="relative">
+          <div className="inline-container flex items-center">
+            <a
+              href="https://wa.me/+94711076474"
+              target="_blank"
+              className="text-xl font-bold text-white flex justify-end"
+            >
+              <img
+                src="https://tochat.be/whatsapp-icon-white.png"
+                alt="Contact us"
+                onClick={handleWhatsapp}
+                className="w-6"
+              />
+            </a>
+            <button className="relative ml-4">
               <span className="absolute top-[-5px] right-[-5px] h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                 {totalItems}
               </span>
