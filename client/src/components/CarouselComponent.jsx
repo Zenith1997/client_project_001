@@ -8,8 +8,8 @@ const CarouselComponent = ({ slides }) => {
             {slides.map((slide, index) => (
                 <div key={index}>
                     <img
-                        src={slide.image}
-                        alt={slide.title}
+                        src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}
+
                         style={{ maxWidth: '200px', maxHeight: '200px' }}
                     />
                 </div>
