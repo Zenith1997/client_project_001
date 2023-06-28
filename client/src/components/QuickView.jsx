@@ -40,6 +40,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
 
     let menuRef = useRef();
 
+
     useEffect(() => {
         let handler = (e) => {
             if (!menuRef.current.contains(e.target)) {
@@ -158,38 +159,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
                     </div>
                 </div>
 
-            </div>
 
-            {/*<div className="flex items-center gap-2 mt-1">*/}
-            {/*    <h2 className="font-semibold text-[14px]">Per {product.Unit}:</h2>*/}
-            {/*    <h2 className="text-[16] text-gray-400">Rs. {*/}
-            {/*        priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity) / quantity*/}
-            {/*    }</h2>*/}
-            {/*</div>*/}
 
-            {quantity >= 1 && (
-              <div className="flex items-center gap-2">
-                <h2 className="font-semibold text-[14px]">Discounted Price:</h2>
-                <h2 className={`text-[17]`}>
-                  Rs.{" "}
-                  {priceCalculator(
-                    product?.RetailPrice,
-                    product?.WholesalePrice,
-                    quantity,
-                    product?.WholesaleQty
-                  ).toFixed(2)}
-                </h2>
-              </div>
-            )}
-
-            <button className="button-73" onClick={handleAddToCart}>
-            <p className="text-[15px] ">Add to Cart</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default QuickView;

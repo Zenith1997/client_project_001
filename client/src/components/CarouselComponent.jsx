@@ -10,6 +10,7 @@ const CarouselComponent = ({ slides }) => {
                     <img
                         src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}
 
+
                         style={{ maxWidth: '200px', maxHeight: '200px' }}
                     />
                 </div>
