@@ -66,7 +66,7 @@ const Product = ({ product, setSelectedProduct }) => {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-3 ml-2 text-white">
+      <div className="flex items-center gap-6  text-white">
         <span
           className="p-2 text-[10px] bg-black rounded-full cursor-pointer"
           onClick={handleDecrementQuantity}

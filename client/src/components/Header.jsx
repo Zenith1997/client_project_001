@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import logo from "../assets/janajaya.png";
 import logoWhite from "../assets/janajayaWhite.png";
-
+import phone from "../assets/phone.png";
 const Header = ({ setViewCart }) => {
   const [isAdmin, setIsAdmin] = useState("");
   const [userName, setUserName] = useState("");
@@ -26,12 +26,15 @@ const Header = ({ setViewCart }) => {
   const handleWhatsapp = () => {
     //console.
   };
+  const isMobileView = window.innerWidth <= 600;
   return (
-    <div className="w-full bg-gray-900 shadow-lg sticky top-0 z-10">
-      <div className="px-4 container mx-auto flex justify-between items-center py-2 z-10">
-        <a href="/" className="text-xl font-bold text-white">
-          <img src={logoWhite} alt="Janajaya" className="w-32" />
-        </a>
+    <div className="w-full bg-gray-900 shadow-lg sticky top-0 z-10 ">
+      <div className="px-4 container mx-auto flex justify-between  items-center py-2 z-10">
+        <div className=" flex rounded-lg justify-center items-center w-40 h-20 hover:bg-gray-800">
+          <a href="/" className="text-xl font-bold text-white ">
+            <img src={logoWhite} alt="Janajaya" className="w-50" />
+          </a>
+        </div>
 
         {isAdmin ? (
           <div className="relative">
@@ -94,26 +97,51 @@ const Header = ({ setViewCart }) => {
             )}
           </div>
         ) : (
-          <div className="inline-container flex items-center">
-            <a
-              href="https://wa.me/+94711076474"
-              target="_blank"
-              className="text-xl font-bold text-white flex justify-end"
-            >
-              <img
-                src="https://tochat.be/whatsapp-icon-white.png"
-                alt="Contact us"
-                onClick={handleWhatsapp}
-                className="w-6"
-              />
-            </a>
-            <button className="relative ml-4">
-              <span className="absolute top-[-5px] right-[-5px] h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                {totalItems}
-              </span>
-              <BsCartFill className="text-white text-xl cursor-pointer" />
-            </button>
-          </div>
+          <>
+            <div className="flex justify-center">
+              {isMobileView ? (
+                <></>
+              ) : (
+                <>
+                  <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
+                    <a
+                      href="https://wa.me/+94711076474"
+                      target="_blank"
+                      className="text-xl font-bold text-white flex justify-end"
+                    >
+                      <img
+                        src="https://tochat.be/whatsapp-icon-white.png"
+                        alt="Contact us"
+                        onClick={handleWhatsapp}
+                        className="w-7 "
+                      />
+                    </a>
+                  </div>
+                  <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
+                    <a
+                      href="tel:+94711076474"
+                      target="_blank"
+                      className="text-xl font-bold text-white flex justify-end"
+                    >
+                      <img src={phone} alt="Contact us" className="w-7 " />
+                    </a>
+                  </div>
+                </>
+              )}
+
+              <div
+                className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                onClick={() => setViewCart(true)}
+              >
+                <button className="relative">
+                  <span className="absolute top-[-5px] right-[-5px] h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                  <BsCartFill className="text-white text-xl cursor-pointer" />
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>
