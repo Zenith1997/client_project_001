@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cartSlice";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ import { priceCalculator } from "../utility";
 const Product = ({ product, setSelectedProduct }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
-
+  const [myArray, setMyArray] = useState([]);
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity: quantity }));
     // toast.success(`${product.Name} added to cart`);
@@ -20,7 +20,29 @@ const Product = ({ product, setSelectedProduct }) => {
     }
   }
 
-  function handleIncrementQuantity() {
+  console.log(product.Image)
+
+    const { Image } = product;
+    let imageNames = [];
+
+    if (typeof Image === 'string') {
+        // Remove square brackets and double quotes from the string
+        const cleanedString = Image.replace(/[\[\]"]/g, '');
+
+        // Split the cleaned string into an array of image names
+        imageNames = cleanedString.split(',');
+
+        // Trim whitespace from each image name
+        imageNames = imageNames.map((imageName) => imageName.trim());
+    }
+
+    console.log(imageNames[0]);
+
+
+
+
+
+ function handleIncrementQuantity() {
     if (quantity < product.MaxLimit || !product.MaxLimit) {
       setQuantity(quantity + 1);
     } else {
@@ -36,8 +58,9 @@ const Product = ({ product, setSelectedProduct }) => {
         className="flex justify-center items-center w-32 min-h-[128px] md:w-32 md:h-32"
         onClick={() => setSelectedProduct(product)}
       >
+
         <img
-          src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}
+          src={`${process.env.REACT_APP_BASE_URL}/assets/${imageNames[0]}`}
           alt="product"
           className="w-[100%] h-[100%] object-contain"
         />
@@ -88,6 +111,7 @@ const Product = ({ product, setSelectedProduct }) => {
           <p className="text-[15px] ">Add to Cart</p>
         </button>
       </div>
+
     </div>
   );
 };

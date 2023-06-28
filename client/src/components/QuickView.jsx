@@ -40,6 +40,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
 
     let menuRef = useRef();
 
+
     useEffect(() => {
         let handler = (e) => {
             if (!menuRef.current.contains(e.target)) {
@@ -56,20 +57,36 @@ const QuickView = ({ onClose, selectedProduct }) => {
         }
 
     });
-    const slides = [
-        {
-            title: 'Slide 1',
-            image: 'https://picsum.photos/200/300',
-        },
-        {
-            title: 'Slide 2',
-            image: 'https://picsum.photos/200/300',
-        },
-        {
-            title: 'Slide 3',
-            image: 'https://picsum.photos/200/300',
-        },
-    ];
+
+    const { Image } = product;
+    let imageNames = [];
+
+    if (typeof Image === 'string') {
+        // Remove square brackets and double quotes from the string
+        const cleanedString = Image.replace(/[\[\]"]/g, '');
+
+        // Split the cleaned string into an array of image names
+        imageNames = cleanedString.split(',');
+
+        // Trim whitespace from each image name
+        imageNames = imageNames.map((imageName) => ({ image: imageName.trim() }));
+    }
+
+    console.log(imageNames);
+    // const slides = [
+    //     {
+    //         title: 'Slide 1',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    //     {
+    //         title: 'Slide 2',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    //     {
+    //         title: 'Slide 3',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    // ];
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
@@ -83,7 +100,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
                     {/*<img*/}
                     {/*    src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}*/}
                     {/*    alt="product" className="w-44 h-44 mx-auto "/>*/}
-                    <CorouselComponent slides={slides}/>
+                    <CorouselComponent slides={imageNames}/>
                     <div
                            
                         className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
@@ -142,38 +159,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
                     </div>
                 </div>
 
-            </div>
 
-            {/*<div className="flex items-center gap-2 mt-1">*/}
-            {/*    <h2 className="font-semibold text-[14px]">Per {product.Unit}:</h2>*/}
-            {/*    <h2 className="text-[16] text-gray-400">Rs. {*/}
-            {/*        priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity) / quantity*/}
-            {/*    }</h2>*/}
-            {/*</div>*/}
 
-            {quantity >= 1 && (
-              <div className="flex items-center gap-2">
-                <h2 className="font-semibold text-[14px]">Discounted Price:</h2>
-                <h2 className={`text-[17]`}>
-                  Rs.{" "}
-                  {priceCalculator(
-                    product?.RetailPrice,
-                    product?.WholesalePrice,
-                    quantity,
-                    product?.WholesaleQty
-                  ).toFixed(2)}
-                </h2>
-              </div>
-            )}
-
-            <button className="button-73" onClick={handleAddToCart}>
-            <p className="text-[15px] ">Add to Cart</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default QuickView;
