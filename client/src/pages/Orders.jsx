@@ -102,6 +102,9 @@ const Orders = () => {
                             <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th scope="col" className="px-3 py-3">
+                                    ID
+                                </th>
+                                <th scope="col" className="px-3 py-3">
                                     Name
                                 </th>
                                 <th scope="col" className="px-3 py-3">
@@ -142,6 +145,7 @@ const Orders = () => {
                                     key={order.OrderID}
                                     className="bg-gray-700 text-white font-normal mb-0 hover:bg-gray-600 duration-150 text-sm"
                                 >
+                                    <td className="px-2">{order.OrderID}</td>
                                     <td className="px-2">{order.UserName}</td>
                                     <td className="px-2">{order.Email}</td>
                                     <td className="px-2">{order.ContactNo}</td>

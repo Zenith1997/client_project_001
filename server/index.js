@@ -56,6 +56,6 @@ app.get("*", (req, res) => {
   res.status(404).json("Not Found");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, (req, res) => {
   console.log("Server is up and running on port number: " + PORT);
 });
