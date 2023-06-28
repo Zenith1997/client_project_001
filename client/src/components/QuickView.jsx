@@ -1,42 +1,42 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {FaMinus, FaPlus, FaTimes} from "react-icons/fa";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../store/cartSlice";
-import {priceCalculator} from "../utility";
+import React, { useEffect, useRef, useState } from "react";
+import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store/cartSlice";
+import { priceCalculator } from "../utility";
 import toast from "react-hot-toast";
 import CorouselComponent from "./CarouselComponent";
 
-const QuickView = ({onClose, selectedProduct}) => {
-    const [quantity, setQuantity] = useState(1);
-    const product = selectedProduct;
-    const dispatch = useDispatch();
+const QuickView = ({ onClose, selectedProduct }) => {
+  const [quantity, setQuantity] = useState(1);
+  const product = selectedProduct;
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
 
-        return () => {
-            document.body.style.overflow = 'unset';
-        }
-    }, [])
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
-    function handleDecrementQuantity() {
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
+  function handleDecrementQuantity() {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
     }
+  }
 
-    function handleIncrementQuantity() {
-        if (quantity < product.MaxLimit || !product.MaxLimit) {
-            setQuantity(quantity + 1);
-        } else {
-            toast.error(`Maximum purchase quantity reached`);
-        }
+  function handleIncrementQuantity() {
+    if (quantity < product.MaxLimit || !product.MaxLimit) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error(`Maximum purchase quantity reached`);
     }
+  }
 
-    function handleAddToCart() {
-        dispatch(addToCart({product, quantity}));
-        onClose();
-    }
+  function handleAddToCart() {
+    dispatch(addToCart({ product, quantity }));
+    onClose();
+  }
 
     let menuRef = useRef();
 
@@ -101,6 +101,7 @@ const QuickView = ({onClose, selectedProduct}) => {
                     {/*    alt="product" className="w-44 h-44 mx-auto "/>*/}
                     <CorouselComponent slides={imageNames}/>
                     <div
+                           
                         className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
                         <p className="text-gray-400">{product?.Description}</p>
@@ -156,9 +157,39 @@ const QuickView = ({onClose, selectedProduct}) => {
                         </button>
                     </div>
                 </div>
+
             </div>
+
+            {/*<div className="flex items-center gap-2 mt-1">*/}
+            {/*    <h2 className="font-semibold text-[14px]">Per {product.Unit}:</h2>*/}
+            {/*    <h2 className="text-[16] text-gray-400">Rs. {*/}
+            {/*        priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity) / quantity*/}
+            {/*    }</h2>*/}
+            {/*</div>*/}
+
+            {quantity >= 1 && (
+              <div className="flex items-center gap-2">
+                <h2 className="font-semibold text-[14px]">Discounted Price:</h2>
+                <h2 className={`text-[17]`}>
+                  Rs.{" "}
+                  {priceCalculator(
+                    product?.RetailPrice,
+                    product?.WholesalePrice,
+                    quantity,
+                    product?.WholesaleQty
+                  ).toFixed(2)}
+                </h2>
+              </div>
+            )}
+
+            <button className="button-73" onClick={handleAddToCart}>
+            <p className="text-[15px] ">Add to Cart</p>
+            </button>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default QuickView;

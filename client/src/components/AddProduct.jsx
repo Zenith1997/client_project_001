@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {FaTimes} from 'react-icons/fa';
 import Input from './Input';
 import axios from 'axios';
-
+const MAX_COUNT = 5;
 const initialProductsData = {
     name: '',
     retailPrice: '',
@@ -11,12 +11,17 @@ const initialProductsData = {
     quantity: '',
     unit: '',
     maxLimit: '',
+    priority: ''
 };
 
 const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
+    const [uploadedFiles, setUploadedFiles] = useState([])
+    const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
-    const {name, desc, retailPrice, wholesalePrice, quantity, unit, maxLimit} = productsData;
+
+    const {name, desc, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
     const [file, setFile] = useState(null);
+
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
@@ -48,6 +53,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                 quantity: selectedProduct.WholesaleQty,
                 unit: selectedProduct.Unit,
                 maxLimit: selectedProduct.MaxLimit,
+                priority: selectedProduct.priority
             });
         }
     }, [actionType, selectedProduct])
@@ -82,16 +88,21 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('retailPrice', retailPrice);
             data.append('wholesalePrice', wholesalePrice);
             data.append('desc', desc);
+            //have to stringify a array object before appending to a string
+            // data.append('imageFilesArray', JSON.stringify(uploadedFiles));
             data.append('image', file);
+
+
             data.append('quantity', quantity);
             data.append('unit', unit);
             data.append('maxLimit', maxLimit);
+            data.append('priority', priority);
 
 
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
                 .then(response => {
                     setSuccess(response.data);
-
+                    console.log(response.data);
                     setTimeout(() => {
                         // Clear form fields
                         setProductsData(initialProductsData);
@@ -204,6 +215,17 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                             onChange={handleChange}
                         />
                     </div>
+                    <div>
+                        <Input
+                            label="Priority Number (Optional)"
+                            name="priority"
+                            type="number"
+                            placeholder="Priority of this product"
+                            required={false}
+                            value={priority}
+                            onChange={handleChange}
+                        />
+                    </div>
 
                     {actionType === 'add' && (
                         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-x-4">
@@ -213,9 +235,21 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                                 className={`w-full bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 rounded mb-4`}
                                 placeholder="Enter your image"
                                 onChange={handleImageUpload}
+                                multiple
+
                             />
                         </div>)}
-
+                    <div>
+                        {/*<Input*/}
+                        {/*    label="Video upload"*/}
+                        {/*    name="link"*/}
+                        {/*    type="text"*/}
+                        {/*    placeholder="Enter video url"*/}
+                        {/*    required={false}*/}
+                        {/*    value={link}*/}
+                        {/*    onChange={handleChange}*/}
+                        {/*/>*/}
+                    </div>
                     <div>
                         <Input
                             label="Description"
