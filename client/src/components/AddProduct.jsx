@@ -14,17 +14,19 @@ const initialProductsData = {
     quantity: '',
     unit: '',
     maxLimit: '',
-    priority: ''
+    priority: '',
+    url:'',
 };
 
 const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
     const [uploadedFiles, setUploadedFiles] = useState([])
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [fileLimit, setFileLimit] = useState(false);
     const { products } = useSelector((state) => state.products);
     const [productsData, setProductsData] = useState(initialProductsData);
     const [isPriorityTaken, setIsPriorityTaken] = useState(false);
-    const { name, desc, link, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority } = productsData;
-    const [file, setFiles] = useState(null);
+    const { name, desc, url, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority } = productsData;
+    const [file, setFile] = useState(null);
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -77,34 +79,9 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
             [name]: value,
         });
     }
-    const handleUploadFiles = files => {
-        const uploaded = [...uploadedFiles];
-        let limitExceeded = false;
-        files.some((file) => {
-            if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-                uploaded.push(file.name);
 
-                if (uploaded.length === MAX_COUNT) setFileLimit(true);
-                if (uploaded.length > MAX_COUNT) {
-                    alert(`You can only add a maximum of ${MAX_COUNT} files`);
-                    setFileLimit(false);
-                    limitExceeded = true;
-                    return true;
-                }
-            }
-        })
-        if (!limitExceeded) setUploadedFiles(uploaded)
-        console.log(uploadedFiles)
-
-    }
     function handleImageUpload(e) {
-
-        const chosenFiles = Array.prototype.slice.call(e.target.files)
-        console.log(chosenFiles)
-        handleUploadFiles(chosenFiles);
-        // const uploadedFiles = Array.from(e.target.files);
-        // console.log(uploadedFiles);
-        // setFiles(uploadedFiles);
+        setFile(e.target.files[0]);
     }
 
     async function handleSubmit(e) {
@@ -126,14 +103,17 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
             data.append('desc', desc);
             //have to stringify a array object before appending to a string
             // data.append('imageFilesArray', JSON.stringify(uploadedFiles));
-            uploadedFiles.forEach((file) => {
-                data.append('files', file);
+            selectedFiles.forEach((file) => {
+                data.append('image', file);
             });
-            data.append('link', link);
+
+
+
             data.append('quantity', quantity);
             data.append('unit', unit);
             data.append('maxLimit', maxLimit);
             data.append('priority', priority);
+            data.append('url', url);
 
             setIsPriorityTaken(false);
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
@@ -143,7 +123,7 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                     setTimeout(() => {
                         // Clear form fields
                         setProductsData(initialProductsData);
-                        setFiles(null);
+                        setFile(null);
                         // Close the AddProduct component
                         setAddProduct(false);
                     }, 1000);
@@ -163,7 +143,7 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                     setTimeout(() => {
                         // Clear form fields
                         setProductsData(initialProductsData);
-                        setFiles(null);
+                        setFile(null);
                         // Close the AddProduct component
                         setAddProduct(false);
                     }, 1000);
@@ -176,7 +156,12 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
             setIsPriorityTaken(false);
         }
     }
-    console.log(file)
+
+    const handleFileSelect = (event) => {
+        const files = Array.from(event.target.files);
+        const updatedSelectedFiles = [...selectedFiles, ...files];
+        setSelectedFiles(updatedSelectedFiles);
+    };
     return (
         <div className="fixed max-h-screen inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
             <div
@@ -266,23 +251,34 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                     {actionType === 'add' && (
                         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-x-4">
                             <input
-                                name="file"
+                                name="image"
                                 type="file"
                                 className={`w-full bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 rounded mb-4`}
                                 placeholder="Enter your image"
-                                onChange={handleImageUpload}
+                                onChange={handleFileSelect}
                                 multiple
 
                             />
                         </div>)}
                     <div>
+                        {/*<Input*/}
+                        {/*    label="Video upload"*/}
+                        {/*    name="link"*/}
+                        {/*    type="text"*/}
+                        {/*    placeholder="Enter video url"*/}
+                        {/*    required={false}*/}
+                        {/*    value={link}*/}
+                        {/*    onChange={handleChange}*/}
+                        {/*/>*/}
+                    </div>
+                    <div>
                         <Input
-                            label="Video upload"
-                            name="link"
-                            type="text"
-                            placeholder="Enter video url"
+                            label="Youtube Video"
+                            name="url"
+                            type="url"
+                            placeholder="Enter youtube source link"
                             required={false}
-                            value={link}
+                            value={url}
                             onChange={handleChange}
                         />
                     </div>

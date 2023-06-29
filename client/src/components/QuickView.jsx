@@ -1,41 +1,42 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {FaMinus, FaPlus, FaTimes} from "react-icons/fa";
-import {useDispatch} from "react-redux";
-import {addToCart} from "../store/cartSlice";
-import {priceCalculator} from "../utility";
+import React, { useEffect, useRef, useState } from "react";
+import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../store/cartSlice";
+import { priceCalculator } from "../utility";
 import toast from "react-hot-toast";
+import CorouselComponent from "./CarouselComponent";
+import '../app.css'
+const QuickView = ({ onClose, selectedProduct }) => {
+  const [quantity, setQuantity] = useState(1);
+  const product = selectedProduct;
+  const dispatch = useDispatch();
 
-const QuickView = ({onClose, selectedProduct}) => {
-    const [quantity, setQuantity] = useState(1);
-    const product = selectedProduct;
-    const dispatch = useDispatch();
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
-        return () => {
-            document.body.style.overflow = 'unset';
-        }
-    }, [])
-
-    function handleDecrementQuantity() {
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
+  function handleDecrementQuantity() {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
     }
+  }
 
-    function handleIncrementQuantity() {
-        if (quantity < product.MaxLimit || !product.MaxLimit) {
-            setQuantity(quantity + 1);
-        } else {
-            toast.error(`Maximum purchase quantity reached`);
-        }
+  function handleIncrementQuantity() {
+    if (quantity < product.MaxLimit || !product.MaxLimit) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error(`Maximum purchase quantity reached`);
     }
+  }
 
-    function handleAddToCart() {
-        dispatch(addToCart({product, quantity}));
-        onClose();
-    }
+  function handleAddToCart() {
+    dispatch(addToCart({ product, quantity }));
+    onClose();
+  }
 
     let menuRef = useRef();
 
@@ -56,49 +57,97 @@ const QuickView = ({onClose, selectedProduct}) => {
 
     });
 
+    const { Image,source } = product;
+
+
+    let imageNames = [];
+    console.log(product)
+    console.log(source)
+
+    const videoId = source.split('/').pop(); // Extract the video ID from the URL
+    const embeddedUrl = `https://www.youtube.com/embed/${videoId}?controls=0`; // Construct the embedded URL
+    console.log(embeddedUrl)
+    if (typeof Image === 'string') {
+        // Remove square brackets and double quotes from the string
+        const cleanedString = Image.replace(/[\[\]"]/g, '');
+
+        // Split the cleaned string into an array of image names
+        imageNames = cleanedString.split(',');
+
+        // Trim whitespace from each image name
+        imageNames = imageNames.map((imageName) => ({ image: imageName.trim(),type:'image'}));
+
+        const newElement = { url: embeddedUrl, type: 'iframe' };
+        imageNames.push(newElement);
+    }
+
+    console.log(imageNames);
+    // const slides = [
+    //     {
+    //         title: 'Slide 1',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    //     {
+    //         title: 'Slide 2',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    //     {
+    //         title: 'Slide 3',
+    //         image: 'https://picsum.photos/200/300',
+    //     },
+    // ];
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
             <div
                 ref={menuRef}
                 //bg-white bg-opacity-20 rounded-lg p-4 shadow-lg backdrop-filter backdrop-blur-lg
-                className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl">
+                className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl"
+            >
                 <div className="w-full">
-                    <FaTimes className="float-right text-2xl cursor-pointer" onClick={onClose}/>
+                    <FaTimes
+                        className="float-right text-2xl cursor-pointer"
+                        onClick={onClose}
+                    />
                 </div>
-                <div className="w-full flex flex-col md:flex-row justify-between items-center">
-                    <img
-                        src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}
-                        alt="product" className="w-44 h-44 mx-auto "/>
-                    <div
-                        className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
+                <div className="w-full flex flex-col md:flex-row justify-between items-center gap-1">
+                    <CorouselComponent slides={imageNames}/>
+                    <div className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
                         <p className="text-gray-400">{product?.Description}</p>
                         <div className="flex flex-col items-center gap-1 md:flex-row md:gap-4 text-white mt-2">
-                            <b className="text-gray-300">Price: Rs. {
-                                (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty) / quantity).toFixed(2)
-                            }</b>
+                            <b className="text-gray-300">
+                                Price: Rs.{" "}
+                                {(
+                                    priceCalculator(
+                                        product?.RetailPrice,
+                                        product?.WholesalePrice,
+                                        quantity,
+                                        product?.WholesaleQty
+                                    ) / quantity
+                                ).toFixed(2)}
+                            </b>
                             {/*<b className="text-gray-300">Unit Price: Rs. {product?.WholesalePrice}</b>*/}
                         </div>
                         <div className="flex items-center  mt-2">
                             <h2 className="font-semibold text-[15px]">Quantity:</h2>
 
                             <div className="flex items-center gap-3 ml-2">
-                                <span
-                                    className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
-                                    onClick={handleDecrementQuantity}
-                                >
-                                    <FaMinus/>
-                                </span>
+                <span
+                    className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
+                    onClick={handleDecrementQuantity}
+                >
+                  <FaMinus />
+                </span>
                                 <span className="text-lg">
-                                    {quantity} {product.Unit}
-                                </span>
+                  {quantity} {product.Unit}
+                </span>
                                 <span
                                     className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
                                     onClick={handleIncrementQuantity}
                                 >
-                                    <FaPlus/>
-                                </span>
-
+                  <FaPlus />
+                </span>
                             </div>
                         </div>
 
@@ -112,22 +161,28 @@ const QuickView = ({onClose, selectedProduct}) => {
                         {quantity >= 1 && (
                             <div className="flex items-center gap-2">
                                 <h2 className="font-semibold text-[14px]">Discounted Price:</h2>
-                                <h2 className={`text-[17]`}>Rs. {
-                                    (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty)).toFixed(2)
-                                }</h2>
+                                <h2 className={`text-[17]`}>
+                                    Rs.{" "}
+                                    {priceCalculator(
+                                        product?.RetailPrice,
+                                        product?.WholesalePrice,
+                                        quantity,
+                                        product?.WholesaleQty
+                                    ).toFixed(2)}
+                                </h2>
                             </div>
                         )}
 
-                        <button className="outer-button"
-                                onClick={handleAddToCart}
-                        >
-                            Add to Cart
+
+                        <button className="button-73" onClick={handleAddToCart}>
+                            <p className="text-[15px] ">Add to Cart</p>
+
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    );
+  );
 };
 
 export default QuickView;
