@@ -11,7 +11,8 @@ const initialProductsData = {
     quantity: '',
     unit: '',
     maxLimit: '',
-    priority: ''
+    priority: '',
+    url:'',
 };
 
 const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
@@ -20,7 +21,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
     const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
 
-    const {name, desc, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
+    const {name, desc, retailPrice,url, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
     const [file, setFile] = useState(null);
 
     const [error, setError] = useState(null);
@@ -101,6 +102,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('unit', unit);
             data.append('maxLimit', maxLimit);
             data.append('priority', priority);
+            data.append('url', url);
 
 
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
@@ -258,6 +260,17 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                         {/*    value={link}*/}
                         {/*    onChange={handleChange}*/}
                         {/*/>*/}
+                    </div>
+                    <div>
+                        <Input
+                            label="Youtube Video"
+                            name="url"
+                            type="url"
+                            placeholder="Enter youtube source link"
+                            required={false}
+                            value={url}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div>
                         <Input

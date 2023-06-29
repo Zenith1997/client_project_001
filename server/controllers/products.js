@@ -46,7 +46,7 @@ const getProductById = async (req, res) => {
 // function is updated, need to update server
 // wholesaleQty = quantity
 const addProduct = async (req, res) => {
-  const { name, retailPrice, wholesalePrice, desc, quantity, unit, maxLimit, priority } =
+  const { name, retailPrice, wholesalePrice, desc, quantity, unit, url,maxLimit, priority } =
     req.body;
   const images = req.files;
 if(images.length>1){
@@ -61,7 +61,7 @@ if(images.length>1){
 
   try {
     const q =
-        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority,source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     const values = [
       name,
       desc,
@@ -71,7 +71,8 @@ if(images.length>1){
       quantity,
       unit,
       maxLimit || 0,
-      priority
+      priority,
+      url
     ];
     await executeQuery(q, values);
     return res.status(201).send("Product added!");
@@ -85,7 +86,7 @@ if(images.length>1){
 
   try {
     const q =
-        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority,source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     const values = [
       name,
       desc,
@@ -95,7 +96,8 @@ if(images.length>1){
       quantity,
       unit,
       maxLimit || 0,
-      priority
+      priority,
+      url,
     ];
     await executeQuery(q, values);
     return res.status(201).send("Product added!");
