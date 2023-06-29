@@ -1,26 +1,29 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {FaTimes} from 'react-icons/fa';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import Input from './Input';
+import { useSelector } from "react-redux";
 import axios from 'axios';
+import Product from './Product';
 const MAX_COUNT = 5;
 const initialProductsData = {
     name: '',
     retailPrice: '',
     wholesalePrice: '',
     desc: '',
-    link:'',
+    link: '',
     quantity: '',
     unit: '',
     maxLimit: '',
     priority: ''
 };
 
-const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
+const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
     const [uploadedFiles, setUploadedFiles] = useState([])
     const [fileLimit, setFileLimit] = useState(false);
+    const { products } = useSelector((state) => state.products);
     const [productsData, setProductsData] = useState(initialProductsData);
-
-    const {name, desc, link, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
+    const [isPriorityTaken, setIsPriorityTaken] = useState(false);
+    const { name, desc, link, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority } = productsData;
     const [file, setFiles] = useState(null);
 
     const [error, setError] = useState(null);
@@ -68,7 +71,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
     });
 
     function handleChange(e) {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setProductsData({
             ...productsData,
             [name]: value,
@@ -106,8 +109,15 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        let isTaken = false;
+        products.forEach(product => {
+            if (product.priority !== null && product.priority.toString() === priority) {
+                setIsPriorityTaken(true);
+                isTaken = true;
+            }
+        });
 
-        if (actionType === 'add') {
+        if (actionType === 'add' && !isTaken) {
 
             const data = new FormData();
             data.append('name', name);
@@ -125,7 +135,7 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
             data.append('maxLimit', maxLimit);
             data.append('priority', priority);
 
-
+            setIsPriorityTaken(false);
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
                 .then(response => {
                     setSuccess(response.data);
@@ -139,12 +149,12 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                     }, 1000);
                 })
                 .catch(error => {
-                        console.error(error);
-                        setError(error.response.data);
-                    }
+                    console.error(error);
+                    setError(error.response.data);
+                }
                 );
 
-        } else if (actionType === 'edit') {
+        } else if (actionType === 'edit' && !isTaken) {
 
             await axios.put(`${process.env.REACT_APP_BASE_URL}/products/edit/${selectedProduct.ProductID}`, productsData)
                 .then(response => {
@@ -159,11 +169,11 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                     }, 1000);
                 })
                 .catch(error => {
-                        console.error(error);
-                        setError(error.response.data);
-                    }
+                    console.error(error);
+                    setError(error.response.data);
+                }
                 );
-
+            setIsPriorityTaken(false);
         }
     }
     console.log(file)
@@ -253,7 +263,6 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                             onChange={handleChange}
                         />
                     </div>
-
                     {actionType === 'add' && (
                         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-x-4">
                             <input
@@ -293,11 +302,17 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
                             {error}
                         </div>
                     )}
-                    {success && (
+                    {success && !isPriorityTaken && (
                         <div className="bg-green-500 text-white p-2 rounded mb-4">
                             {success}
                         </div>
                     )}
+                    {
+                        isPriorityTaken && (
+                            <div className="bg-red-500 text-white p-2 rounded mb-4">
+                                Priority already taken
+                            </div>
+                        )}
                     <button
                         className="bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 w-full rounded mb-4"
                         type="submit"
