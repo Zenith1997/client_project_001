@@ -46,12 +46,47 @@ const getProductById = async (req, res) => {
 // function is updated, need to update server
 // wholesaleQty = quantity
 const addProduct = async (req, res) => {
-  const { name, retailPrice, wholesalePrice, desc, quantity, unit, maxLimit, priority } =
+  const { name, retailPrice, wholesalePrice, desc, quantity, unit, url,maxLimit, priority } =
     req.body;
+  const images = req.files;
+if(images.length>1){
+  const filenames = [];
+  console.log(images.length)
+  console.log(images)
+  images.forEach((i)=>{
+    filenames.push(i.filename)
+    console.log(i.filename)
+  })
+  console.log(filenames);
 
   try {
     const q =
-      "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority,source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+    const values = [
+      name,
+      desc,
+      retailPrice,
+      wholesalePrice,
+      JSON.stringify(filenames),
+      quantity,
+      unit,
+      maxLimit || 0,
+      priority,
+      url
+    ];
+    await executeQuery(q, values);
+    return res.status(201).send("Product added!");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error");
+  }
+
+
+}else{
+
+  try {
+    const q =
+        "INSERT INTO products (Name, Description, RetailPrice, WholesalePrice, Image, WholesaleQty, Unit, MaxLimit,priority,source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
     const values = [
       name,
       desc,
@@ -61,7 +96,8 @@ const addProduct = async (req, res) => {
       quantity,
       unit,
       maxLimit || 0,
-      priority
+      priority,
+      url,
     ];
     await executeQuery(q, values);
     return res.status(201).send("Product added!");
@@ -69,6 +105,8 @@ const addProduct = async (req, res) => {
     console.error(error);
     return res.status(500).send("Internal Server Error");
   }
+}
+
 };
 
 const deleteProduct = async (req, res) => {

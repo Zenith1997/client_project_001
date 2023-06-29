@@ -41,21 +41,21 @@ const config = multer.diskStorage({
 
 const upload = multer({
   storage: config,
-}).single("image");
+});
 
 app.get("/api/", (req, res) => {
   res.json("server is running");
 });
 app.use("/auth", authRouter);
 app.use("/products", productsRouter);
-app.post("/products/add", upload, addProduct);
+app.post("/products/add", upload.array("image",5),addProduct);
 app.use("/orders", ordersRouter);
 app.use("/slider", sliderRouter);
-app.post("/slider/add", upload, addSlider);
+app.post("/slider/add", upload.single("image"),addSlider);
 app.get("*", (req, res) => {
   res.status(404).json("Not Found");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, (req, res) => {
   console.log("Server is up and running on port number: " + PORT);
 });
