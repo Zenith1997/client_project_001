@@ -1,3 +1,55 @@
+
+import React, { useEffect, useState } from 'react';
+import { BsCartFill } from "react-icons/bs";
+import { IoMdExit } from "react-icons/io";
+import { NavLink } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
+import { useLocation, Link } from 'react-router-dom';
+import { setFilteredProducts } from '../store/filteredProductSlice';
+import { useDispatch, useSelector } from "react-redux";
+import logo from '../assets/janajaya.png';
+import logoWhite from '../assets/janajayaWhite.png';
+
+const Header = ({ setViewCart }) => {
+    const [isAdmin, setIsAdmin] = useState("");
+    const [userName, setUserName] = useState("");
+    const [viewMenu, setViewMenu] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const { filteredProducts } = useSelector(state => state.filteredProducts);
+    const { products } = useSelector((state) => state.products);
+    const { totalItems } = useSelector(state => state.cart);
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        setIsAdmin(localStorage.getItem('isAdmin'));
+        setUserName(localStorage.getItem('userName'));
+    }, [isAdmin, userName]);
+-
+    const handleLogout = async () => {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('isAdmin');
+        window.location.href = '/login';
+    }
+
+    const handleSearch = () => {
+
+        if (searchTerm === null || searchTerm.length <= 2) {
+            dispatch(setFilteredProducts([...products]));
+        }
+
+        const filteredItemsNew = products.filter((item) =>
+            item.Name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        dispatch(setFilteredProducts([...filteredItemsNew]));
+
+    }
+
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
+    }
+
 import React, { useEffect, useState } from "react";
 import { BsCartFill } from "react-icons/bs";
 import { IoMdExit } from "react-icons/io";
@@ -98,6 +150,16 @@ const Header = ({ setViewCart }) => {
           </div>
         ) : (
           <>
+             <form className="flex items-center" onSubmit={handleSearch}>
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                onChange={handleChange}
+                                onKeyDown={handleSearch}
+                                value={searchTerm}
+                                className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
+                            />
+                        </form>
             <div className="flex justify-center">
               {isMobileView ? (
                 <></>
@@ -140,6 +202,7 @@ const Header = ({ setViewCart }) => {
                   <BsCartFill className="text-white text-xl cursor-pointer" />
                 </button>
               </div>
+
             </div>
           </>
         )}

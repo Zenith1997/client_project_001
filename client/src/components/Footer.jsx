@@ -1,9 +1,12 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import phone from "../assets/phone.png";
 
+
 const Footer = () => {
   const isMobileView = window.innerWidth <= 600;
+
 
   return (
     <div className="w-full bg-gray-900 py-4">
@@ -20,6 +23,7 @@ const Footer = () => {
               >
                 Privacy Policy
               </Link>
+
             </div>
 
             <div className="flex items-center justify-between gap-5 mb-4">

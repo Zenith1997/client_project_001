@@ -21,8 +21,10 @@ const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
     const [fileLimit, setFileLimit] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
 
+
     const {name, desc, retailPrice,url, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
     const [file, setFile] = useState(null);
+
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);

@@ -173,8 +173,10 @@ const QuickView = ({ onClose, selectedProduct }) => {
                             </div>
                         )}
 
+
                         <button className="button-73" onClick={handleAddToCart}>
                             <p className="text-[15px] ">Add to Cart</p>
+
                         </button>
                     </div>
                 </div>

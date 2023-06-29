@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import {Toaster} from "react-hot-toast";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={"/privacy"} element={<Privacy/>}/>
                 <Route path={"/terms"} element={<Terms/>}/>
+                <Route path={"/contact"} element={<Contact/>}/>
             </Routes>
             <div>
                 <Toaster

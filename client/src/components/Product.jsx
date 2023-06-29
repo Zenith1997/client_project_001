@@ -4,6 +4,7 @@ import { addToCart } from "../store/cartSlice";
 import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { priceCalculator } from "../utility";
+import "./ProductStyle.css";
 
 const Product = ({ product, setSelectedProduct }) => {
   const dispatch = useDispatch();
@@ -107,6 +108,7 @@ const Product = ({ product, setSelectedProduct }) => {
         </span>
       </div>
       <div className="flex justify-center items-center">
+
         <button className="button-73 text-xs mt-4 " onClick={handleAddToCart}>
           <p className="text-[15px] ">Add to Cart</p>
         </button>
