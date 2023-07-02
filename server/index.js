@@ -48,13 +48,14 @@ app.get("/api/", (req, res) => {
 });
 app.use("/auth", authRouter);
 app.use("/products", productsRouter);
-app.post("/products/add", upload.array("image",5),addProduct);
+app.post("/products/add", upload.array("image",6),addProduct);
 app.use("/orders", ordersRouter);
 app.use("/slider", sliderRouter);
 app.post("/slider/add", upload.single("image"),addSlider);
 app.get("*", (req, res) => {
   res.status(404).json("Not Found");
 });
+
 
 app.listen(PORT, (req, res) => {
   console.log("Server is up and running on port number: " + PORT);

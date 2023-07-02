@@ -55,3 +55,13 @@
         padding: .75rem 2rem;
     }
 }
+
+.goog-te-gadget {
+    font-family: arial;
+    font-size: 11px;
+    z-index: 100;
+    white-space: nowrap;
+    position: absolute;
+    top: 6%;
+    display: flex;
+}
