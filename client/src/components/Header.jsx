@@ -4,22 +4,16 @@ import { SiWhatsapp } from "react-icons/si"
 import { IoMdExit } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { useLocation, Link } from 'react-router-dom';
-import { setFilteredProducts } from '../store/filteredProductSlice';
-import { useDispatch, useSelector } from "react-redux";
-import logo from '../assets/janajaya.png';
+import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import logoWhite from '../assets/janajayaWhite.png';
+import SearchBar from './SearchBar';
 
 const Header = ({ setViewCart }) => {
     const [isAdmin, setIsAdmin] = useState("");
     const [userName, setUserName] = useState("");
     const [viewMenu, setViewMenu] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const { filteredProducts } = useSelector(state => state.filteredProducts);
-    const { products } = useSelector((state) => state.products);
     const { totalItems } = useSelector(state => state.cart);
-    const dispatch = useDispatch();
-    const location = useLocation();
 
     useEffect(() => {
         setIsAdmin(localStorage.getItem('isAdmin'));
@@ -32,24 +26,6 @@ const Header = ({ setViewCart }) => {
         window.location.href = '/login';
     }
 
-    const handleSearch = () => {
-
-        if (searchTerm === null || searchTerm.length <= 2) {
-            dispatch(setFilteredProducts([...products]));
-        }
-
-        const filteredItemsNew = products.filter((item) =>
-            item.Name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        dispatch(setFilteredProducts([...filteredItemsNew]));
-
-    }
-
-    const handleChange = (e) => {
-        setSearchTerm(e.target.value);
-    }
-
     return (
         <div className="w-full bg-gray-900 shadow-lg sticky top-0 z-10">
             <div className="px-2 container mx-auto flex justify-between items-center py-2 z-10">
@@ -60,18 +36,7 @@ const Header = ({ setViewCart }) => {
                 </a>
                 {isAdmin ? (
                     <>
-                        {location.pathname === "/admin/products" ? (
-                            <form className="flex items-center" onSubmit={handleSearch}>
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    onChange={handleChange}
-                                    onKeyDown={handleSearch}
-                                    value={searchTerm}
-                                    className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
-                                />
-                            </form>
-                        ) : <></>}
+                        <SearchBar/>
                         <div className="relative">
                             <div
                                 onClick={() => setViewMenu(!viewMenu)}
@@ -124,16 +89,7 @@ const Header = ({ setViewCart }) => {
                 ) : (
                     <>
 
-                        <form className="flex items-center" onSubmit={handleSearch}>
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                onChange={handleChange}
-                                onKeyDown={handleSearch}
-                                value={searchTerm}
-                                className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
-                            />
-                        </form>
+                        <SearchBar/>
                         <div
                             className="flex items-center w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
@@ -150,7 +106,7 @@ const Header = ({ setViewCart }) => {
                                 />
                             </button>
                         </div>
-                        <div className='absolute top-[33px] right-[100px] flex items-center justify-center'><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
+                        <div className='absolute top-[18px] right-[100px] flex items-center justify-center'><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
                     </>
                 )}
             </div>
