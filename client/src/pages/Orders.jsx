@@ -13,7 +13,7 @@ const Orders = () => {
     const dispatch = useDispatch();
     const {orders, error, loading} = useSelector((state) => state.orders);
     const {filteredOrders} = useSelector((state) => state.filteredOrders);
-    const filteredOrdersList = filteredOrders.orders;
+    const filteredOrdersList = filteredOrders?.orders;
     const [modelType, setModelType] = useState('');
     const [showModel, setShowModel] = useState(false);
     const [status, setStatus] = useState('');

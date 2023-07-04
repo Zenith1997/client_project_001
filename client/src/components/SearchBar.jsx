@@ -1,40 +1,69 @@
 import React, {useState} from "react";
 import { setFilteredProducts } from '../store/filteredProductSlice';
-import { setFilteredOrdersforSearch } from "../store/filteredOrdersSlice";
+import { setFilteredOrdersforSearch, setFilteredOrders } from "../store/filteredOrdersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from 'react-router-dom';
+import { setFilteredSliders } from "../store/filteredSliderSlice";
 
 const SearchBar = () => {
     const { products } = useSelector((state) => state.products);
     const {orders} = useSelector((state) => state.orders);
+    const {sliders} = useSelector((state) => state.slider);
     const dispatch = useDispatch();
     const location = useLocation();
 
     const handleSearch = (e) => {
 
-        if (e.target.value === null || e.target.value === '') {
-            dispatch(setFilteredProducts([...products]));
-            dispatch(setFilteredOrdersforSearch(orders));
-        }
+        
+
+        
+            
 
         switch (location.pathname) {
             case "/":
             case "/admin/products":
-                const filteredProducts = products.filter((item) =>
-                    item.Name.toLowerCase().includes(e.target.value.toLowerCase())
-                );
-                dispatch(setFilteredProducts([...filteredProducts]))
+
+                if (e.target.value === null || e.target.value === '') {
+                    dispatch(setFilteredProducts([...products]));
+
+                } else {
+                    const filteredProducts = products.filter((item) =>
+                        item.Name.toLowerCase().includes(e.target.value.toLowerCase())
+                    );
+                    dispatch(setFilteredProducts([...filteredProducts]));
+                }
+
                 break;
-            case "/admin/sliders":
+            case "/admin/slider":
+
+                if (e.target.value === null || e.target.value === '') {
+                    dispatch(setFilteredSliders(sliders));
+
+                } else {
+                    const filteredSlidersNew = sliders.filter((item) =>
+                        item.Title.toLowerCase().includes(e.target.value.toLowerCase())
+                    );
+                    dispatch(setFilteredSliders(filteredSlidersNew));
+                }
+
+
+
                 break;
             case "/admin/orders":
-                const filteredOrders = orders.orders.filter((item) =>
-                    item.UserName.toLowerCase().includes(e.target.value.toLowerCase())
-                );
-                dispatch(setFilteredOrdersforSearch(filteredOrders));
+
+
+                if (e.target.value === null || e.target.value === '') {
+                    dispatch(setFilteredOrders(orders));
+
+                } else {
+                    const filteredOrders = orders.orders.filter((item) =>
+                        item.UserName.toLowerCase().includes(e.target.value.toLowerCase())
+                    );
+                    dispatch(setFilteredOrdersforSearch(filteredOrders));
+                }
+
                 break;
         }
-        
 
     }
 
