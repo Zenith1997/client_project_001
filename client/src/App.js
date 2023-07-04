@@ -9,9 +9,6 @@ import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 
 
-
-
-
 function App() {
 
     return (

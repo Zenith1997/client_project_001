@@ -1,14 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {FaTimes} from 'react-icons/fa';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import Input from './Input';
+import { useSelector } from "react-redux";
 import axios from 'axios';
-import {useSelector} from "react-redux";
 const MAX_COUNT = 5;
 const initialProductsData = {
     name: '',
     retailPrice: '',
     wholesalePrice: '',
     desc: '',
+    link: '',
     quantity: '',
     unit: '',
     maxLimit: '',
@@ -16,10 +17,11 @@ const initialProductsData = {
     url:'',
 };
 
-const AddProduct = ({setAddProduct, actionType, selectedProduct}) => {
-    const [uploadedFiles, setUploadedFiles] = useState([])
+const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
+    const [uploadedFiles, setUploadedFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [fileLimit, setFileLimit] = useState();
+    const [isPriorityTaken, setIsPriorityTaken] = useState(false);
     const [productsData, setProductsData] = useState(initialProductsData);
     const { products } = useSelector((state) => state.products);
     const [isTaken, setIsTaken] = useState(false);
@@ -111,8 +113,15 @@ const x = []
 
     async function handleSubmit(e) {
         e.preventDefault();
+        let isTaken = false;
+        products.forEach(product => {
+            if (product.priority !== null && product.priority.toString() === priority) {
+                setIsPriorityTaken(true);
+                isTaken = true;
+            }
+        });
 
-        if (actionType === 'add') {
+        if (actionType === 'add' && !isTaken) {
 
             const data = new FormData();
             data.append('name', name);
@@ -133,7 +142,7 @@ const x = []
             data.append('priority', priority);
             data.append('url', url);
 
-
+            setIsPriorityTaken(false);
             await axios.post(`${process.env.REACT_APP_BASE_URL}/products/add`, data)
                 .then(response => {
                     setSuccess(response.data);
@@ -147,12 +156,12 @@ const x = []
                     }, 1000);
                 })
                 .catch(error => {
-                        console.error(error);
-                        setError(error.response.data);
-                    }
+                    console.error(error);
+                    setError(error.response.data);
+                }
                 );
 
-        } else if (actionType === 'edit') {
+        } else if (actionType === 'edit' && !isTaken) {
 
             await axios.put(`${process.env.REACT_APP_BASE_URL}/products/edit/${selectedProduct.ProductID}`, productsData)
                 .then(response => {
@@ -167,11 +176,11 @@ const x = []
                     }, 1000);
                 })
                 .catch(error => {
-                        console.error(error);
-                        setError(error.response.data);
-                    }
+                    console.error(error);
+                    setError(error.response.data);
+                }
                 );
-
+            setIsPriorityTaken(false);
         }
     }
 
@@ -376,11 +385,17 @@ e.preventDefault()
                             {error}
                         </div>
                     )}
-                    {success && (
+                    {success && !isPriorityTaken && (
                         <div className="bg-green-500 text-white p-2 rounded mb-4">
                             {success}
                         </div>
                     )}
+                    {
+                        isPriorityTaken && (
+                            <div className="bg-red-500 text-white p-2 rounded mb-4">
+                                Priority already taken
+                            </div>
+                        )}
                     <button
                         className="bg-gray-800 hover:bg-gray-700 duration-150 text-white hover:text-gray-300 py-2 px-4 mt-2 w-full rounded mb-4"
                         type="submit"
