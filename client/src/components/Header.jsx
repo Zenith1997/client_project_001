@@ -4,6 +4,7 @@ import { BsCartFill } from "react-icons/bs";
 import { IoMdExit } from "react-icons/io";
 import {NavLink, useLocation} from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import {FaRegSun} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
 import logo from "../assets/janajaya.png";
 import logoWhite from "../assets/janajayaWhite.png";
@@ -59,7 +60,7 @@ const Header = ({ setViewCart }) => {
   const isMobileView = window.innerWidth <= 600;
 
   return (
-    <div  className=" w-full bg-gray-900 shadow-lg opacity-90 sticky top-0 z-10 ">
+    <div  className="  w-full bg-gray-900 shadow-lg opacity-90  top-0 z-10  fixed">
 
 
 
@@ -208,7 +209,7 @@ const Header = ({ setViewCart }) => {
                             onClick={() => setViewMenu(!viewMenu)}
                             className="text-white px-4 capitalize font-semibold hover:text-gray-300 cursor-pointer flex items-center gap-2"
                         >
-                            {userName} <FaBars />
+                             <FaBars />
                         </div>
                         {viewMenu && (
                             <div className="absolute top-10 right-0 bg-gray-800 w-32 py-2 rounded shadow-lg">
@@ -252,12 +253,25 @@ const Header = ({ setViewCart }) => {
                                     >
                                         Slider
                                     </NavLink>
+                                    <NavLink
+                                        className={({ isActive, isPending }) =>
+                                            isPending
+                                                ? "text-white"
+                                                : isActive
+                                                    ? "text-gray-400"
+                                                    : "text-white"
+                                        }
+                                        to="/admin/settings"
+                                        onClick={() => setViewMenu(false)}
+                                    ><FaRegSun/>
+                                    </NavLink>
                                     <button
                                         className="relative text-white cursor-pointer flex items-center gap-2 mb-2"
                                         onClick={() => handleLogout()}
                                     >
                                         LogOut <IoMdExit className="text-white text-lg" />
                                     </button>
+
                                 </div>
                             </div>
                         )}
