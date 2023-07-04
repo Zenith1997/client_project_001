@@ -10,8 +10,7 @@ import logoWhite from "../assets/janajayaWhite.png";
 import phone from "../assets/phone.png";
 import { setFilteredProducts } from '../store/filteredProductSlice';
 import {FcSearch} from "react-icons/fc";
-import {FcCancel} from "react-icons/fc";
-
+import SearchBar from "./SearchBar";
 import googleTranslateElementInit from "./googleTranslateElementInit";
 
 const Header = ({ setViewCart }) => {
@@ -137,42 +136,7 @@ const Header = ({ setViewCart }) => {
                             </a>
 
                         </div>
-
-                        <div className="flex "   style={{
-                            position: 'relative',
-                            top: '30%',
-                            left:"15%"
-
-                        }}>
-                            <form className="flex items-center" onSubmit={handleSearch}>
-
-                                <input
-                                    style={{width:"140px",position:"relative",right:"50px",top:"10px"}}
-                                    type="text"
-                                    placeholder=""
-                                    onChange={handleChange}
-                                    onKeyDown={handleSearch}
-                                    value={searchTerm}
-                                    className="border border-gray-300 pl-6  mt-1 opacity-.5  text-white rounded-lg bg-transparent  px-8 py-1 ml-2 focus:outline-none focus:ring-2 focus:ring-white"
-                                />
-                                { !searchTerm&&<FcSearch style={{
-                                    position: 'relative',
-                                    right: '100%',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)'
-                                }}/>}
-                                {searchTerm && (
-                                    <p
-                                        className="absolute  font-light  transform -translate-y-1/2 focus:outline-none text-white px-3 py-0.5 rounded-lg"
-                                        style={{ position: 'relative', left: '-20%', top: '65%', transform: 'translateY(-50%)' ,width:'100px'}}
-                                        onClick={clearSearchTerm}
-                                    >
-                                        Clear
-                                    </p>
-
-                                )}
-                            </form>
-                        </div>
+                        <SearchBar/>
                         <div
                             className="flex w-14 h-12 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
@@ -196,44 +160,13 @@ const Header = ({ setViewCart }) => {
 
 
                 <><div className='flex justify-between items-center'>
-
                     <div className=" flex rounded-lg w-40 h-20 hover:bg-gray-800">
                         <a href="/" className="text-xl font-bold text-white ">
                             <img src={logoWhite} alt="Janajaya" className="w-50" />
                         </a>
 
                     </div>
-
-                    <div className="flex">
-                        <form className="flex items-center" onSubmit={handleSearch}>
-
-                            <input
-
-                                type="text"
-                                placeholder=""
-                                onChange={handleChange}
-                                onKeyDown={handleSearch}
-                                value={searchTerm}
-                                className="border border-gray-300 pl-16  mt-1 opacity-.5  text-white rounded-lg bg-transparent  px-28 py-1 ml-2 focus:outline-none focus:ring-2 focus:ring-white"
-                            />
-                            { !searchTerm&&<FcSearch style={{
-                                position: 'relative',
-                                right: '90%',
-                                top: '35%',
-                                transform: 'translateY(-50%)'
-                            }}/>}
-                            {searchTerm && (
-                                <button
-                                    className="absolute  font-light  transform -translate-y-1/2 focus:outline-none bg-red-500 text-white px-3 py-0.5 rounded-lg"
-                                    style={{ position: 'relative', right: '22%', top: '45%', transform: 'translateY(-50%)' ,width:'100px'}}
-                                    onClick={clearSearchTerm}
-                                >
-                                    Clear
-                                </button>
-
-                            )}
-                        </form>
-                    </div>
+                    <SearchBar/>
                     {!isAdmin?(   <div className="flex">
                         <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
 
