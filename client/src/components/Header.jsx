@@ -64,70 +64,69 @@ const Header = ({ setViewCart }) => {
 
 
 
-        {isAdmin ? (
-          <div className="relative">
-            <div
-              onClick={() => setViewMenu(!viewMenu)}
-              className="text-white px-4 capitalize font-semibold hover:text-gray-300 cursor-pointer flex items-center gap-2"
-            >
-              {userName} <FaBars />
-            </div>
-            {viewMenu && (
-              <div className="absolute top-10 right-0 bg-gray-800 w-32 py-2 rounded shadow-lg">
-                <div className="flex flex-col items-end gap-2 pr-6">
-                  <NavLink
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "text-white"
-                        : isActive
-                        ? "text-gray-400"
-                        : "text-white"
-                    }
-                    to="/admin/orders"
-                    onClick={() => setViewMenu(false)}
-                  >
-                    Orders
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "text-white"
-                        : isActive
-                        ? "text-gray-400"
-                        : "text-white"
-                    }
-                    to="/admin/products"
-                    onClick={() => setViewMenu(false)}
-                  >
-                    Products
-                  </NavLink>
-                  <NavLink
-                    className={({ isActive, isPending }) =>
-                      isPending
-                        ? "text-white"
-                        : isActive
-                        ? "text-gray-400"
-                        : "text-white"
-                    }
-                    to="/admin/slider"
-                    onClick={() => setViewMenu(false)}
-                  >
-                    Slider
-                  </NavLink>
-                  <button
-                    className="relative text-white cursor-pointer flex items-center gap-2 mb-2"
-                    onClick={() => handleLogout()}
-                  >
-                    LogOut <IoMdExit className="text-white text-lg" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <>
+        {/*isAdmin  (*/}
+        {/*  <div className="relative">*/}
+        {/*    <div*/}
+        {/*      onClick={() => setViewMenu(!viewMenu)}*/}
+        {/*      className="text-white px-4 capitalize font-semibold hover:text-gray-300 cursor-pointer flex items-center gap-2"*/}
+        {/*    >*/}
+        {/*      {userName} <FaBars />*/}
+        {/*    </div>*/}
+        {/*    {viewMenu && (*/}
+        {/*      <div className="absolute top-10 right-0 bg-gray-800 w-32 py-2 rounded shadow-lg">*/}
+        {/*        <div className="flex flex-col items-end gap-2 pr-6">*/}
+        {/*          <NavLink*/}
+        {/*            className={({ isActive, isPending }) =>*/}
+        {/*              isPending*/}
+        {/*                ? "text-white"*/}
+        {/*                : isActive*/}
+        {/*                ? "text-gray-400"*/}
+        {/*                : "text-white"*/}
+        {/*            }*/}
+        {/*            to="/admin/orders"*/}
+        {/*            onClick={() => setViewMenu(false)}*/}
+        {/*          >*/}
+        {/*            Orders*/}
+        {/*          </NavLink>*/}
+        {/*          <NavLink*/}
+        {/*            className={({ isActive, isPending }) =>*/}
+        {/*              isPending*/}
+        {/*                ? "text-white"*/}
+        {/*                : isActive*/}
+        {/*                ? "text-gray-400"*/}
+        {/*                : "text-white"*/}
+        {/*            }*/}
+        {/*            to="/admin/products"*/}
+        {/*            onClick={() => setViewMenu(false)}*/}
+        {/*          >*/}
+        {/*            Products*/}
+        {/*          </NavLink>*/}
+        {/*          <NavLink*/}
+        {/*            className={({ isActive, isPending }) =>*/}
+        {/*              isPending*/}
+        {/*                ? "text-white"*/}
+        {/*                : isActive*/}
+        {/*                ? "text-gray-400"*/}
+        {/*                : "text-white"*/}
+        {/*            }*/}
+        {/*            to="/admin/slider"*/}
+        {/*            onClick={() => setViewMenu(false)}*/}
+        {/*          >*/}
+        {/*            Slider*/}
+        {/*          </NavLink>*/}
+        {/*          <button*/}
+        {/*            className="relative text-white cursor-pointer flex items-center gap-2 mb-2"*/}
+        {/*            onClick={() => handleLogout()}*/}
+        {/*          >*/}
+        {/*            LogOut <IoMdExit className="text-white text-lg" />*/}
+        {/*          </button>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*    )}*/}
+        {/*  </div>*/}
 
-            <div className="">
+
+
               {isMobileView ? (
 
                     <><div className='flex justify-between items-center'>
@@ -142,12 +141,13 @@ const Header = ({ setViewCart }) => {
                         <div className="flex "   style={{
                             position: 'relative',
                             top: '30%',
+                            left:"15%"
 
                         }}>
                             <form className="flex items-center" onSubmit={handleSearch}>
 
                                 <input
-
+                                    style={{width:"140px",position:"relative",right:"50px",top:"10px"}}
                                     type="text"
                                     placeholder=""
                                     onChange={handleChange}
@@ -157,21 +157,32 @@ const Header = ({ setViewCart }) => {
                                 />
                                 { !searchTerm&&<FcSearch style={{
                                     position: 'relative',
-                                    right: '80%',
-                                    top: '30%',
+                                    right: '100%',
+                                    top: '50%',
                                     transform: 'translateY(-50%)'
                                 }}/>}
                                 {searchTerm && (
-                                    <button
-                                        className="absolute  font-light  transform -translate-y-1/2 focus:outline-none bg-red-500 text-white px-3 py-0.5 rounded-lg"
-                                        style={{ position: 'relative', right: '32%', top: '45%', transform: 'translateY(-50%)' ,width:'100px'}}
+                                    <p
+                                        className="absolute  font-light  transform -translate-y-1/2 focus:outline-none text-white px-3 py-0.5 rounded-lg"
+                                        style={{ position: 'relative', left: '-20%', top: '65%', transform: 'translateY(-50%)' ,width:'100px'}}
                                         onClick={clearSearchTerm}
                                     >
                                         Clear
-                                    </button>
+                                    </p>
 
                                 )}
                             </form>
+                        </div>
+                        <div
+                            className="flex w-14 h-12 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                            onClick={() => setViewCart(true)}
+                        >
+                            <button className="relative">
+                  <span className="absolute top-[-5px] right-[-5px] h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                                <BsCartFill className="text-white text-xl cursor-pointer" />
+                            </button>
                         </div>
 
 
@@ -182,6 +193,8 @@ const Header = ({ setViewCart }) => {
 
                 </>
               ) : (
+
+
                 <><div className='flex justify-between items-center'>
 
                     <div className=" flex rounded-lg w-40 h-20 hover:bg-gray-800">
@@ -221,7 +234,7 @@ const Header = ({ setViewCart }) => {
                             )}
                         </form>
                     </div>
-                    <div className="flex">
+                    {!isAdmin?(   <div className="flex">
                         <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
 
                             <a
@@ -257,7 +270,66 @@ const Header = ({ setViewCart }) => {
                                 <BsCartFill className="text-white text-xl cursor-pointer" />
                             </button>
                         </div>
-                    </div>
+                    </div>):(  <div className="relative">
+                        <div
+                            onClick={() => setViewMenu(!viewMenu)}
+                            className="text-white px-4 capitalize font-semibold hover:text-gray-300 cursor-pointer flex items-center gap-2"
+                        >
+                            {userName} <FaBars />
+                        </div>
+                        {viewMenu && (
+                            <div className="absolute top-10 right-0 bg-gray-800 w-32 py-2 rounded shadow-lg">
+                                <div className="flex flex-col items-end gap-2 pr-6">
+                                    <NavLink
+                                        className={({ isActive, isPending }) =>
+                                            isPending
+                                                ? "text-white"
+                                                : isActive
+                                                    ? "text-gray-400"
+                                                    : "text-white"
+                                        }
+                                        to="/admin/orders"
+                                        onClick={() => setViewMenu(false)}
+                                    >
+                                        Orders
+                                    </NavLink>
+                                    <NavLink
+                                        className={({ isActive, isPending }) =>
+                                            isPending
+                                                ? "text-white"
+                                                : isActive
+                                                    ? "text-gray-400"
+                                                    : "text-white"
+                                        }
+                                        to="/admin/products"
+                                        onClick={() => setViewMenu(false)}
+                                    >
+                                        Products
+                                    </NavLink>
+                                    <NavLink
+                                        className={({ isActive, isPending }) =>
+                                            isPending
+                                                ? "text-white"
+                                                : isActive
+                                                    ? "text-gray-400"
+                                                    : "text-white"
+                                        }
+                                        to="/admin/slider"
+                                        onClick={() => setViewMenu(false)}
+                                    >
+                                        Slider
+                                    </NavLink>
+                                    <button
+                                        className="relative text-white cursor-pointer flex items-center gap-2 mb-2"
+                                        onClick={() => handleLogout()}
+                                    >
+                                        LogOut <IoMdExit className="text-white text-lg" />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>)}
+
 
 
                 </div>
@@ -267,12 +339,12 @@ const Header = ({ setViewCart }) => {
 
 
 
-            </div>
-          </>
-        )}
-      </div>
 
-  );
+
+
+
+
+    </div>);
 };
 
 export default Header;
