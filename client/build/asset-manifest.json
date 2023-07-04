@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.52cf5a38.css",
+    "main.js": "/static/js/main.e3cddeda.js",
+    "static/media/ring.gif": "/static/media/ring.e696872f1590519d352f.gif",
+    "static/media/janajaya.png": "/static/media/janajaya.3ba27a4abc54fa95a5e0.png",
+    "static/media/janajayaWhite.png": "/static/media/janajayaWhite.3ba27a4abc54fa95a5e0.png",
+    "index.html": "/index.html",
+    "main.52cf5a38.css.map": "/static/css/main.52cf5a38.css.map",
+    "main.e3cddeda.js.map": "/static/js/main.e3cddeda.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.52cf5a38.css",
+    "static/js/main.e3cddeda.js"
+  ]
+}
