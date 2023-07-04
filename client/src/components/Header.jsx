@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BsCartFill } from "react-icons/bs";
-import { SiWhatsapp } from "react-icons/si"
 import { IoMdExit } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
@@ -106,7 +105,6 @@ const Header = ({ setViewCart }) => {
                                 />
                             </button>
                         </div>
-                        <div className='absolute top-[18px] right-[100px] flex items-center justify-center'><Link to= {"/contact"} className="text-white text-3xl hover:text-gray-400"><SiWhatsapp /></Link></div>
                     </>
                 )}
             </div>
