@@ -2,18 +2,18 @@ import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {setErrors, setOrders} from '../store/orderSlice';
+import { setFilteredOrders } from '../store/filteredOrdersSlice';
 import {Pagination} from '@mui/material';
 import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
 import Model from '../components/Model';
 import {FaPrint, FaTimes} from "react-icons/fa";
-import { setFilteredOrders } from '../store/filteredOrdersSlice';
 
 const Orders = () => {
     const dispatch = useDispatch();
     const {orders, error, loading} = useSelector((state) => state.orders);
     const {filteredOrders} = useSelector((state) => state.filteredOrders);
-    const filteredOrdersList = filteredOrders?.orders;
+    const orderList = filteredOrders?.orders;
     const [modelType, setModelType] = useState('');
     const [showModel, setShowModel] = useState(false);
     const [status, setStatus] = useState('');
@@ -78,11 +78,14 @@ const Orders = () => {
     // Get current orders
     const indexOfLastOrders = currentPage * ordersPerPage;
     const indexOfFirstOrders = indexOfLastOrders - ordersPerPage;
-    const currentOrders = filteredOrdersList?.slice(indexOfFirstOrders, indexOfLastOrders);
+    const currentOrders = orderList?.slice(indexOfFirstOrders, indexOfLastOrders);
 
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const handleChange = () => {
+        
+    }
 
     if (error) {
         return (
@@ -196,7 +199,7 @@ const Orders = () => {
                         </table>
                     </div>
                     <div className="w-full flex justify-center items-center my-2">
-                        <Pagination count={Math.ceil(filteredOrdersList?.length / ordersPerPage)} page={currentPage}
+                        <Pagination count={Math.ceil(orderList?.length / ordersPerPage)} page={currentPage}
                                     onChange={(e, value) => paginate(value)}/>
                     </div>
                 </div>
@@ -250,19 +253,51 @@ const Orders = () => {
                                     </tr>
                                     <tr>
                                         <th>Name :</th>
-                                        <td>{selectedOrder.UserName}</td>
+                                        <td><input
+                                            name="userName"
+                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                                            type="text"
+                                            placeholder="Enter Customer Name"
+                                            required={true}
+                                            value={selectedOrder.UserName}
+                                            onChange={handleChange}
+                                        /></td>
                                     </tr>
                                     <tr>
                                         <th>Email :</th>
-                                        <td>{selectedOrder?.Email}</td>
+                                        <td><input
+                                            name="email"
+                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                                            type="text"
+                                            placeholder="Enter Email"
+                                            required={false}
+                                            value={selectedOrder?.Email}
+                                            onChange={handleChange}
+                                        /></td>
                                     </tr>
                                     <tr>
                                         <th>Phone :</th>
-                                        <td>{selectedOrder.ContactNo}</td>
+                                        <td><input
+                                            name="phone"
+                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                                            type="text"
+                                            placeholder="Enter Contact Number"
+                                            required={true}
+                                            value={selectedOrder.ContactNo}
+                                            onChange={handleChange}
+                                        /></td>
                                     </tr>
                                     <tr>
                                         <th>Address :</th>
-                                        <td>{selectedOrder.ShippingAddress}</td>
+                                        <td><input
+                                            name="address"
+                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                                            type="text"
+                                            placeholder="Enter Shipping Adress"
+                                            required={true}
+                                            value={selectedOrder.ShippingAddress}
+                                            onChange={handleChange}
+                                        /></td>
                                     </tr>
                                     <tr>
                                         <th>Status :</th>
@@ -270,7 +305,15 @@ const Orders = () => {
                                     </tr>
                                     <tr>
                                         <th>Note :</th>
-                                        <td>{selectedOrder?.Note}</td>
+                                        <td><input
+                                            name="note"
+                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                                            type="text"
+                                            placeholder="Delivery Notes"
+                                            required={false}
+                                            value={selectedOrder?.Note}
+                                            onChange={handleChange}
+                                        /></td>
                                     </tr>
                                 </table>
 
