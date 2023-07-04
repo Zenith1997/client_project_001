@@ -7,11 +7,13 @@ import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
 import Model from '../components/Model';
 import {FaPrint, FaTimes} from "react-icons/fa";
+import { setFilteredOrders } from '../store/filteredOrdersSlice';
 
 const Orders = () => {
     const dispatch = useDispatch();
     const {orders, error, loading} = useSelector((state) => state.orders);
-    const orderList = orders?.orders;
+    const {filteredOrders} = useSelector((state) => state.filteredOrders);
+    const filteredOrdersList = filteredOrders?.orders;
     const [modelType, setModelType] = useState('');
     const [showModel, setShowModel] = useState(false);
     const [status, setStatus] = useState('');
@@ -59,6 +61,7 @@ const Orders = () => {
             async () => {
                 await axios.get(`${process.env.REACT_APP_BASE_URL}/orders`).then((res) => {
                     dispatch(setOrders(res.data));
+                    dispatch(setFilteredOrders(res.data));
                 }).catch((err) => {
                     dispatch(setErrors(err));
                 })
@@ -75,7 +78,7 @@ const Orders = () => {
     // Get current orders
     const indexOfLastOrders = currentPage * ordersPerPage;
     const indexOfFirstOrders = indexOfLastOrders - ordersPerPage;
-    const currentOrders = orderList?.slice(indexOfFirstOrders, indexOfLastOrders);
+    const currentOrders = filteredOrdersList?.slice(indexOfFirstOrders, indexOfLastOrders);
 
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -193,7 +196,7 @@ const Orders = () => {
                         </table>
                     </div>
                     <div className="w-full flex justify-center items-center my-2">
-                        <Pagination count={Math.ceil(orderList?.length / ordersPerPage)} page={currentPage}
+                        <Pagination count={Math.ceil(filteredOrdersList?.length / ordersPerPage)} page={currentPage}
                                     onChange={(e, value) => paginate(value)}/>
                     </div>
                 </div>

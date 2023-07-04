@@ -42,7 +42,7 @@ const Products = () => {
                     dispatch(setFilteredProducts(res.data));
                 })
                 .catch((err) => {
-                    // dispatch(setErrors(err));
+                    dispatch(setErrors(err));
                 });
         }
 
