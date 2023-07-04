@@ -1,0 +1,82 @@
+Index: client/src/components/QuickView.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useRef, useState } from \"react\";\r\nimport { FaMinus, FaPlus, FaTimes } from \"react-icons/fa\";\r\nimport { useDispatch } from \"react-redux\";\r\nimport { addToCart } from \"../store/cartSlice\";\r\nimport { priceCalculator } from \"../utility\";\r\nimport toast from \"react-hot-toast\";\r\nimport CorouselComponent from \"./CarouselComponent\";\r\nimport '../app.css'\r\nconst QuickView = ({ onClose, selectedProduct }) => {\r\n  const [quantity, setQuantity] = useState(1);\r\n  const product = selectedProduct;\r\n  const dispatch = useDispatch();\r\n\r\n  useEffect(() => {\r\n    document.body.style.overflow = \"hidden\";\r\n\r\n    return () => {\r\n      document.body.style.overflow = \"unset\";\r\n    };\r\n  }, []);\r\n\r\n  function handleDecrementQuantity() {\r\n    if (quantity > 1) {\r\n      setQuantity(quantity - 1);\r\n    }\r\n  }\r\n\r\n  function handleIncrementQuantity() {\r\n    if (quantity < product.MaxLimit || !product.MaxLimit) {\r\n      setQuantity(quantity + 1);\r\n    } else {\r\n      toast.error(`Maximum purchase quantity reached`);\r\n    }\r\n  }\r\n\r\n  function handleAddToCart() {\r\n    dispatch(addToCart({ product, quantity }));\r\n    onClose();\r\n  }\r\n\r\n    let menuRef = useRef();\r\n\r\n    useEffect(() => {\r\n        let handler = (e) => {\r\n            if (!menuRef.current.contains(e.target)) {\r\n                onClose();\r\n                console.log(menuRef.current);\r\n            }\r\n        };\r\n\r\n        document.addEventListener(\"mousedown\", handler);\r\n\r\n\r\n        return () => {\r\n            document.removeEventListener(\"mousedown\", handler);\r\n        }\r\n\r\n    });\r\n\r\n    const { Image,source } = product;\r\n\r\n\r\n    let imageNames = [];\r\n    console.log(product)\r\n    console.log(source)\r\n\r\n    const videoId = source.split('/').pop(); // Extract the video ID from the URL\r\n    const embeddedUrl = `https://www.youtube.com/embed/${videoId}?controls=0`; // Construct the embedded URL\r\n    console.log(embeddedUrl)\r\n    if (typeof Image === 'string') {\r\n        // Remove square brackets and double quotes from the string\r\n        const cleanedString = Image.replace(/[\\[\\]\"]/g, '');\r\n\r\n        // Split the cleaned string into an array of image names\r\n        imageNames = cleanedString.split(',');\r\n\r\n        // Trim whitespace from each image name\r\n        imageNames = imageNames.map((imageName) => ({ image: imageName.trim(),type:'image'}));\r\n\r\n        const newElement = { url: embeddedUrl, type: 'iframe' };\r\n        imageNames.push(newElement);\r\n    }\r\n\r\n    console.log(imageNames);\r\n    // const slides = [\r\n    //     {\r\n    //         title: 'Slide 1',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    //     {\r\n    //         title: 'Slide 2',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    //     {\r\n    //         title: 'Slide 3',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    // ];\r\n\r\n    return (\r\n        <div className=\"fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50\">\r\n            <div\r\n                ref={menuRef}\r\n                //bg-white bg-opacity-20 rounded-lg p-4 shadow-lg backdrop-filter backdrop-blur-lg\r\n                className=\"bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl\"\r\n            >\r\n                <div className=\"w-full\">\r\n                    <FaTimes\r\n                        className=\"float-right text-2xl cursor-pointer\"\r\n                        onClick={onClose}\r\n                    />\r\n                </div>\r\n                <div className=\"w-full flex flex-col md:flex-row justify-between items-center gap-1\">\r\n                    <CorouselComponent slides={imageNames}/>\r\n                    <div className=\"flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start\">\r\n                        <h2 className=\"text-xl font-bold mb-4\">{product?.Name}</h2>\r\n                        <p className=\"text-gray-400\">{product?.Description}</p>\r\n                        <div className=\"flex flex-col items-center gap-1 md:flex-row md:gap-4 text-white mt-2\">\r\n                            <b className=\"text-gray-300\">\r\n                                Price: Rs.{\" \"}\r\n                                {(\r\n                                    priceCalculator(\r\n                                        product?.RetailPrice,\r\n                                        product?.WholesalePrice,\r\n                                        quantity,\r\n                                        product?.WholesaleQty\r\n                                    ) / quantity\r\n                                ).toFixed(2)}\r\n                            </b>\r\n                            {/*<b className=\"text-gray-300\">Unit Price: Rs. {product?.WholesalePrice}</b>*/}\r\n                        </div>\r\n                        <div className=\"flex items-center  mt-2\">\r\n                            <h2 className=\"font-semibold text-[15px]\">Quantity:</h2>\r\n\r\n                            <div className=\"flex items-center gap-3 ml-2\">\r\n                <span\r\n                    className=\"p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer\"\r\n                    onClick={handleDecrementQuantity}\r\n                >\r\n                  <FaMinus />\r\n                </span>\r\n                                <span className=\"text-lg\">\r\n                  {quantity} {product.Unit}\r\n                </span>\r\n                                <span\r\n                                    className=\"p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer\"\r\n                                    onClick={handleIncrementQuantity}\r\n                                >\r\n                  <FaPlus />\r\n                </span>\r\n                            </div>\r\n                        </div>\r\n\r\n                        {/*<div className=\"flex items-center gap-2 mt-1\">*/}\r\n                        {/*    <h2 className=\"font-semibold text-[14px]\">Per {product.Unit}:</h2>*/}\r\n                        {/*    <h2 className=\"text-[16] text-gray-400\">Rs. {*/}\r\n                        {/*        priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity) / quantity*/}\r\n                        {/*    }</h2>*/}\r\n                        {/*</div>*/}\r\n\r\n                        {quantity >= 1 && (\r\n                            <div className=\"flex items-center gap-2\">\r\n                                <h2 className=\"font-semibold text-[14px]\">Discounted Price:</h2>\r\n                                <h2 className={`text-[17]`}>\r\n                                    Rs.{\" \"}\r\n                                    {priceCalculator(\r\n                                        product?.RetailPrice,\r\n                                        product?.WholesalePrice,\r\n                                        quantity,\r\n                                        product?.WholesaleQty\r\n                                    ).toFixed(2)}\r\n                                </h2>\r\n                            </div>\r\n                        )}\r\n\r\n                        <button className=\"button-73\" onClick={handleAddToCart}>\r\n                            <p className=\"text-[15px] \">Add to Cart</p>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n  );\r\n};\r\n\r\nexport default QuickView;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuickView.jsx b/client/src/components/QuickView.jsx
+--- a/client/src/components/QuickView.jsx	(revision f1c62854d30ac5293571bc894ba3d5d4373e94b7)
++++ b/client/src/components/QuickView.jsx	(date 1688037554968)
+@@ -82,20 +82,7 @@
+     }
+ 
+     console.log(imageNames);
+-    // const slides = [
+-    //     {
+-    //         title: 'Slide 1',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    //     {
+-    //         title: 'Slide 2',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    //     {
+-    //         title: 'Slide 3',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    // ];
++
+ 
+     return (
+         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
+@@ -110,9 +97,12 @@
+                         onClick={onClose}
+                     />
+                 </div>
+-                <div className="w-full flex flex-col md:flex-row justify-between items-center gap-1">
+-                    <CorouselComponent slides={imageNames}/>
+-                    <div className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
++                <div className="w-full flex flex-row md:flex-row justify-center items-center ">
++                    <div className = "flex mr-8">
++                        <CorouselComponent slides={imageNames}/>
++                    </div>
++
++                    <div className="flex flex-col justify-center w-full md:w-1/2 md:justify-center items-center md:items-start">
+                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
+                         <p className="text-gray-400">{product?.Description}</p>
+                         <div className="flex flex-col items-center gap-1 md:flex-row md:gap-4 text-white mt-2">
+Index: client/src/components/CarouselComponent.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from \"react\";\r\nimport { Carousel } from \"react-responsive-carousel\";\r\nimport \"react-responsive-carousel/lib/styles/carousel.min.css\";\r\n\r\nconst CarouselComponent = ({ slides }) => {\r\n    const sortedSlides = [...slides]; // Create a copy of the slides array\r\n    const iframeSlides = sortedSlides.filter(slide => slide.type === 'iframe'); // Filter out iframe slides\r\n    const imageSlides = sortedSlides.filter(slide => slide.type === 'image'); // Filter out image slides\r\n\r\n    // Concatenate iframe slides and image slides arrays\r\n    const sortedAndFilteredSlides = [...iframeSlides, ...imageSlides];\r\n\r\n    return (\r\n        <Carousel showArrows showThumbs={false}>\r\n            {sortedAndFilteredSlides.map((slide, index) => (\r\n                <div key={index}>\r\n                    {slide.type === 'iframe' && (\r\n                        <iframe\r\n                            src={slide.url}\r\n                            style={{ width: '400px', height: '200px' }}\r\n                            title=\"Slide Iframe\"\r\n                        />\r\n                    )}\r\n                    {slide.type === 'image' && (\r\n                        <img\r\n                            src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}\r\n                            style={{ maxWidth: '400px', maxHeight: '400px' }}\r\n                            alt=\"Slide Image\"\r\n                        />\r\n                    )}\r\n                </div>\r\n            ))}\r\n        </Carousel>\r\n    );\r\n};\r\n\r\nexport default CarouselComponent;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/CarouselComponent.jsx b/client/src/components/CarouselComponent.jsx
+--- a/client/src/components/CarouselComponent.jsx	(revision f1c62854d30ac5293571bc894ba3d5d4373e94b7)
++++ b/client/src/components/CarouselComponent.jsx	(date 1688036957022)
+@@ -11,20 +11,20 @@
+     const sortedAndFilteredSlides = [...iframeSlides, ...imageSlides];
+ 
+     return (
+-        <Carousel showArrows showThumbs={false}>
++        <Carousel showArrows showThumbs={false} useKeyboardArrows={true}  emulateTouch={true}  showStatus={true} onSwipeMove={true} dynamicHeight={true} width={300} >
+             {sortedAndFilteredSlides.map((slide, index) => (
+                 <div key={index}>
+                     {slide.type === 'iframe' && (
+                         <iframe
+                             src={slide.url}
+-                            style={{ width: '400px', height: '200px' }}
++                            style={{ width: '300px', height: '200px' }}
+                             title="Slide Iframe"
+                         />
+                     )}
+                     {slide.type === 'image' && (
+                         <img
+                             src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}
+-                            style={{ maxWidth: '400px', maxHeight: '400px' }}
++                            style={{ maxWidth: '300px', maxHeight: '400px' }}
+                             alt="Slide Image"
+                         />
+                     )}

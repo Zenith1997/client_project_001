@@ -1,0 +1,19 @@
+Index: server/database/db.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>const mysql = require(\"mysql\");\r\n\r\n// const db = mysql.createConnection({\r\n//   host: process.env.DB_HOST || \"localhost\",\r\n//   user: process.env.DB_USER || \"randcopf_zenith\",\r\n//   password: process.env.DB_PASSWORD || \"Zenith123\",\r\n//   database: process.env.DB_NAME || \"randcopf_janajaya\",\r\n//   port: process.env.DB_PORT || 3306,\r\n// });\r\nconst db = mysql.createConnection({\r\n  host: process.env.DB_HOST || \"localhost\",\r\n  user: process.env.DB_USER || \"root\",\r\n  password: process.env.DB_PASSWORD || \"Zenith1997\",\r\n  database: process.env.DB_NAME || \"janajaya\",\r\n  port: process.env.DB_PORT || 3306,\r\n});\r\n\r\ndb.connect((err) => {\r\n  if (err) {\r\n    throw err;\r\n  }\r\n  console.log(\"Database Connected!\");\r\n});\r\n\r\nmodule.exports = db;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/database/db.js b/server/database/db.js
+--- a/server/database/db.js	(revision 7e03ca774c7d55bee5fcb7008fb7747903eecaf9)
++++ b/server/database/db.js	(date 1688455868652)
+@@ -10,7 +10,7 @@
+ const db = mysql.createConnection({
+   host: process.env.DB_HOST || "localhost",
+   user: process.env.DB_USER || "root",
+-  password: process.env.DB_PASSWORD || "Zenith1997",
++  password: process.env.DB_PASSWORD || "root",
+   database: process.env.DB_NAME || "janajaya",
+   port: process.env.DB_PORT || 3306,
+ });

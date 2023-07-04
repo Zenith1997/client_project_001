@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5a61e99c-6552-47a7-a8dd-cef81996b2da" name="Changes" comment="Admin view added to web view" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="ecommerce-modification-feature-set2" />
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="ecommerce-modification-feature-set2" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Kumuthu Dulnath &lt;kumuthudulnath@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/.env" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/public/index.html" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/app.css" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/components/Header.jsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/components/Product.jsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/components/ShippingData.jsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/client/src/pages/Login.jsx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/server/controllers/slider.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/server/index.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Rbf6aOI3uE5mi5W9aJexmYVi3k" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Desktop/Freelance Work/janajaya/janajaya-master&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Desktop\Freelance Work\janajaya-master\client" />
+      <recent name="D:\Desktop\Freelance Work\janajaya-master" />
+      <recent name="D:\Desktop\Freelance Work\janajaya-master\server\public\assets" />
+      <recent name="D:\Desktop\Freelance Work\janajaya-master\server" />
+      <recent name="D:\Desktop\Freelance Work\janajaya-master\client\src\assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.config-overrides.js">
+    <configuration name="App.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/client/src/App.js" working-dir="$PROJECT_DIR$/client/src">
+      <method v="2" />
+    </configuration>
+    <configuration name="config-overrides.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/client/config-overrides.js" working-dir="$PROJECT_DIR$/client">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/server/index.js" working-dir="$PROJECT_DIR$/server">
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/client/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+        <item itemvalue="Node.js.index.js" />
+        <item itemvalue="Node.js.config-overrides.js" />
+        <item itemvalue="Node.js.App.js" />
+        <item itemvalue="Node.js.index.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5a61e99c-6552-47a7-a8dd-cef81996b2da" name="Changes" comment="" />
+      <created>1687523529098</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1687523529098</updated>
+      <workItem from="1687523531496" duration="28453000" />
+      <workItem from="1687618740261" duration="32855000" />
+      <workItem from="1687955186405" duration="65280000" />
+      <workItem from="1688181390299" duration="8710000" />
+      <workItem from="1688190414529" duration="6129000" />
+      <workItem from="1688290060089" duration="2711000" />
+      <workItem from="1688293745686" duration="40992000" />
+      <workItem from="1688434609080" duration="1583000" />
+      <workItem from="1688453056930" duration="5915000" />
+      <workItem from="1688463508108" duration="642000" />
+    </task>
+    <task id="LOCAL-00001" summary="Readme updated">
+      <created>1687527350596</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1687527350596</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Corousel component added">
+      <created>1687537947472</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1687537947472</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Glassy effect added to products view">
+      <created>1687620644328</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1687620644328</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Glassy effect added to products view">
+      <created>1687620692415</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687620692415</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Order id added to admin order list">
+      <created>1687622267031</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1687622267031</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Blurr effect added to cards">
+      <created>1687699902776</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1687699902777</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Ready for demo">
+      <created>1687718391690</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1687718391690</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Image display in carousel">
+      <created>1687989178111</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1687989178111</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Controller and view readyt for corrousel view&#10;bac and front sync successful">
+      <created>1688025413799</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1688025413800</updated>
+    </task>
+    <task id="LOCAL-00010" summary="youtube video added to corousel">
+      <created>1688030272450</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1688030272450</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Google translater adn ui fixed">
+      <created>1688342235397</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1688342235398</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Admin view added to web view">
+      <created>1688435571556</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1688435571556</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Readme updated" />
+    <MESSAGE value="Corousel component added" />
+    <MESSAGE value="Modified to upload multiple files" />
+    <MESSAGE value="Glassy effect added to products view" />
+    <MESSAGE value="Order id added to admin order list" />
+    <MESSAGE value="Blurr effect added to cards" />
+    <MESSAGE value="Ready for demo" />
+    <MESSAGE value="Image display in carousel" />
+    <MESSAGE value="Controller and view readyt for corrousel view&#10;bac and front sync successful" />
+    <MESSAGE value="youtube video added to corousel" />
+    <MESSAGE value="Google translater adn ui fixed" />
+    <MESSAGE value="Admin view added to web view" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin view added to web view" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/../../janajaya-master/server/index.js</url>
+          <line>28</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
