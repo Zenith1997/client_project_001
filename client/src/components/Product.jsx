@@ -10,6 +10,7 @@ const Product = ({ product, setSelectedProduct }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const [myArray, setMyArray] = useState([]);
+  
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity: quantity }));
     // toast.success(`${product.Name} added to cart`);

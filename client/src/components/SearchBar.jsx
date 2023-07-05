@@ -14,11 +14,6 @@ const SearchBar = () => {
 
     const handleSearch = (e) => {
 
-        
-
-        
-            
-
         switch (location.pathname) {
             case "/":
             case "/admin/products":

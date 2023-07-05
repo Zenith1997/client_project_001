@@ -83,8 +83,12 @@ const Orders = () => {
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleChange = () => {
-        
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setSelectedOrder(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     }
 
     if (error) {
@@ -254,7 +258,7 @@ const Orders = () => {
                                     <tr>
                                         <th>Name :</th>
                                         <td><input
-                                            name="userName"
+                                            name="UserName"
                                             className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
                                             type="text"
                                             placeholder="Enter Customer Name"
@@ -266,7 +270,7 @@ const Orders = () => {
                                     <tr>
                                         <th>Email :</th>
                                         <td><input
-                                            name="email"
+                                            name="Email"
                                             className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
                                             type="text"
                                             placeholder="Enter Email"
@@ -278,7 +282,7 @@ const Orders = () => {
                                     <tr>
                                         <th>Phone :</th>
                                         <td><input
-                                            name="phone"
+                                            name="ContactNo"
                                             className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
                                             type="text"
                                             placeholder="Enter Contact Number"
@@ -290,7 +294,7 @@ const Orders = () => {
                                     <tr>
                                         <th>Address :</th>
                                         <td><input
-                                            name="address"
+                                            name="ShippingAdress"
                                             className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
                                             type="text"
                                             placeholder="Enter Shipping Adress"
@@ -306,7 +310,7 @@ const Orders = () => {
                                     <tr>
                                         <th>Note :</th>
                                         <td><input
-                                            name="note"
+                                            name="Note"
                                             className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
                                             type="text"
                                             placeholder="Delivery Notes"
