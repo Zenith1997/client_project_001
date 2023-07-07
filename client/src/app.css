@@ -9,11 +9,12 @@
 }
 
 .home {
-    background-image: url("https://janajaya.lk/api/assets/background1.jpg");
+
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
+    margin-top: -40px;
 }
 
 
@@ -65,4 +66,8 @@
     top: 16%;
     display: flex;
     position: fixed;
+}
+.skiptranslate{
+    display: none;
+    height: 0px;
 }

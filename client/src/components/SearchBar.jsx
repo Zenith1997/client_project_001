@@ -67,11 +67,13 @@ const SearchBar = () => {
         <form className="flex items-center" onSubmit={handleSearch}>
             <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search......."
                 onChange={handleSearch}
-                className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
+                className="border bg-transparent text-white border-gray-300 rounded-lg px-4 py-1 mr-2 focus:outline-blue focus:ring focus:border-blue-500 placeholder-white
+        sm:w-40" // Add sm:w-56 to set the width to 56 units in small screens
             />
         </form>
+
     );
 }
 
