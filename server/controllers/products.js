@@ -92,7 +92,7 @@ if(images.length>1){
       desc,
       retailPrice,
       wholesalePrice,
-      req.file.filename,
+      req.file,
       quantity,
       unit,
       maxLimit || 0,

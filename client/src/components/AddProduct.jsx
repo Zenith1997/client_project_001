@@ -3,7 +3,6 @@ import { FaTimes } from 'react-icons/fa';
 import Input from './Input';
 import { useSelector } from "react-redux";
 import axios from 'axios';
-import Product from './Product';
 const MAX_COUNT = 5;
 const initialProductsData = {
     name: '',
@@ -19,14 +18,16 @@ const initialProductsData = {
 };
 
 const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
-    const [uploadedFiles, setUploadedFiles] = useState([])
+    const [uploadedFiles, setUploadedFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
-    const [fileLimit, setFileLimit] = useState(false);
-    const { products } = useSelector((state) => state.products);
-    const [productsData, setProductsData] = useState(initialProductsData);
+    const [fileLimit, setFileLimit] = useState();
     const [isPriorityTaken, setIsPriorityTaken] = useState(false);
-    const { name, desc, url, retailPrice, wholesalePrice, quantity, unit, maxLimit, priority } = productsData;
+    const [productsData, setProductsData] = useState(initialProductsData);
+    const { products } = useSelector((state) => state.products);
+    const [isTaken, setIsTaken] = useState(false);
+    const {name, desc, retailPrice,url, wholesalePrice, quantity, unit, maxLimit, priority} = productsData;
     const [file, setFile] = useState(null);
+    const [disabled,setDisabled] = useState(false)
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -72,12 +73,38 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
         };
     });
 
+
     function handleChange(e) {
-        const { name, value } = e.target;
+
+        const {name, value} = e.target;
+
         setProductsData({
             ...productsData,
             [name]: value,
         });
+        // if(products.priority.includes(priority)){
+        //     setIsTaken(true);
+        // }else{
+        //     setIsTaken(false);
+        // }
+const x = []
+        console.log(e.target.priority)
+        products.forEach((i)=>{
+            console.log(i.priority)
+        x.push(i.priority)
+        })
+        console.log(x)
+
+        const { priority: productPriority } = productsData;
+
+        if(x.includes(parseInt(productPriority))){
+            console.log("Found")
+            setIsTaken(true)
+        }else{
+            console.log("Not available")
+            setIsTaken(false)
+        }
+
     }
 
     function handleImageUpload(e) {
@@ -160,7 +187,34 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
     const handleFileSelect = (event) => {
         const files = Array.from(event.target.files);
         const updatedSelectedFiles = [...selectedFiles, ...files];
+        const selectedCount = selectedFiles.length;
         setSelectedFiles(updatedSelectedFiles);
+        const countFile = event.target.files;
+
+        if (selectedCount + files.length > 4) {
+            console.log(selectedFiles)
+            console.log(selectedCount)
+
+
+           //  const val = (selectedCount+files.length-5)
+           //
+           //  const fileArray = Array.from(countFile);
+           //  fileArray.splice(-val);
+           // countFile= FileList(fileArray)
+            // Display error message or prevent further file selection
+            console.log('File limit reached. Maximum 5 files allowed.');
+            setDisabled(true)
+            return;
+        }else{
+            setDisabled(false)
+        }
+    };
+
+    const handleRemoveFile = (file,e) => {
+e.preventDefault()
+        const updatedSelectedFiles = selectedFiles.filter((selectedFile) => selectedFile !== file);
+        setSelectedFiles(updatedSelectedFiles);
+        setDisabled(false)
     };
     return (
         <div className="fixed max-h-screen inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4">
@@ -248,6 +302,14 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                             onChange={handleChange}
                         />
                     </div>
+                    {isTaken ? (
+                        <div>
+                            <h1 style={{ color: 'red' }}>Priority number  {priority} is already taken by a product</h1>
+                        </div>
+                    ) : (
+                   <></>
+                    )}
+
                     {actionType === 'add' && (
                         <div className="w-full flex flex-col md:flex-row justify-between items-center gap-x-4">
                             <input
@@ -257,9 +319,34 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                                 placeholder="Enter your image"
                                 onChange={handleFileSelect}
                                 multiple
-
+                                max={MAX_COUNT}
+                                disabled={disabled}
                             />
                         </div>)}
+                    {selectedFiles.length > 0 && (
+                        <div className="">
+
+                            <ul className="mb-4 space-y-2">
+
+                                {selectedFiles.map((file, index) => (
+                                    <>
+                                        <li key={index} className="flex items-center">
+                                            <button
+                                                className="ml-2 mr-4 text-red-500 hover:text-red-700"
+                                                onClick={(e) => handleRemoveFile(file,e)}
+                                            >
+                                                Remove
+                                            </button>
+                                            <span>{(file.name)}</span>
+
+
+                                        </li>
+                                    </>
+
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                     <div>
                         {/*<Input*/}
                         {/*    label="Video upload"*/}
@@ -316,6 +403,7 @@ const AddProduct = ({ setAddProduct, actionType, selectedProduct }) => {
                         Submit
                     </button>
                 </form>
+
             </div>
         </div>
     );
