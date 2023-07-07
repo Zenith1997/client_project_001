@@ -8,9 +8,11 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 
+
 function App() {
+
     return (
-        <div className="App">
+        <div  className="App">
             <Routes>
                 <Route exact path="/" element={<Home/>}/>
                 <Route path={"/admin/*"} element={<Admin/>}/>

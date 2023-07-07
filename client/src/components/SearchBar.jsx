@@ -74,7 +74,7 @@ const SearchBar = () => {
                 type="text"
                 placeholder="Search..."
                 onChange={handleSearch}
-                className="border border-gray-300 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring focus:border-blue-500"
+                className="border bg-transparent text-white border-gray-300 rounded-lg px-14 py-1 mr-2 focus:outline-blue focus:ring focus:border-blue-500"
             />
         </form>
     );
