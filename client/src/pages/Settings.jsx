@@ -72,7 +72,7 @@ const Settings = () => {
         formData.append("image", file);
 
         await axios
-            .post(`${process.env.REACT_APP_BASE_URL}/slider/add`, formData, {
+            .post(`${process.env.REACT_APP_BASE_URL}/backgroundimage/add`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

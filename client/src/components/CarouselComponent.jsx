@@ -11,13 +11,13 @@ const CarouselComponent = ({ slides }) => {
     const sortedAndFilteredSlides = [...iframeSlides, ...imageSlides];
 
     return (
-        <Carousel showArrows showThumbs={false} useKeyboardArrows={true}  emulateTouch={true}  showStatus={true} dynamicHeight={true} width={300} >
+        <Carousel showArrows showThumbs={false} useKeyboardArrows={true}  centerSlidePercentage={10} emulateTouch={true}  showStatus={true}  width={300} >
             {sortedAndFilteredSlides.map((slide, index) => (
                 <div key={index}>
                     {slide.type === 'iframe' && (
                         <iframe
                             src={slide.url}
-                            style={{ width: '300px', height: '200px' }}
+                            style={{ width: '240px', height: '200px' }}
                             title="Slide Iframe"
                         />
                     )}

@@ -28,13 +28,13 @@ const Admin = () => {
   return (
     <div className="w-full bg-gray-800 min-h-screen">
       <Header />
-      <div className="container mx-auto mt-20 py-4 px-2">
+      <div className="container mx-auto mt-0 py-24 px-2">
         <Routes>
           <Route path={"/"} element={<Orders />} />
           <Route path={"/orders"} element={<Orders />} />
           <Route path={"/products"} element={<Products />} />
           <Route path={"/slider"} element={<Slider />} />
-            <Route path={"/settings"} element={<Settings />} />
+          <Route path={"/settings"} element={<Settings />} />
         </Routes>
       </div>
     </div>

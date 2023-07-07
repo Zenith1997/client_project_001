@@ -35,9 +35,14 @@ const Home = () => {
   function handleImageClick() {
     setImageVisible(false);
   }
+  const backgroundImageUrl = `${process.env.REACT_APP_BASE_URL}/assets/image/backgroundImage.png`;
 
   return (
-      <div   id='google_translate_element' className="w-full h-full bg-gray-800 home">
+      <div   className="w-full h-full bg-gray-800 home" style={{backgroundImage: `url(${backgroundImageUrl})`,
+
+      }}
+             className="home"
+      > >
         <Header setViewCart={setViewCart} />
         <HeroBanner />
         <Products />
