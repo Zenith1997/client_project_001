@@ -28,7 +28,7 @@ const Admin = () => {
   return (
     <div className="w-full bg-gray-800 min-h-screen">
       <Header />
-      <div className="container mx-auto mt-0 py-24 px-2">
+      <div className="container mx-auto mt- py-24 px-2">
         <Routes>
           <Route path={"/"} element={<Orders />} />
           <Route path={"/orders"} element={<Orders />} />
