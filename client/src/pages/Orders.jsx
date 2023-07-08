@@ -15,6 +15,7 @@ const Orders = () => {
   const { filteredOrders } = useSelector((state) => state.filteredOrders);
   const filteredOrdersList = filteredOrders?.orders;
   const [modelType, setModelType] = useState("");
+  const [isEditDisabled, setIsEditDisabled] = useState(true);
   const [showModel, setShowModel] = useState(false);
   const [status, setStatus] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -73,12 +74,16 @@ const Orders = () => {
     fetchOrders();
   }, [updateStatus]);
 
+  const enableEdit = (event) =>{
+    event.preventDefault();
+    setIsEditDisabled(!isEditDisabled);
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setSelectedOrder(prevState => ({
-        ...prevState,
-        [name]: value
+      ...prevState,
+      [name]: value
     }));
   }
 
@@ -273,78 +278,83 @@ const Orders = () => {
           <div className="w-full flex justify-center items-center">
             <div className="w-full">
               <div className="w-full text-left">
-              <table
-                                    className='w-full'
-                                >
-                                    <tr>
-                                        <th>Order ID :</th>
-                                        <td>{selectedOrder.OrderID}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Name :</th>
-                                        <td><input
-                                            name="UserName"
-                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                                            type="text"
-                                            placeholder="Enter Customer Name"
-                                            required={true}
-                                            value={selectedOrder.UserName}
-                                            onChange={handleChange}
-                                        /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Email :</th>
-                                        <td><input
-                                            name="Email"
-                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                                            type="text"
-                                            placeholder="Enter Email"
-                                            required={false}
-                                            value={selectedOrder?.Email}
-                                            onChange={handleChange}
-                                        /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Phone :</th>
-                                        <td><input
-                                            name="ContactNo"
-                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                                            type="text"
-                                            placeholder="Enter Contact Number"
-                                            required={true}
-                                            value={selectedOrder.ContactNo}
-                                            onChange={handleChange}
-                                        /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Address :</th>
-                                        <td><input
-                                            name="ShippingAdress"
-                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                                            type="text"
-                                            placeholder="Enter Shipping Adress"
-                                            required={true}
-                                            value={selectedOrder.ShippingAddress}
-                                            onChange={handleChange}
-                                        /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Status :</th>
-                                        <td>{selectedOrder.Status}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Note :</th>
-                                        <td><input
-                                            name="Note"
-                                            className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                                            type="text"
-                                            placeholder="Delivery Notes"
-                                            required={false}
-                                            value={selectedOrder?.Note}
-                                            onChange={handleChange}
-                                        /></td>
-                                    </tr>
-                                </table>
+                <table
+                  className='w-full'
+                >
+                  <tr>
+                    <th>Order ID :</th>
+                    <td>{selectedOrder.OrderID}</td>
+                  </tr>
+                  <tr>
+                    <th>Name :</th>
+                    <td><input
+                      name="UserName"
+                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                      type="text"
+                      disabled={isEditDisabled}
+                      placeholder="Enter Customer Name"
+                      required={true}
+                      value={selectedOrder.UserName}
+                      onChange={handleChange}
+                    /></td>
+                  </tr>
+                  <tr>
+                    <th>Email :</th>
+                    <td><input
+                      name="Email"
+                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                      type="text"
+                      disabled={isEditDisabled}
+                      placeholder="Enter Email"
+                      required={false}
+                      value={selectedOrder?.Email}
+                      onChange={handleChange}
+                    /></td>
+                  </tr>
+                  <tr>
+                    <th>Phone :</th>
+                    <td><input
+                      name="ContactNo"
+                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                      type="text"
+                      disabled={isEditDisabled}
+                      placeholder="Enter Contact Number"
+                      required={true}
+                      value={selectedOrder.ContactNo}
+                      onChange={handleChange}
+                    /></td>
+                  </tr>
+                  <tr>
+                    <th>Address :</th>
+                    <td><input
+                      name="ShippingAdress"
+                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                      type="text"
+                      disabled={isEditDisabled}
+                      placeholder="Enter Shipping Adress"
+                      required={true}
+                      value={selectedOrder.ShippingAddress}
+                      onChange={handleChange}
+                    /></td>
+                  </tr>
+                  <tr>
+                    <th>Status :</th>
+                    <td>{selectedOrder.Status}</td>
+                  </tr>
+                  <tr>
+                    <th>Note :</th>
+                    <td><input
+                      name="Note"
+                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
+                      type="text"
+                      disabled={isEditDisabled}
+                      placeholder="Delivery Notes"
+                      required={false}
+                      value={selectedOrder?.Note}
+                      onChange={handleChange}
+                    /></td>
+                  </tr>
+                </table>
                 <div className="w-full">
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
                     Order Items
