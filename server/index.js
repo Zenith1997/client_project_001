@@ -39,6 +39,20 @@ const config = multer.diskStorage({
   },
 });
 
+
+const config2= multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/assets/image");
+  },
+  filename: (req, file, cb) => {
+    const fileName = "backgroundImage.png"; // Set the filename to "backgroundImage.png"
+    cb(null, fileName);
+  },
+});
+const upload2 = multer({
+  storage: config2,
+});
+
 const upload = multer({
   storage: config,
 });
@@ -52,6 +66,7 @@ app.post("/products/add", upload.array("image",6),addProduct);
 app.use("/orders", ordersRouter);
 app.use("/slider", sliderRouter);
 app.post("/slider/add", upload.single("image"),addSlider);
+app.post("/backgroundimage/add", upload2.single("image"));
 app.get("*", (req, res) => {
   res.status(404).json("Not Found");
 });

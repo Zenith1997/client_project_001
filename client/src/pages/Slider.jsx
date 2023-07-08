@@ -5,6 +5,7 @@ import Input from "../components/Input";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSliders } from "../store/sliderSlice";
+import { setFilteredSliders } from "../store/filteredSliderSlice";
 import toast from "react-hot-toast";
 
 const initialSlideData = {
@@ -17,6 +18,7 @@ const initialSlideData = {
 const Slider = () => {
   const dispatch = useDispatch();
   const { sliders } = useSelector((state) => state.slider);
+  const {filteredSliders} = useSelector((state) => state.filteredSliders);
   const [showModel, setShowModel] = React.useState(false);
   const [slideData, setSlideData] = React.useState(initialSlideData);
   const { title, description, buttonText, buttonLink } = slideData;
@@ -39,6 +41,7 @@ const Slider = () => {
         .get(`${process.env.REACT_APP_BASE_URL}/slider`)
         .then((res) => {
           dispatch(setSliders(res.data));
+          dispatch(setFilteredSliders(res.data));
         })
         .catch((err) => {
           console.log(err);
@@ -46,7 +49,7 @@ const Slider = () => {
     }
 
     fetchSlider();
-  }, [handleDelete, handleSubmit]);
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -131,7 +134,7 @@ const Slider = () => {
                 </tr>
               </thead>
               <tbody>
-                {sliders.map((slider) => (
+                {filteredSliders.map((slider) => (
                   <tr
                     className="bg-gray-700 text-white font-normal mb-0 hover:bg-gray-600 duration-150 text-sm"
                     key={slider.id}

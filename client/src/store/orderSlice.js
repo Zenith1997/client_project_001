@@ -17,7 +17,7 @@ const orderSlice = createSlice({
             },
 
             setErrors: (state, action) => {
-                state.loading = false;
+                state.loading = true;
                 state.error = action.payload;
             }
         }

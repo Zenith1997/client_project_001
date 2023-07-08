@@ -4,14 +4,14 @@ import { BsCartFill } from "react-icons/bs";
 import { IoMdExit } from "react-icons/io";
 import {NavLink, useLocation} from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import {FaRegSun} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
 import logo from "../assets/janajaya.png";
 import logoWhite from "../assets/janajayaWhite.png";
 import phone from "../assets/phone.png";
 import { setFilteredProducts } from '../store/filteredProductSlice';
 import {FcSearch} from "react-icons/fc";
-import {FcCancel} from "react-icons/fc";
-
+import SearchBar from "./SearchBar";
 import googleTranslateElementInit from "./googleTranslateElementInit";
 
 const Header = ({ setViewCart }) => {
@@ -60,7 +60,7 @@ const Header = ({ setViewCart }) => {
   const isMobileView = window.innerWidth <= 600;
 
   return (
-    <div  className=" w-full bg-gray-900 shadow-lg opacity-90 sticky top-0 z-10 ">
+    <div  className="  w-full bg-transparent shadow-lg opacity-90  top-0 z-10  opacity-80 fixed">
 
 
 
@@ -133,48 +133,13 @@ const Header = ({ setViewCart }) => {
 
                         <div className=" flex rounded-lg w-40 h-20  mt-8 hover:bg-gray-800">
                             <a href="/" className="text-xl font-bold text-white ">
-                                <img src={logoWhite} alt="Janajaya" className="" />
+                                <img src={logoWhite} alt="Janajaya" />
                             </a>
 
                         </div>
-
-                        <div className="flex "   style={{
-                            position: 'relative',
-                            top: '30%',
-                            left:"15%"
-
-                        }}>
-                            <form className="flex items-center" onSubmit={handleSearch}>
-
-                                <input
-                                    style={{width:"140px",position:"relative",right:"50px",top:"10px"}}
-                                    type="text"
-                                    placeholder=""
-                                    onChange={handleChange}
-                                    onKeyDown={handleSearch}
-                                    value={searchTerm}
-                                    className="border border-gray-300 pl-6  mt-1 opacity-.5  text-white rounded-lg bg-transparent  px-8 py-1 ml-2 focus:outline-none focus:ring-2 focus:ring-white"
-                                />
-                                { !searchTerm&&<FcSearch style={{
-                                    position: 'relative',
-                                    right: '100%',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)'
-                                }}/>}
-                                {searchTerm && (
-                                    <p
-                                        className="absolute  font-light  transform -translate-y-1/2 focus:outline-none text-white px-3 py-0.5 rounded-lg"
-                                        style={{ position: 'relative', left: '-20%', top: '65%', transform: 'translateY(-50%)' ,width:'100px'}}
-                                        onClick={clearSearchTerm}
-                                    >
-                                        Clear
-                                    </p>
-
-                                )}
-                            </form>
-                        </div>
+                        <SearchBar/>
                         <div
-                            className="flex w-14 h-12 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                            className="flex w-14 h-12 rounded-lg  cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
                         >
                             <button className="relative">
@@ -196,46 +161,15 @@ const Header = ({ setViewCart }) => {
 
 
                 <><div className='flex justify-between items-center'>
-
-                    <div className=" flex rounded-lg w-40 h-20 hover:bg-gray-800">
-                        <a href="/" className="text-xl font-bold text-white ">
+                    <div className="flex ml-4 rounded-lg w-40 h-15" >
+                        <a href="/" className="text-xl font-bold text-white">
                             <img src={logoWhite} alt="Janajaya" className="w-50" />
                         </a>
-
                     </div>
 
-                    <div className="flex">
-                        <form className="flex items-center" onSubmit={handleSearch}>
-
-                            <input
-
-                                type="text"
-                                placeholder=""
-                                onChange={handleChange}
-                                onKeyDown={handleSearch}
-                                value={searchTerm}
-                                className="border border-gray-300 pl-16  mt-1 opacity-.5  text-white rounded-lg bg-transparent  px-28 py-1 ml-2 focus:outline-none focus:ring-2 focus:ring-white"
-                            />
-                            { !searchTerm&&<FcSearch style={{
-                                position: 'relative',
-                                right: '90%',
-                                top: '35%',
-                                transform: 'translateY(-50%)'
-                            }}/>}
-                            {searchTerm && (
-                                <button
-                                    className="absolute  font-light  transform -translate-y-1/2 focus:outline-none bg-red-500 text-white px-3 py-0.5 rounded-lg"
-                                    style={{ position: 'relative', right: '22%', top: '45%', transform: 'translateY(-50%)' ,width:'100px'}}
-                                    onClick={clearSearchTerm}
-                                >
-                                    Clear
-                                </button>
-
-                            )}
-                        </form>
-                    </div>
+                    <SearchBar/>
                     {!isAdmin?(   <div className="flex">
-                        <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
+                        <div className="flex w-14 h-14 rounded-lg  cursor-pointer grid place-items-center">
 
                             <a
                                 href="https://wa.me/+94711076474"
@@ -250,7 +184,7 @@ const Header = ({ setViewCart }) => {
                                 />
                             </a>
                         </div>
-                        <div className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center">
+                        <div className="flex w-14 h-14 rounded-lg cursor-pointer grid place-items-center">
                             <a
                                 href="tel:+94711076474"
                                 target="_blank"
@@ -260,7 +194,7 @@ const Header = ({ setViewCart }) => {
                             </a>
                         </div>
                         <div
-                            className="flex w-14 h-14 rounded-lg bg-gray-900 hover:bg-gray-800 cursor-pointer grid place-items-center"
+                            className="flex w-14 h-14 rounded-lg  cursor-pointer grid place-items-center"
                             onClick={() => setViewCart(true)}
                         >
                             <button className="relative">
@@ -275,7 +209,7 @@ const Header = ({ setViewCart }) => {
                             onClick={() => setViewMenu(!viewMenu)}
                             className="text-white px-4 capitalize font-semibold hover:text-gray-300 cursor-pointer flex items-center gap-2"
                         >
-                            {userName} <FaBars />
+                             <FaBars />
                         </div>
                         {viewMenu && (
                             <div className="absolute top-10 right-0 bg-gray-800 w-32 py-2 rounded shadow-lg">
@@ -319,12 +253,25 @@ const Header = ({ setViewCart }) => {
                                     >
                                         Slider
                                     </NavLink>
+                                    <NavLink
+                                        className={({ isActive, isPending }) =>
+                                            isPending
+                                                ? "text-white"
+                                                : isActive
+                                                    ? "text-gray-400"
+                                                    : "text-white"
+                                        }
+                                        to="/admin/settings"
+                                        onClick={() => setViewMenu(false)}
+                                    ><FaRegSun/>
+                                    </NavLink>
                                     <button
                                         className="relative text-white cursor-pointer flex items-center gap-2 mb-2"
                                         onClick={() => handleLogout()}
                                     >
                                         LogOut <IoMdExit className="text-white text-lg" />
                                     </button>
+
                                 </div>
                             </div>
                         )}
