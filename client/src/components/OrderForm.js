@@ -39,15 +39,14 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           id="id"
           type="text"
           value={id}
-          disabled={isDisabled}
+          disabled={true}
           onChange={handleChange}
           style={{
             backgroundColor: "transparent",
-            borderColor: isDisabled ? "transparent" : "white",
+            borderColor: isDisabled ? "transparent" : "transparent",
             borderWidth: "1px",
             borderStyle: "solid",
             paddingLeft: "10px",
-            borderRadius: "5px",
           }}
         />
       </div>
