@@ -40,6 +40,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={id}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
@@ -59,6 +60,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={name}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
@@ -78,6 +80,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={email}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
@@ -97,6 +100,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={phone}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
@@ -116,6 +120,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={address}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
@@ -134,6 +139,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           id="status"
           type="text"
           value={selectedOrder.Status}
+          onChange={handleChange}
           disabled={isDisabled}
           style={{
             backgroundColor: "transparent",
@@ -154,6 +160,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           type="text"
           value={note}
           disabled={isDisabled}
+          onChange={handleChange}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "white",
