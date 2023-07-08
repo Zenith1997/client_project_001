@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import Model from "../components/Model";
 import { FaPrint, FaTimes } from "react-icons/fa";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
+import { FaEdit } from "react-icons/fa";
+import OrderForm from "../components/OrderForm";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ const Orders = () => {
   const [showModel, setShowModel] = useState(false);
   const [status, setStatus] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-
+  const [edit, setEdit] = useState(true);
   console.log(selectedOrder);
 
   const handleOpenModel = () => {
@@ -74,7 +76,7 @@ const Orders = () => {
     fetchOrders();
   }, [updateStatus]);
 
-  const enableEdit = (event) =>{
+  const enableEdit = (event) => {
     event.preventDefault();
     setIsEditDisabled(!isEditDisabled);
   }
@@ -109,7 +111,22 @@ const Orders = () => {
       </div>
     );
   }
+  const CustomButton = ({ handleCloseModel, setEdit }) => {
+    const handleClick = () => {
+      handleCloseModel();
+      setEdit(true);
+    };
 
+    return (
+      <button
+        className="flex items-center gap-3 bg-red-500 py-2 px-4 rounded ml-4"
+        onClick={handleClick}
+      >
+        <FaTimes />
+        Close
+      </button>
+    );
+  };
   return (
     <div>
       {/* Order List */}
@@ -272,89 +289,21 @@ const Orders = () => {
 
       {showModel && modelType === "view" && (
         <Model onClose={handleCloseModel}>
+          <button
+            className="flex items-center gap-3 bg-green-500 py-2 px-4 rounded ml-4"
+            onClick={() => setEdit(false)}
+          >
+            <FaEdit />
+            Edit
+          </button>
           <h2 className="min-w-[250px] md:min-w-[500px] text-lg font-bold text-gray-400 mb-2 text-center">
             Order Details
           </h2>
           <div className="w-full flex justify-center items-center">
             <div className="w-full">
               <div className="w-full text-left">
-                <table
-                  className='w-full'
-                >
-                  <tr>
-                    <th>Order ID :</th>
-                    <td>{selectedOrder.OrderID}</td>
-                  </tr>
-                  <tr>
-                    <th>Name :</th>
-                    <td><input
-                      name="UserName"
-                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                      type="text"
-                      disabled={isEditDisabled}
-                      placeholder="Enter Customer Name"
-                      required={true}
-                      value={selectedOrder.UserName}
-                      onChange={handleChange}
-                    /></td>
-                  </tr>
-                  <tr>
-                    <th>Email :</th>
-                    <td><input
-                      name="Email"
-                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                      type="text"
-                      disabled={isEditDisabled}
-                      placeholder="Enter Email"
-                      required={false}
-                      value={selectedOrder?.Email}
-                      onChange={handleChange}
-                    /></td>
-                  </tr>
-                  <tr>
-                    <th>Phone :</th>
-                    <td><input
-                      name="ContactNo"
-                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                      type="text"
-                      disabled={isEditDisabled}
-                      placeholder="Enter Contact Number"
-                      required={true}
-                      value={selectedOrder.ContactNo}
-                      onChange={handleChange}
-                    /></td>
-                  </tr>
-                  <tr>
-                    <th>Address :</th>
-                    <td><input
-                      name="ShippingAdress"
-                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                      type="text"
-                      disabled={isEditDisabled}
-                      placeholder="Enter Shipping Adress"
-                      required={true}
-                      value={selectedOrder.ShippingAddress}
-                      onChange={handleChange}
-                    /></td>
-                  </tr>
-                  <tr>
-                    <th>Status :</th>
-                    <td>{selectedOrder.Status}</td>
-                  </tr>
-                  <tr>
-                    <th>Note :</th>
-                    <td><input
-                      name="Note"
-                      className="bg-gray-500 text-white border border-gray-700 rounded w-full min-w-[275px] px-3 focus:outline-none focus:border-gray-500"
-                      type="text"
-                      disabled={isEditDisabled}
-                      placeholder="Delivery Notes"
-                      required={false}
-                      value={selectedOrder?.Note}
-                      onChange={handleChange}
-                    /></td>
-                  </tr>
-                </table>
+                <OrderForm selectedOrder={selectedOrder} isDisabled={edit} />
+
                 <div className="w-full">
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
                     Order Items
@@ -393,13 +342,10 @@ const Orders = () => {
                     <FaPrint />
                     Print
                   </button>
-                  <button
-                    className="flex items-center gap-3 bg-red-500 py-2 px-4 rounded ml-4"
-                    onClick={handleCloseModel}
-                  >
-                    <FaTimes />
-                    Close
-                  </button>
+                  <CustomButton
+                    handleCloseModel={handleCloseModel}
+                    setEdit={setEdit}
+                  />
                 </div>
               </div>
             </div>
