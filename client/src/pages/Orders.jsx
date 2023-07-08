@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import Model from "../components/Model";
 import { FaPrint, FaTimes } from "react-icons/fa";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
+import { FaEdit } from "react-icons/fa";
+import OrderForm from "../components/OrderForm";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const Orders = () => {
   const [showModel, setShowModel] = useState(false);
   const [status, setStatus] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-
+  const [edit, setEdit] = useState(true);
   console.log(selectedOrder);
 
   const handleOpenModel = () => {
@@ -95,7 +97,22 @@ const Orders = () => {
       </div>
     );
   }
+  const CustomButton = ({ handleCloseModel, setEdit }) => {
+    const handleClick = () => {
+      handleCloseModel();
+      setEdit(true);
+    };
 
+    return (
+      <button
+        className="flex items-center gap-3 bg-red-500 py-2 px-4 rounded ml-4"
+        onClick={handleClick}
+      >
+        <FaTimes />
+        Close
+      </button>
+    );
+  };
   return (
     <div>
       {/* Order List */}
@@ -258,42 +275,20 @@ const Orders = () => {
 
       {showModel && modelType === "view" && (
         <Model onClose={handleCloseModel}>
+          <button
+            className="flex items-center gap-3 bg-green-500 py-2 px-4 rounded ml-4"
+            onClick={() => setEdit(false)}
+          >
+            <FaEdit />
+            Edit
+          </button>
           <h2 className="min-w-[250px] md:min-w-[500px] text-lg font-bold text-gray-400 mb-2 text-center">
             Order Details
           </h2>
           <div className="w-full flex justify-center items-center">
             <div className="w-full">
               <div className="w-full text-left">
-                <table className="w-full">
-                  <tr>
-                    <th>Order ID :</th>
-                    <td>{selectedOrder.OrderID}</td>
-                  </tr>
-                  <tr>
-                    <th>Name :</th>
-                    <td>{selectedOrder.UserName}</td>
-                  </tr>
-                  <tr>
-                    <th>Email :</th>
-                    <td>{selectedOrder?.Email}</td>
-                  </tr>
-                  <tr>
-                    <th>Phone :</th>
-                    <td>{selectedOrder.ContactNo}</td>
-                  </tr>
-                  <tr>
-                    <th>Address :</th>
-                    <td>{selectedOrder.ShippingAddress}</td>
-                  </tr>
-                  <tr>
-                    <th>Status :</th>
-                    <td>{selectedOrder.Status}</td>
-                  </tr>
-                  <tr>
-                    <th>Note :</th>
-                    <td>{selectedOrder?.Note}</td>
-                  </tr>
-                </table>
+                <OrderForm selectedOrder={selectedOrder} isDisabled={edit} />
 
                 <div className="w-full">
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
@@ -333,13 +328,10 @@ const Orders = () => {
                     <FaPrint />
                     Print
                   </button>
-                  <button
-                    className="flex items-center gap-3 bg-red-500 py-2 px-4 rounded ml-4"
-                    onClick={handleCloseModel}
-                  >
-                    <FaTimes />
-                    Close
-                  </button>
+                  <CustomButton
+                    handleCloseModel={handleCloseModel}
+                    setEdit={setEdit}
+                  />
                 </div>
               </div>
             </div>
