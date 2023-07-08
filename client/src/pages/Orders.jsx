@@ -30,6 +30,7 @@ const Orders = () => {
 
   const handleCloseModel = () => {
     setShowModel(false);
+    setEdit(true);
   };
 
   const updateHandler = (id) => {
@@ -114,7 +115,8 @@ const Orders = () => {
   const CustomButton = ({ handleCloseModel, setEdit }) => {
     const handleClick = () => {
       handleCloseModel();
-      setEdit(true);
+
+      setEdit(!edit);
     };
 
     return (
@@ -291,7 +293,7 @@ const Orders = () => {
         <Model onClose={handleCloseModel}>
           <button
             className="flex items-center gap-3 bg-green-500 py-2 px-4 rounded ml-4"
-            onClick={() => setEdit(false)}
+            onClick={() => setEdit(!edit)}
           >
             <FaEdit />
             Edit

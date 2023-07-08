@@ -1,0 +1,257 @@
+Index: client/src/components/QuickView.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useRef, useState } from \"react\";\r\nimport { FaMinus, FaPlus, FaTimes } from \"react-icons/fa\";\r\nimport { useDispatch } from \"react-redux\";\r\nimport { addToCart } from \"../store/cartSlice\";\r\nimport { priceCalculator } from \"../utility\";\r\nimport toast from \"react-hot-toast\";\r\nimport CorouselComponent from \"./CarouselComponent\";\r\n\r\nconst QuickView = ({ onClose, selectedProduct }) => {\r\n  const [quantity, setQuantity] = useState(1);\r\n  const product = selectedProduct;\r\n  const dispatch = useDispatch();\r\n\r\n  useEffect(() => {\r\n    document.body.style.overflow = \"hidden\";\r\n\r\n    return () => {\r\n      document.body.style.overflow = \"unset\";\r\n    };\r\n  }, []);\r\n\r\n  function handleDecrementQuantity() {\r\n    if (quantity > 1) {\r\n      setQuantity(quantity - 1);\r\n    }\r\n  }\r\n\r\n  function handleIncrementQuantity() {\r\n    if (quantity < product.MaxLimit || !product.MaxLimit) {\r\n      setQuantity(quantity + 1);\r\n    } else {\r\n      toast.error(`Maximum purchase quantity reached`);\r\n    }\r\n  }\r\n\r\n  function handleAddToCart() {\r\n    dispatch(addToCart({ product, quantity }));\r\n    onClose();\r\n  }\r\n\r\n    let menuRef = useRef();\r\n\r\n\r\n    useEffect(() => {\r\n        let handler = (e) => {\r\n            if (!menuRef.current.contains(e.target)) {\r\n                onClose();\r\n                console.log(menuRef.current);\r\n            }\r\n        };\r\n\r\n        document.addEventListener(\"mousedown\", handler);\r\n\r\n\r\n        return () => {\r\n            document.removeEventListener(\"mousedown\", handler);\r\n        }\r\n\r\n    });\r\n\r\n    const { Image } = product;\r\n    let imageNames = [];\r\n\r\n    if (typeof Image === 'string') {\r\n        // Remove square brackets and double quotes from the string\r\n        const cleanedString = Image.replace(/[\\[\\]\"]/g, '');\r\n\r\n        // Split the cleaned string into an array of image names\r\n        imageNames = cleanedString.split(',');\r\n\r\n        // Trim whitespace from each image name\r\n        imageNames = imageNames.map((imageName) => ({ image: imageName.trim() }));\r\n    }\r\n\r\n    console.log(imageNames);\r\n    // const slides = [\r\n    //     {\r\n    //         title: 'Slide 1',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    //     {\r\n    //         title: 'Slide 2',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    //     {\r\n    //         title: 'Slide 3',\r\n    //         image: 'https://picsum.photos/200/300',\r\n    //     },\r\n    // ];\r\n\r\n    return (\r\n        <div className=\"fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50\">\r\n            <div\r\n                ref={menuRef}\r\n                className=\"bg-gray-900 shadow-lg min-w-[300px] shadow-gray-800 rounded-lg text-white border border-gray-400 p-2 md:min-w-[600px] md:p-4 max-w-3xl\">\r\n                <div className=\"w-full\">\r\n                    <FaTimes className=\"float-right text-2xl cursor-pointer\" onClick={onClose}/>\r\n                </div>\r\n                <div className=\"w-full flex flex-col md:flex-row justify-between items-center\">\r\n                    {/*<img*/}\r\n                    {/*    src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}*/}\r\n                    {/*    alt=\"product\" className=\"w-44 h-44 mx-auto \"/>*/}\r\n                    <CorouselComponent slides={imageNames}/>\r\n                    <div\r\n                           \r\n                        className=\"flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start\">\r\n                        <h2 className=\"text-xl font-bold mb-4\">{product?.Name}</h2>\r\n                        <p className=\"text-gray-400\">{product?.Description}</p>\r\n                        <div className=\"flex flex-col items-center gap-1 md:flex-row md:gap-4 text-white mt-2\">\r\n                            <b className=\"text-gray-300\">Price: Rs. {\r\n                                (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty) / quantity).toFixed(2)\r\n                            }</b>\r\n                            {/*<b className=\"text-gray-300\">Unit Price: Rs. {product?.WholesalePrice}</b>*/}\r\n                        </div>\r\n                        <div className=\"flex items-center  mt-2\">\r\n                            <h2 className=\"font-semibold text-[15px]\">Quantity:</h2>\r\n\r\n                            <div className=\"flex items-center gap-3 ml-2\">\r\n                                <span\r\n                                    className=\"p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer\"\r\n                                    onClick={handleDecrementQuantity}\r\n                                >\r\n                                    <FaMinus/>\r\n                                </span>\r\n                                <span className=\"text-lg\">\r\n                                    {quantity} {product.Unit}\r\n                                </span>\r\n                                <span\r\n                                    className=\"p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer\"\r\n                                    onClick={handleIncrementQuantity}\r\n                                >\r\n                                    <FaPlus/>\r\n                                </span>\r\n\r\n                            </div>\r\n                        </div>\r\n\r\n                        {/*<div className=\"flex items-center gap-2 mt-1\">*/}\r\n                        {/*    <h2 className=\"font-semibold text-[14px]\">Per {product.Unit}:</h2>*/}\r\n                        {/*    <h2 className=\"text-[16] text-gray-400\">Rs. {*/}\r\n                        {/*        priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity) / quantity*/}\r\n                        {/*    }</h2>*/}\r\n                        {/*</div>*/}\r\n\r\n                        {quantity >= 1 && (\r\n                            <div className=\"flex items-center gap-2\">\r\n                                <h2 className=\"font-semibold text-[14px]\">Discounted Price:</h2>\r\n                                <h2 className={`text-[17]`}>Rs. {\r\n                                    (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty)).toFixed(2)\r\n                                }</h2>\r\n                            </div>\r\n                        )}\r\n\r\n                        <button className=\"bg-gray-500 hover:bg-gray-600 text-white py-2 mb-2 px-4 mt-4 rounded\"\r\n                                onClick={handleAddToCart}\r\n                        >\r\n                            Add to Cart\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n\r\n\r\n\r\nexport default QuickView;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/QuickView.jsx b/client/src/components/QuickView.jsx
+--- a/client/src/components/QuickView.jsx	(revision 48c148f84e55072b69c3efa88498a9571dfe45c9)
++++ b/client/src/components/QuickView.jsx	(date 1687990881162)
+@@ -4,43 +4,42 @@
+ import { addToCart } from "../store/cartSlice";
+ import { priceCalculator } from "../utility";
+ import toast from "react-hot-toast";
+-import CorouselComponent from "./CarouselComponent";
++import CarouselComponent from "../components/CarouselComponent";
+ 
+ const QuickView = ({ onClose, selectedProduct }) => {
+-  const [quantity, setQuantity] = useState(1);
+-  const product = selectedProduct;
+-  const dispatch = useDispatch();
++    const [quantity, setQuantity] = useState(1);
++    const product = selectedProduct;
++    const dispatch = useDispatch();
+ 
+-  useEffect(() => {
+-    document.body.style.overflow = "hidden";
++    useEffect(() => {
++        document.body.style.overflow = "hidden";
+ 
+-    return () => {
+-      document.body.style.overflow = "unset";
+-    };
+-  }, []);
++        return () => {
++            document.body.style.overflow = "unset";
++        };
++    }, []);
+ 
+-  function handleDecrementQuantity() {
+-    if (quantity > 1) {
+-      setQuantity(quantity - 1);
+-    }
+-  }
++    function handleDecrementQuantity() {
++        if (quantity > 1) {
++            setQuantity(quantity - 1);
++        }
++    }
+ 
+-  function handleIncrementQuantity() {
+-    if (quantity < product.MaxLimit || !product.MaxLimit) {
+-      setQuantity(quantity + 1);
+-    } else {
+-      toast.error(`Maximum purchase quantity reached`);
+-    }
+-  }
++    function handleIncrementQuantity() {
++        if (quantity < product.MaxLimit || !product.MaxLimit) {
++            setQuantity(quantity + 1);
++        } else {
++            toast.error(`Maximum purchase quantity reached`);
++        }
++    }
+ 
+-  function handleAddToCart() {
+-    dispatch(addToCart({ product, quantity }));
+-    onClose();
+-  }
++    function handleAddToCart() {
++        dispatch(addToCart({ product, quantity }));
++        onClose();
++    }
+ 
+     let menuRef = useRef();
+ 
+-
+     useEffect(() => {
+         let handler = (e) => {
+             if (!menuRef.current.contains(e.target)) {
+@@ -51,14 +50,10 @@
+ 
+         document.addEventListener("mousedown", handler);
+ 
+-
+         return () => {
+             document.removeEventListener("mousedown", handler);
+-        }
+-
++        };
+     });
+-
+-    const { Image } = product;
+     let imageNames = [];
+ 
+     if (typeof Image === 'string') {
+@@ -68,70 +63,63 @@
+         // Split the cleaned string into an array of image names
+         imageNames = cleanedString.split(',');
+ 
+-        // Trim whitespace from each image name
++        // Trim whitespace from each image name and assign to "image" property
+         imageNames = imageNames.map((imageName) => ({ image: imageName.trim() }));
+     }
+ 
+     console.log(imageNames);
+-    // const slides = [
+-    //     {
+-    //         title: 'Slide 1',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    //     {
+-    //         title: 'Slide 2',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    //     {
+-    //         title: 'Slide 3',
+-    //         image: 'https://picsum.photos/200/300',
+-    //     },
+-    // ];
+-
+     return (
+         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4 z-50">
+             <div
+                 ref={menuRef}
+-                className="bg-gray-900 shadow-lg min-w-[300px] shadow-gray-800 rounded-lg text-white border border-gray-400 p-2 md:min-w-[600px] md:p-4 max-w-3xl">
++                //bg-white bg-opacity-20 rounded-lg p-4 shadow-lg backdrop-filter backdrop-blur-lg
++                className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl"
++            >
+                 <div className="w-full">
+-                    <FaTimes className="float-right text-2xl cursor-pointer" onClick={onClose}/>
++                    <FaTimes
++                        className="float-right text-2xl cursor-pointer"
++                        onClick={onClose}
++                    />
+                 </div>
+                 <div className="w-full flex flex-col md:flex-row justify-between items-center">
+-                    {/*<img*/}
+-                    {/*    src={`${process.env.REACT_APP_BASE_URL}/assets/${product?.Image}`}*/}
+-                    {/*    alt="product" className="w-44 h-44 mx-auto "/>*/}
+-                    <CorouselComponent slides={imageNames}/>
+-                    <div
+-                           
+-                        className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
++
++                <CarouselComponent slides={imageNames}/>
++                    <div className="flex flex-col justify-center w-full md:w-1/2 md:justify-start items-center md:items-start">
+                         <h2 className="text-xl font-bold mb-4">{product?.Name}</h2>
+                         <p className="text-gray-400">{product?.Description}</p>
+                         <div className="flex flex-col items-center gap-1 md:flex-row md:gap-4 text-white mt-2">
+-                            <b className="text-gray-300">Price: Rs. {
+-                                (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty) / quantity).toFixed(2)
+-                            }</b>
++                            <b className="text-gray-300">
++                                Price: Rs.{" "}
++                                {(
++                                    priceCalculator(
++                                        product?.RetailPrice,
++                                        product?.WholesalePrice,
++                                        quantity,
++                                        product?.WholesaleQty
++                                    ) / quantity
++                                ).toFixed(2)}
++                            </b>
+                             {/*<b className="text-gray-300">Unit Price: Rs. {product?.WholesalePrice}</b>*/}
+                         </div>
+                         <div className="flex items-center  mt-2">
+                             <h2 className="font-semibold text-[15px]">Quantity:</h2>
+ 
+                             <div className="flex items-center gap-3 ml-2">
+-                                <span
+-                                    className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
+-                                    onClick={handleDecrementQuantity}
+-                                >
+-                                    <FaMinus/>
+-                                </span>
++                <span
++                    className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
++                    onClick={handleDecrementQuantity}
++                >
++                  <FaMinus />
++                </span>
+                                 <span className="text-lg">
+-                                    {quantity} {product.Unit}
+-                                </span>
++                  {quantity} {product.Unit}
++                </span>
+                                 <span
+                                     className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
+                                     onClick={handleIncrementQuantity}
+                                 >
+-                                    <FaPlus/>
+-                                </span>
+-
++                  <FaPlus />
++                </span>
+                             </div>
+                         </div>
+ 
+@@ -145,21 +133,26 @@
+                         {quantity >= 1 && (
+                             <div className="flex items-center gap-2">
+                                 <h2 className="font-semibold text-[14px]">Discounted Price:</h2>
+-                                <h2 className={`text-[17]`}>Rs. {
+-                                    (priceCalculator(product?.RetailPrice, product?.WholesalePrice, quantity, product?.WholesaleQty)).toFixed(2)
+-                                }</h2>
++                                <h2 className={`text-[17]`}>
++                                    Rs.{" "}
++                                    {priceCalculator(
++                                        product?.RetailPrice,
++                                        product?.WholesalePrice,
++                                        quantity,
++                                        product?.WholesaleQty
++                                    ).toFixed(2)}
++                                </h2>
+                             </div>
+                         )}
+ 
+-                        <button className="bg-gray-500 hover:bg-gray-600 text-white py-2 mb-2 px-4 mt-4 rounded"
+-                                onClick={handleAddToCart}
+-                        >
+-                            Add to Cart
++                        <button className="button-73" onClick={handleAddToCart}>
++                            <p className="text-[15px] ">Add to Cart</p>
+                         </button>
+                     </div>
+                 </div>
+-
+-
+-
++            </div>
++        </div>
++    );
++};
+ 
+ export default QuickView;
+Index: client/src/components/CarouselComponent.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from \"react\";\r\nimport { Carousel } from \"react-responsive-carousel\";\r\nimport \"react-responsive-carousel/lib/styles/carousel.min.css\";\r\n\r\nconst CarouselComponent = ({ slides }) => {\r\n    return (\r\n        <Carousel showArrows showThumbs={false}>\r\n            {slides.map((slide, index) => (\r\n                <div key={index}>\r\n                    <img\r\n                        src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}\r\n\r\n\r\n                        style={{ maxWidth: '200px', maxHeight: '200px' }}\r\n                    />\r\n                </div>\r\n            ))}\r\n        </Carousel>\r\n    );\r\n};\r\n\r\nexport default CarouselComponent;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/components/CarouselComponent.jsx b/client/src/components/CarouselComponent.jsx
+--- a/client/src/components/CarouselComponent.jsx	(revision 48c148f84e55072b69c3efa88498a9571dfe45c9)
++++ b/client/src/components/CarouselComponent.jsx	(date 1687990801918)
+@@ -8,9 +8,7 @@
+             {slides.map((slide, index) => (
+                 <div key={index}>
+                     <img
+-                        src={`${process.env.REACT_APP_BASE_URL}/assets/${slide.image}`}
+-
+-
++                        src={`${process.env.REACT_APP_BASE_URL}/assets/${slides.image}`}
+                         style={{ maxWidth: '200px', maxHeight: '200px' }}
+                     />
+                 </div>
