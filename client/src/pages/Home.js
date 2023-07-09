@@ -42,7 +42,7 @@ const Home = () => {
 
       }}
              className="home"
-      > >
+      >> 
         <Header setViewCart={setViewCart} />
         <HeroBanner />
         <Products />

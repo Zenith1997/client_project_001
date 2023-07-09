@@ -10,8 +10,8 @@ const mysql = require("mysql");
 const db = mysql.createConnection({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "Zenith1997",
-  database: process.env.DB_NAME || "janajaya",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "client_project",
   port: process.env.DB_PORT || 3306,
 });
 
