@@ -13,3 +13,11 @@ export function priceCalculator(retailPrice, wholesalePrice, quantity, wholesale
 
     return Number(calculatedPrice.toFixed(2));
 }
+
+export function returnTotalPrice(itemList){
+    let totalPrice = 0;
+    itemList.forEach(item => {
+        totalPrice = Number(totalPrice + priceCalculator(item.Price, item.Subtotal, item.Quantity, 1));
+    });
+    return totalPrice;
+}

@@ -10,6 +10,7 @@ import { FaPrint, FaTimes } from "react-icons/fa";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
 import { FaEdit } from "react-icons/fa";
 import OrderForm from "../components/OrderForm";
+import { returnTotalPrice } from "../utility";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -20,12 +21,18 @@ const Orders = () => {
   const [isEditDisabled, setIsEditDisabled] = useState(true);
   const [showModel, setShowModel] = useState(false);
   const [status, setStatus] = useState("");
+  const { products } = useSelector((state) => state.products);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [edit, setEdit] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(selectedOrder);
 
   const handleOpenModel = () => {
     setShowModel(true);
+  };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
   const handleCloseModel = () => {
@@ -77,19 +84,6 @@ const Orders = () => {
     fetchOrders();
   }, [updateStatus]);
 
-  const enableEdit = (event) => {
-    event.preventDefault();
-    setIsEditDisabled(!isEditDisabled);
-  }
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setSelectedOrder(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  }
-
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 6;
@@ -112,6 +106,27 @@ const Orders = () => {
       </div>
     );
   }
+
+  const handleCloseEdit = () => {
+    setEdit(!edit);
+    setIsOpen(false);
+  }
+
+  const addToOrderItems = (product) => { 
+    const newItem = {
+      ProductID: product.ProductID,
+      ProductName:product.Name,
+      Price: product.RetailPrice,
+      Quantity: 1,
+      Subtotal: product.WholesalePrice
+    }
+
+    setSelectedOrder((prevOrder) => {
+      const updatedItems = [...prevOrder.items, newItem];
+      return { ...prevOrder, items: updatedItems };
+    });
+  } 
+
   const CustomButton = ({ handleCloseModel, setEdit }) => {
     const handleClick = () => {
       handleCloseModel();
@@ -293,7 +308,7 @@ const Orders = () => {
         <Model onClose={handleCloseModel}>
           <button
             className="flex items-center gap-3 bg-green-500 py-2 px-4 rounded ml-4"
-            onClick={() => setEdit(!edit)}
+            onClick={handleCloseEdit}
           >
             <FaEdit />
             Edit
@@ -310,6 +325,21 @@ const Orders = () => {
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
                     Order Items
                   </h2>
+                  {!edit && <>
+                    <button
+                    className="bg-blue-500 text-white font-semibold px-4 py-2 rounded focus:outline-none"
+                    onClick={toggleMenu}
+                  >
+                    +
+                  </button>
+                  {isOpen && (
+                    <ul className="absolute bg-white text-black shadow-md mt-2 w-50 h-300 overflow-y-auto">
+                      {products.map((product) =>(
+                        <li className="px-4 py-2 hover:bg-gray-200" onClick={addToOrderItems.bind(null, product)} >{product.Name}</li>
+                      ))}
+                    </ul>
+                  )}
+                  </>}
                   <table className="w-full">
                     <thead>
                       <tr className=" text-gray-300">
@@ -330,7 +360,7 @@ const Orders = () => {
                         <th>Total</th>
                         <td></td>
                         <td className="text-right">
-                          Rs. {selectedOrder.TotalAmount}
+                          Rs. {returnTotalPrice(selectedOrder.items)}
                         </td>
                       </tr>
                     </tbody>
