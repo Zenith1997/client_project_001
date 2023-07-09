@@ -64,32 +64,64 @@ const Settings = () => {
         console.log(e.target.files[0]);
     }
 
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append("image", file);
+    //     await axios
+    //         .post(`${process.env.REACT_APP_BASE_URL}/backgroundimage/add`, formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data",
+    //             },
+    //         })
+    //         .then((response) => {
+    //             setTimeout(() => {
+    //                 console.log(response);
+    //                 // Clear form fields
+    //                 setSlideData(initialSlideData);
+    //                 setFile(null);
+    //                 // Close the AddProduct component
+    //                 setShowModel(false);
+    //                 toast.success('success');
+                    
+    //             }, 1000);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }
+
     async function handleSubmit(e) {
         e.preventDefault();
-
         const formData = new FormData();
-
         formData.append("image", file);
-
-        await axios
-            .post(`${process.env.REACT_APP_BASE_URL}/backgroundimage/add`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((response) => {
-                setTimeout(() => {
-                    // Clear form fields
-                    setSlideData(initialSlideData);
-                    setFile(null);
-                    // Close the AddProduct component
-                    setShowModel(false);
-                }, 1000);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
+        try {
+          const response = await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/backgroundimage/add`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );  
+          console.log(response);
+            // Clear form fields
+            setSlideData(initialSlideData);
+            setFile(null);
+            // Close the AddProduct component
+            setShowModel(false);
+            if (response.status === 200) {
+              toast.success("Background image changed successfully!");
+            } else {
+              toast.error("Error occurred while changing the background image.");
+            }
+        } catch (error) {
+          console.error(error);
+          toast.error('Error occurred while changing the background image.');
+        }
+      }
+      
 
     return (
         <div>
