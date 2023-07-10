@@ -6,7 +6,7 @@ import { Pagination } from "@mui/material";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Model from "../components/Model";
-import { FaPrint, FaTimes } from "react-icons/fa";
+import { FaPrint, FaTimes,FaEdit, FaSave } from "react-icons/fa";
 import { setProducts } from "../store/productSlice";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
 import OrderForm from "../components/OrderForm";
