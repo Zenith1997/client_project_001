@@ -80,10 +80,6 @@ const Orders = () => {
         });
     };
 
-    fetchOrders();
-  }, [updateStatus]);
-
-  useEffect(() => {
     const fetchData = () => {
       axios
         .get(
@@ -97,8 +93,9 @@ const Orders = () => {
         });
     };
 
+    fetchOrders();
     fetchData();
-  }, []);
+  }, [updateStatus]);
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -125,21 +122,6 @@ const Orders = () => {
 
   const handleCloseEdit = () => {
     setEdit(!edit);
-  }
-
-  const addToOrderItems = (product) => { 
-    const newItem = {
-      ProductID: product.ProductID,
-      ProductName:product.Name,
-      Price: product.RetailPrice,
-      Quantity: 1,
-      Subtotal: product.WholesalePrice
-    }
-
-    setSelectedOrder((prevOrder) => {
-      const updatedItems = [...prevOrder.items, newItem];
-      return { ...prevOrder, items: updatedItems };
-    });
   }
 
   const CustomButton = ({ handleCloseModel, setEdit }) => {
