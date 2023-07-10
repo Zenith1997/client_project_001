@@ -140,14 +140,6 @@ const Orders = () => {
       const updatedItems = [...prevOrder.items, newItem];
       return { ...prevOrder, items: updatedItems };
     });
-  } 
-
-  function handleDecrementQuantity(item) {
-    
-  }
-
-  function handleIncrementQuantity(item) {
-    
   }
 
   const CustomButton = ({ handleCloseModel, setEdit }) => {
