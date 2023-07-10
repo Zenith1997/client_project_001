@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Model from "../components/Model";
 import { FaPrint, FaTimes } from "react-icons/fa";
+import { FaSave } from "react-icons/fa";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
 import { FaEdit } from "react-icons/fa";
 import OrderForm from "../components/OrderForm";
@@ -323,6 +324,10 @@ const Orders = () => {
                   </table>
                 </div>
                 <div className="w-full flex justify-end py-2 ">
+                  <button className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
+                    <FaSave />
+                    Save
+                  </button>
                   <button
                     className="flex items-center gap-3 bg-blue-500 py-2 px-4 rounded"
                     onClick={() => window.print()}
