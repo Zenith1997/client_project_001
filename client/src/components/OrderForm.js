@@ -39,14 +39,15 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           id="id"
           type="text"
           value={id}
-          disabled={true}
           onChange={handleChange}
+          disabled={true}
           style={{
             backgroundColor: "transparent",
             borderColor: isDisabled ? "transparent" : "transparent",
             borderWidth: "1px",
             borderStyle: "solid",
             paddingLeft: "10px",
+            borderRadius: "5px",
           }}
         />
       </div>
@@ -130,26 +131,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           }}
         />
       </div>
-      <div style={{ marginBottom: "5px" }}>
-        <label style={{ paddingRight: "5px" }} htmlFor="status">
-          Status :
-        </label>
-        <input
-          id="status"
-          type="text"
-          value={selectedOrder.Status}
-          onChange={handleChange}
-          disabled={isDisabled}
-          style={{
-            backgroundColor: "transparent",
-            borderColor: isDisabled ? "transparent" : "white",
-            borderWidth: "1px",
-            paddingLeft: "10px",
-            borderStyle: "solid",
-            borderRadius: "5px",
-          }}
-        />
-      </div>
+
       <div style={{ marginBottom: "5px" }}>
         <label style={{ paddingRight: "15px" }} htmlFor="note">
           Note :

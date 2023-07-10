@@ -7,21 +7,28 @@ import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Model from "../components/Model";
 import { FaPrint, FaTimes } from "react-icons/fa";
+import { setProducts } from "../store/productSlice";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
 import { FaEdit } from "react-icons/fa";
 import OrderForm from "../components/OrderForm";
+import DropDown from "../components/DropDown";
+import OrderTable from "../components/OrderTable";
 
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, error, loading } = useSelector((state) => state.orders);
   const { filteredOrders } = useSelector((state) => state.filteredOrders);
+  const { products } = useSelector((state) => state.products);
+  const { filteredProducts } = useSelector((state) => state.filteredProducts);
   const filteredOrdersList = filteredOrders?.orders;
   const [modelType, setModelType] = useState("");
   const [showModel, setShowModel] = useState(false);
   const [status, setStatus] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState();
   const [edit, setEdit] = useState(true);
-  console.log(selectedOrder);
+
+  console.log(products);
+  console.log(orders);
 
   const handleOpenModel = () => {
     setShowModel(true);
@@ -29,7 +36,6 @@ const Orders = () => {
 
   const handleCloseModel = () => {
     setShowModel(false);
-    setEdit(true);
   };
 
   const updateHandler = (id) => {
@@ -76,6 +82,23 @@ const Orders = () => {
     fetchOrders();
   }, [updateStatus]);
 
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get(
+          `${process.env.REACT_APP_BASE_URL}/products/view?page=${currentPage}&limit=1000000000000000`
+        )
+        .then((res) => {
+          dispatch(setProducts([...res.data]));
+        })
+        .catch((err) => {
+          dispatch(setErrors(err));
+        });
+    };
+
+    fetchData();
+  }, []);
+
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 6;
@@ -101,8 +124,7 @@ const Orders = () => {
   const CustomButton = ({ handleCloseModel, setEdit }) => {
     const handleClick = () => {
       handleCloseModel();
-
-      setEdit(!edit);
+      setEdit(true);
     };
 
     return (
@@ -115,6 +137,7 @@ const Orders = () => {
       </button>
     );
   };
+
   return (
     <div>
       {/* Order List */}
@@ -296,31 +319,19 @@ const Orders = () => {
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
                     Order Items
                   </h2>
-                  <table className="w-full">
-                    <thead>
-                      <tr className=" text-gray-300">
-                        <th>Item</th>
-                        <th className="text-center">Quantity</th>
-                        <th className="text-center">Price</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedOrder?.items?.map((item) => (
-                        <tr className="text-gray-400">
-                          <td>{item.ProductName}</td>
-                          <td className="text-center">{item.Quantity}</td>
-                          <td className="text-right">Rs. {item.Price}</td>
-                        </tr>
-                      ))}
-                      <tr className="text-gray-200 mt-2 border-t border-b border-t-gray-500 border-b-gray-500">
-                        <th>Total</th>
-                        <td></td>
-                        <td className="text-right">
-                          Rs. {selectedOrder.TotalAmount}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  {!edit && (
+                    <DropDown
+                      products={products}
+                      selectedOrder={selectedOrder}
+                      setSelectedOrder={setSelectedOrder}
+                    />
+                  )}
+                  <OrderTable
+                    items={selectedOrder.items}
+                    totalAmount={selectedOrder.TotalAmount}
+                    setSelectedOrder={setSelectedOrder}
+                    isEdit={!edit}
+                  />
                 </div>
                 <div className="w-full flex justify-end py-2 ">
                   <button
