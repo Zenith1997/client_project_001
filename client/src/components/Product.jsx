@@ -54,7 +54,7 @@ const Product = ({ product, setSelectedProduct }) => {
   return (
     //className="bg-white bg-opacity-10 min-w-[300px] shadow-gray-800 shadow-lg rounded-lg text-white border border-gray-600 p-2 backdrop-filter backdrop-blur-lg md:min-w-[600px] md:p-4 max-w-3xl">
 
-    <div className="bg-white py-2 m-2 px-2 md:py-4 md:px-4 shadow-gray-800  flex flex-col justify-center shadow-lg backdrop-blur-lg rounded-lg  items-center border rounded-lg border-gray-600 bg-opacity-10 ">
+    <div className="bg-white py-2 m-1 px-2 md:py-4 md:px-4 shadow-gray-800  flex flex-col justify-center shadow-lg backdrop-blur-lg rounded-lg  items-center border rounded-lg border-gray-600 bg-opacity-10 ">
       <div
         className="flex justify-center items-center w-32 min-h-[128px] md:w-32 md:h-32"
         onClick={() => setSelectedProduct(product)}
