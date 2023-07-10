@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrors, setOrders } from "../store/orderSlice";
+import {FaMinus, FaPlus} from "react-icons/fa";
 import { Pagination } from "@mui/material";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
@@ -126,6 +127,14 @@ const Orders = () => {
       return { ...prevOrder, items: updatedItems };
     });
   } 
+
+  function handleDecrementQuantity(item) {
+    
+  }
+
+  function handleIncrementQuantity(item) {
+    
+  }
 
   const CustomButton = ({ handleCloseModel, setEdit }) => {
     const handleClick = () => {
@@ -335,7 +344,7 @@ const Orders = () => {
                   {isOpen && (
                     <ul className="absolute bg-white text-black shadow-md mt-2 w-50 h-300 overflow-y-auto">
                       {products.map((product) =>(
-                        <li className="px-4 py-2 hover:bg-gray-200" onClick={addToOrderItems.bind(null, product)} >{product.Name}</li>
+                        <li className="px-4 py-2 hover:bg-gray-200" onClick={()=>addToOrderItems(product)} >{product.Name}</li>
                       ))}
                     </ul>
                   )}
@@ -352,7 +361,11 @@ const Orders = () => {
                       {selectedOrder?.items?.map((item) => (
                         <tr className="text-gray-400">
                           <td>{item.ProductName}</td>
-                          <td className="text-center">{item.Quantity}</td>
+                          <td className="text-center">
+                            <span><FaMinus />
+                            {item.Quantity}
+                            <FaPlus /></span>
+                          </td>
                           <td className="text-right">Rs. {item.Price}</td>
                         </tr>
                       ))}
