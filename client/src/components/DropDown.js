@@ -1,45 +1,28 @@
 import React from "react";
 
 const DropDown = ({ products, selectedOrder, setSelectedOrder }) => {
+
+  const filteredProducts = products.filter(product => {
+    return !selectedOrder.items.some(item => item.ProductID === product.ProductID);
+  });
+
   const handleChange = (event) => {
-    const selectedProductId = event.target.value;
 
-    products.forEach((product) => {
-      if (product.ProductID === parseInt(selectedProductId)) {
-        console.log("Product selected");
-        console.log(product);
+    const selectedProduct = products.find((product) => product.ProductID === Number(event.target.value));
 
-        const newItem = {
-          ProductName: product.Name,
-          ProductID: product.ProductID,
-          Quantity: 1,
-          Price: product.RetailPrice,
-          Subtotal: product.RetailPrice,
-        };
+    const newItem = {
+      ProductName: selectedProduct.Name,
+      ProductID: selectedProduct.ProductID,
+      Quantity: 1,
+      Price: selectedProduct.RetailPrice,
+      Subtotal: selectedProduct.RetailPrice,
+      WholesaleQty: selectedProduct.WholesaleQty
+    };
 
-        // Cannot add property 2, object is not extensible
-        // TypeError: Cannot add property 2, object is not extensible
-        //     at Array.push (<anonymous>)
-// The error message you encountered, "Cannot add property 2, object is not extensible," suggests that the selectedOrder object has been defined with the Object.preventExtensions() method, preventing any further addition of properties or extension of the object.
-
-// To resolve this issue, you can either remove the Object.preventExtensions() call from the code that defines the selectedOrder object or create a new object that allows for property additions. Here's an example:
-// // Option 1: Remove the Object.preventExtensions() call
-
-// Option 2: Create a new object that allows for property additions
-        const newSelectedOrder = {
-          ...selectedOrder, // Copy the existing properties from selectedOrder
-          items: [...selectedOrder.items], // Copy the existing items array from selectedOrder
-        };
-
-        newSelectedOrder.items.push(newItem);
-
-        console.log(newSelectedOrder);
-       
-         setSelectedOrder(newSelectedOrder);
-      }
+    setSelectedOrder((prevOrder) => {
+      const updatedItems = [...prevOrder.items, newItem];
+      return { ...prevOrder, items: updatedItems };
     });
-
-    // console.log(selectedOrder);
   };
 
   return (
@@ -49,7 +32,7 @@ const DropDown = ({ products, selectedOrder, setSelectedOrder }) => {
           onChange={handleChange}
           className="w-full bg-[#111827] p-1 text-gray-500 h-full bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
         >
-          {products.map((p) => (
+          {filteredProducts.map((p) => (
             <option key={p.ProductID} value={p.ProductID}>
               {p.Name}
             </option>

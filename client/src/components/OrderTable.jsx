@@ -9,7 +9,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity - 1 };
+            return { ...prevItem, Quantity: prevItem.Quantity - 1};
           }
           return prevItem;
         });
@@ -24,7 +24,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity + 1 };
+            return { ...prevItem, Quantity: prevItem.Quantity + 1};
           }
           return prevItem;
         });
@@ -32,6 +32,13 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
         return { ...prevOrder, items: updatedItems };
       });
     }
+  }
+
+  function handleRemoveItem(item) {
+    setSelectedOrder((prevOrder) => {
+      const updatedItems = prevOrder.items.filter((prevItem) => prevItem.ProductID !== item.ProductID);
+      return { ...prevOrder, items: updatedItems };
+    });
   }
 
   return (
@@ -56,8 +63,8 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
               </div>
             </td>
 
-            <td className="text-right">Rs. {priceCalculator(item.Price, item.Subtotal, item.Quantity, 1)}</td>
-            {isEdit && <td className="text-right text-red-500">Remove</td>}
+            <td className="text-right">Rs. {priceCalculator(item.Price, item.Subtotal, item.Quantity, item.WholesaleQty)}</td>
+            {isEdit && <td onClick={()=>handleRemoveItem(item)} className="text-right text-red-500 cursor-pointer">Remove</td>}
           </tr>
         ))}
         <tr className="text-gray-200 mt-2 border-t border-b border-t-gray-500 border-b-gray-500">
