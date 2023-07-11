@@ -9,7 +9,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity - 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity - 1) };
+            return { ...prevItem, Quantity: prevItem.Quantity - 1};
           }
           return prevItem;
         });
@@ -24,7 +24,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity + 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity+1)};
+            return { ...prevItem, Quantity: prevItem.Quantity + 1};
           }
           return prevItem;
         });
@@ -70,7 +70,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
         <tr className="text-gray-200 mt-2 border-t border-b border-t-gray-500 border-b-gray-500">
           <th>Total</th>
           <td></td>
-          <td className="text-right">Rs. {returnTotalPrice(items)}</td>
+          <td className="text-right">Rs. {returnTotalPrice(items).toFixed(2)}</td>
         </tr>
       </tbody>
     </table>
