@@ -63,7 +63,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
               </div>
             </td>
 
-            <td className="text-right">Rs. {priceCalculator(item.Price, item.Subtotal, item.Quantity, 1)}</td>
+            <td className="text-right">Rs. {priceCalculator(item.Price, item.Subtotal, item.Quantity, item.WholesaleQty)}</td>
             {isEdit && <td onClick={()=>handleRemoveItem(item)} className="text-right text-red-500 cursor-pointer">Remove</td>}
           </tr>
         ))}
