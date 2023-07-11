@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setErrors, setOrders } from "../store/orderSlice";
-import {FaMinus, FaPlus} from "react-icons/fa";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { Pagination } from "@mui/material";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import Model from "../components/Model";
-import { FaPrint, FaTimes,FaEdit, FaSave } from "react-icons/fa";
+import { FaPrint, FaTimes, FaEdit, FaSave } from "react-icons/fa";
 import { setProducts } from "../store/productSlice";
 import { setFilteredOrders } from "../store/filteredOrdersSlice";
 import OrderForm from "../components/OrderForm";
@@ -100,18 +100,24 @@ const Orders = () => {
   const updateSelectedOrder = (e) => {
     e.preventDefault();
     try {
-      axios.put(`${process.env.REACT_APP_BASE_URL}/orders/update/${selectedOrder.OrderID}`, 
-        {selectedOrder}).then((res)=>{
-          if(res.status === 200){
+      axios
+        .put(
+          `${process.env.REACT_APP_BASE_URL}/orders/update/${selectedOrder.OrderID}`,
+          { selectedOrder }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("Order updated successfully");
             console.log("order has been updated");
-          }else{
+          } else {
             console.log("server error");
+            toast.success("Order update failed");
           }
-        })
+        });
     } catch (error) {
       console.error(error);
     }
-  } 
+  };
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -138,7 +144,7 @@ const Orders = () => {
 
   const handleCloseEdit = () => {
     setEdit(!edit);
-  }
+  };
 
   const CustomButton = ({ handleCloseModel, setEdit }) => {
     const handleClick = () => {
@@ -332,7 +338,11 @@ const Orders = () => {
           <div className="w-full flex justify-center items-center">
             <div className="w-full">
               <div className="w-full text-left">
-                <OrderForm selectedOrder={selectedOrder} isDisabled={edit} />
+                <OrderForm
+                  selectedOrder={selectedOrder}
+                  isDisabled={edit}
+                  setSelectedOrder={setSelectedOrder}
+                />
 
                 <div className="w-full">
                   <h2 className="text-lg mt-2 text-gray-400 text-center">
@@ -353,7 +363,10 @@ const Orders = () => {
                   />
                 </div>
                 <div className="w-full flex justify-end py-2 ">
-                  <button onClick={updateSelectedOrder} className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
+                  <button
+                    onClick={updateSelectedOrder}
+                    className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded"
+                  >
                     <FaSave />
                     Save
                   </button>

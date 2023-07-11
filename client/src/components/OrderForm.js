@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
+const OrderForm = ({ selectedOrder, isDisabled, setSelectedOrder }) => {
   const initialOrderData = {
     id: "",
     name: "",
@@ -24,11 +24,11 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
   }, [selectedOrder]);
 
   const handleChange = (event) => {
-    const { id, value } = event.target;
+    const { id, name, value } = event.target;
     console.log(value);
-    setOrderData({ ...orderData, [id]: value });
+    setSelectedOrder({ ...selectedOrder, [name]: value });
   };
-
+  console.log(selectedOrder);
   return (
     <form className="w-full">
       <div style={{ marginBottom: "5px" }}>
@@ -37,6 +37,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
         </label>
         <input
           id="id"
+          name="OrderID"
           type="text"
           value={id}
           onChange={handleChange}
@@ -57,6 +58,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
         </label>
         <input
           id="name"
+          name="UserName"
           type="text"
           value={name}
           disabled={isDisabled}
@@ -77,6 +79,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
         </label>
         <input
           id="email"
+          name="Email"
           type="text"
           value={email}
           disabled={isDisabled}
@@ -96,6 +99,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
           Phone :
         </label>
         <input
+          name="ContactNo"
           id="phone"
           type="text"
           value={phone}
@@ -117,6 +121,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
         </label>
         <input
           id="address"
+          name="ShippingAddress"
           type="text"
           value={address}
           disabled={isDisabled}
@@ -138,6 +143,7 @@ const OrderForm = ({ selectedOrder, isDisabled, handleInputChange }) => {
         </label>
         <input
           id="note"
+          name="Note"
           type="text"
           value={note}
           disabled={isDisabled}
