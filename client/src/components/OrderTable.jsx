@@ -9,7 +9,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity - 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity - 1) };
+            return { ...prevItem, Quantity: prevItem.Quantity - 1};
           }
           return prevItem;
         });
@@ -24,7 +24,7 @@ const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) 
       setSelectedOrder((prevOrder) => {
         const updatedItems = prevOrder.items.map((prevItem) => {
           if (prevItem.ProductID === item.ProductID) {
-            return { ...prevItem, Quantity: prevItem.Quantity + 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity+1)};
+            return { ...prevItem, Quantity: prevItem.Quantity + 1};
           }
           return prevItem;
         });
