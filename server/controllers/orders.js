@@ -106,7 +106,8 @@ exports.getOrders = (req, res) => {
       oi.ProductID,
       oi.Quantity,
       oi.Price,
-      oi.Subtotal
+      oi.Subtotal,
+      p.WholesaleQty
     FROM
       orders AS o
       INNER JOIN orderitems AS oi ON o.OrderID = oi.OrderID
@@ -153,6 +154,7 @@ exports.getOrders = (req, res) => {
                     Quantity: row.Quantity,
                     Price: row.Price,
                     Subtotal: row.Subtotal,
+                    WholesaleQty: row.WholesaleQty
                 });
             }
 

@@ -19,5 +19,5 @@ export function returnTotalPrice(itemList){
     itemList.forEach(item => {
         totalPrice = Number(totalPrice + priceCalculator(item.Price, item.Subtotal, item.Quantity, 1));
     });
-    return totalPrice;
+    return totalPrice.toFixed(2);
 }
