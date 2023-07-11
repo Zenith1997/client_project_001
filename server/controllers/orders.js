@@ -191,42 +191,11 @@ exports.updateSelectedOrder = (req, res) => {
     const {id} = req.params;
     const {selectedOrder} = req.body;
 
-    const qo = "Update orders SET UserName = ?, ContactNo = ?, ShippingAddress = ?, Email = ?, Note = ? WHERE OrderID = ?";
-    try {
-        db.query(qo, [selectedOrder.UserName, selectedOrder.ContactNo, selectedOrder.ShippingAddress, selectedOrder.Email, selectedOrder.Note, id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Internal Server Error");
-            }
+    const orderUpdateQuery = "Update orders SET UserName = ?, ContactNo = ?, ShippingAddress = ?, Email = ?, Note = ? WHERE OrderID = ?";
 
-            if (result.affectedRows === 0) {
-                return res.status(404).send("Order not found");
-            }
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Internal Server Error");
-    }
-
-    const oid = "DELETE FROM orderitems WHERE OrderID = ?";
-    try {
-        db.query(oid, [id], (err, result) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Internal Server Error");
-            }
-
-            if (result.affectedRows === 0) {
-                return res.status(404).send("Order not found");
-            }
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Internal Server Error");
-    }
+    const orderItemsDeleteQuery = "DELETE FROM orderitems WHERE OrderID = ?";
 
     const orderItemsQuery = "INSERT INTO orderitems (OrderID, ProductID, Quantity, Price, Subtotal) VALUES ?";
-
 
     const orderItemsValues = selectedOrder.items.map((item) => [
         orderID,
@@ -236,7 +205,29 @@ exports.updateSelectedOrder = (req, res) => {
         item.Subtotal
     ]);
 
-    try{
+    try {
+        db.query(orderUpdateQuery, [selectedOrder.UserName, selectedOrder.ContactNo, selectedOrder.ShippingAddress, selectedOrder.Email, selectedOrder.Note, id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Order not found");
+            }
+        });
+
+        db.query(orderItemsDeleteQuery, [id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Order not found");
+            }
+        });
+
         db.query(orderItemsQuery, [orderItemsValues], (err) => {
             if (err) {
                 console.error("Error inserting order items: ", err);
@@ -258,7 +249,7 @@ exports.updateSelectedOrder = (req, res) => {
                     .json({ message: "Order created successfully" });
             });
         });
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         return res.status(500).send("Internal Server Error");
     }
