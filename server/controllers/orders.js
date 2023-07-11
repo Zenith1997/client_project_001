@@ -1,3 +1,4 @@
+const { select } = require("react-cookies");
 const db = require("../database/db.js");
 
 function priceCalculator(retailPrice, wholesalePrice, quantity, wholesaleQty) {
@@ -185,6 +186,83 @@ exports.getOrderById = (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 };
+
+exports.updateSelectedOrder = (req, res) => {
+    const {id} = req.params;
+    const {selectedOrder} = req.body;
+
+    const qo = "Update orders SET UserName = ?, ContactNo = ?, ShippingAddress = ?, Email = ?, Note = ? WHERE OrderID = ?";
+    try {
+        db.query(qo, [selectedOrder.UserName, selectedOrder.ContactNo, selectedOrder.ShippingAddress, selectedOrder.Email, selectedOrder.Note, id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Order not found");
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Internal Server Error");
+    }
+
+    const oid = "DELETE FROM orderitems WHERE OrderID = ?";
+    try {
+        db.query(oid, [id], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Internal Server Error");
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Order not found");
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Internal Server Error");
+    }
+
+    const orderItemsQuery = "INSERT INTO orderitems (OrderID, ProductID, Quantity, Price, Subtotal) VALUES ?";
+
+
+    const orderItemsValues = selectedOrder.items.map((item) => [
+        orderID,
+        item.ProductID,
+        item.quantity,
+        item.Price,
+        item.Subtotal
+    ]);
+
+    try{
+        db.query(orderItemsQuery, [orderItemsValues], (err) => {
+            if (err) {
+                console.error("Error inserting order items: ", err);
+                db.rollback(() => {
+                    return res.status(500).json({ error: "Error creating order" });
+                });
+            }
+    
+            db.commit((err) => {
+                if (err) {
+                    console.error("Error committing transaction: ", err);
+                    db.rollback(() => {
+                        return res.status(500).json({ error: "Error creating order" });
+                    });
+                }
+    
+                return res
+                    .status(200)
+                    .json({ message: "Order created successfully" });
+            });
+        });
+    }catch (error) {
+        console.error(error);
+        return res.status(500).send("Internal Server Error");
+    }
+}
 
 exports.updateOrder = (req, res) => {
     const {id} = req.params;

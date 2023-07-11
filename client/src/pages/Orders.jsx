@@ -97,6 +97,22 @@ const Orders = () => {
     fetchData();
   }, [updateStatus]);
 
+  const updateSelectedOrder = (e) => {
+    e.preventDefault();
+    try {
+      axios.put(`${process.env.REACT_APP_BASE_URL}/orders/update/${selectedOrder.OrderID}`, 
+        {selectedOrder}).then((res)=>{
+          if(res.status === 200){
+            console.log("order has been updated");
+          }else{
+            console.log("server error");
+          }
+        })
+    } catch (error) {
+      console.error(error);
+    }
+  } 
+
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 6;
@@ -337,7 +353,7 @@ const Orders = () => {
                   />
                 </div>
                 <div className="w-full flex justify-end py-2 ">
-                  <button className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
+                  <button onClick={updateSelectedOrder} className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
                     <FaSave />
                     Save
                   </button>
