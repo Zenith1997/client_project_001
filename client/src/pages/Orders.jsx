@@ -80,10 +80,6 @@ const Orders = () => {
         });
     };
 
-    fetchOrders();
-  }, [updateStatus]);
-
-  useEffect(() => {
     const fetchData = () => {
       axios
         .get(
@@ -97,8 +93,25 @@ const Orders = () => {
         });
     };
 
+    fetchOrders();
     fetchData();
-  }, []);
+  }, [updateStatus]);
+
+  const updateSelectedOrder = (e) => {
+    e.preventDefault();
+    try {
+      axios.put(`${process.env.REACT_APP_BASE_URL}/orders/update/${selectedOrder.OrderID}`, 
+        {selectedOrder}).then((res)=>{
+          if(res.status === 200){
+            console.log("order has been updated");
+          }else{
+            console.log("server error");
+          }
+        })
+    } catch (error) {
+      console.error(error);
+    }
+  } 
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -125,29 +138,6 @@ const Orders = () => {
 
   const handleCloseEdit = () => {
     setEdit(!edit);
-  }
-
-  const addToOrderItems = (product) => { 
-    const newItem = {
-      ProductID: product.ProductID,
-      ProductName:product.Name,
-      Price: product.RetailPrice,
-      Quantity: 1,
-      Subtotal: product.WholesalePrice
-    }
-
-    setSelectedOrder((prevOrder) => {
-      const updatedItems = [...prevOrder.items, newItem];
-      return { ...prevOrder, items: updatedItems };
-    });
-  } 
-
-  function handleDecrementQuantity(item) {
-    
-  }
-
-  function handleIncrementQuantity(item) {
-    
   }
 
   const CustomButton = ({ handleCloseModel, setEdit }) => {
@@ -363,7 +353,7 @@ const Orders = () => {
                   />
                 </div>
                 <div className="w-full flex justify-end py-2 ">
-                  <button className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
+                  <button onClick={updateSelectedOrder} className="flex items-center gap-3 bg-green-500 py-2  mr-5 px-4 rounded">
                     <FaSave />
                     Save
                   </button>

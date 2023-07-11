@@ -1,8 +1,46 @@
 import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { returnTotalPrice } from "../utility";
+import { priceCalculator, returnTotalPrice } from "../utility";
 
-const OrderTable = ({ items, totalAmount, isEdit }) => {
+const OrderTable = ({ products, items, totalAmount, isEdit, setSelectedOrder }) => {
+
+  function handleDecrementQuantity(item) {
+    if(item.Quantity > 0){
+      setSelectedOrder((prevOrder) => {
+        const updatedItems = prevOrder.items.map((prevItem) => {
+          if (prevItem.ProductID === item.ProductID) {
+            return { ...prevItem, Quantity: prevItem.Quantity - 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity - 1) };
+          }
+          return prevItem;
+        });
+    
+        return { ...prevOrder, items: updatedItems };
+      });
+    }
+  }
+
+  function handleIncrementQuantity(item) {
+    if(item.Quantity < 10){
+      setSelectedOrder((prevOrder) => {
+        const updatedItems = prevOrder.items.map((prevItem) => {
+          if (prevItem.ProductID === item.ProductID) {
+            return { ...prevItem, Quantity: prevItem.Quantity + 1, Subtotal: prevItem.Subtotal*(prevItem.Quantity+1)};
+          }
+          return prevItem;
+        });
+    
+        return { ...prevOrder, items: updatedItems };
+      });
+    }
+  }
+
+  function handleRemoveItem(item) {
+    setSelectedOrder((prevOrder) => {
+      const updatedItems = prevOrder.items.filter((prevItem) => prevItem.ProductID !== item.ProductID);
+      return { ...prevOrder, items: updatedItems };
+    });
+  }
+
   return (
     <table className="w-full">
       <thead>
@@ -19,14 +57,14 @@ const OrderTable = ({ items, totalAmount, isEdit }) => {
             <td>{item.ProductName}</td>
             <td className="text-center">
               <div className="flex items-center gap-4 justify-center">
-                {isEdit && <FaMinus />}
+                {isEdit && <FaMinus onClick={()=>handleDecrementQuantity(item)}/>}
                 {item.Quantity}
-                {isEdit && <FaPlus />}
+                {isEdit && <FaPlus onClick={()=>handleIncrementQuantity(item)}/>}
               </div>
             </td>
 
-            <td className="text-right">Rs. {item.Price}</td>
-            {isEdit && <td className="text-right text-red-500">Remove</td>}
+            <td className="text-right">Rs. {priceCalculator(item.Price, item.Subtotal, item.Quantity, 1)}</td>
+            {isEdit && <td onClick={()=>handleRemoveItem(item)} className="text-right text-red-500 cursor-pointer">Remove</td>}
           </tr>
         ))}
         <tr className="text-gray-200 mt-2 border-t border-b border-t-gray-500 border-b-gray-500">
