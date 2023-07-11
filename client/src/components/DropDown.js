@@ -16,6 +16,7 @@ const DropDown = ({ products, selectedOrder, setSelectedOrder }) => {
       Quantity: 1,
       Price: selectedProduct.RetailPrice,
       Subtotal: selectedProduct.RetailPrice,
+      WholesaleQty: selectedProduct.WholesaleQty
     };
 
     setSelectedOrder((prevOrder) => {
