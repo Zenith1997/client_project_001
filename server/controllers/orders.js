@@ -198,9 +198,9 @@ exports.updateSelectedOrder = (req, res) => {
     const orderItemsQuery = "INSERT INTO orderitems (OrderID, ProductID, Quantity, Price, Subtotal) VALUES ?";
 
     const orderItemsValues = selectedOrder.items.map((item) => [
-        orderID,
+        id,
         item.ProductID,
-        item.quantity,
+        item.Quantity,
         item.Price,
         item.Subtotal
     ]);
