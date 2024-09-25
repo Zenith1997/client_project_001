@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-
+require('dotenv').config();
 // const db = mysql.createConnection({
 //   host: process.env.DB_HOST || "localhost",
 //   user: process.env.DB_USER || "randcopf_zenith",
@@ -8,11 +8,11 @@ const mysql = require("mysql");
 //   port: process.env.DB_PORT || 3306,
 // });
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "Zenith1997",
-  database: process.env.DB_NAME || "janajaya_original",
-  port: process.env.DB_PORT || 3306,
+  host: process.env.DB_HOST ,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME ,
+  port: process.env.DB_PORT ,
 });
 
 db.connect((err) => {

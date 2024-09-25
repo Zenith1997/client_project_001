@@ -120,7 +120,7 @@ const QuickView = ({ onClose, selectedProduct }) => {
                                     className="p-2 text-[10px] bg-gray-800 rounded-full cursor-pointer"
                                     onClick={handleDecrementQuantity}
                                 >
-                                    <FaMinus/>
+                                    <FaMinus/> 
                                 </span>
                                 <span className="text-lg">
                                     {quantity} {product.Unit}
@@ -158,8 +158,9 @@ const QuickView = ({ onClose, selectedProduct }) => {
                         </button>
                     </div>
                 </div>
+</div>
+</div>
+)
 
-
-
-
+}
 export default QuickView;
