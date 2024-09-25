@@ -1,25 +1,34 @@
-const mysql = require("mysql");
+const mysql = require('mysql');
+require('dotenv').config();
 
-// const db = mysql.createConnection({
-//   host: process.env.DB_HOST || "localhost",
-//   user: process.env.DB_USER || "randcopf_zenith",
-//   password: process.env.DB_PASSWORD || "Zenith123",
-//   database: process.env.DB_NAME || "randcopf_janajaya",
-//   port: process.env.DB_PORT || 3306,
-// });
+
+// Configure the db to RDS
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "root",
-  database: process.env.DB_NAME || "janajaya",
-  port: process.env.DB_PORT || 3306,
+  host     : process.env.DB_HOST, // RDS endpoint
+  user     : process.env.DB_USER, // Your RDS master username
+  password : process.env.DB_PASS, // Your RDS master password
+  database : process.env.DB_NAME, // Your database name
+  port     : process.env.DB_PORT, // MySQL port, default is 3306
 });
 
+// Connect to RDS MySQL instance
 db.connect((err) => {
   if (err) {
-    throw err;
+    console.error('Error connecting to the database: ', err.stack);
+    return;
   }
-  console.log("Database Connected!");
+  console.log('Connected to RDS as id ' + db.threadId);
 });
 
-module.exports = db;
+// Example query
+db.query('SELECT 1 + 1 AS solution', (err, results, fields) => {
+  if (err) {
+    console.error('Error executing query: ', err.stack);
+    return;
+  }
+  console.log('Query result: ', results[0].solution);
+});
+
+// Close the db
+db.end();
+module.exports =db;
