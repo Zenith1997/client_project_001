@@ -30,5 +30,5 @@ db.query('SELECT 1 + 1 AS solution', (err, results, fields) => {
 });
 
 // Close the db
-db.end();
+
 module.exports =db;
